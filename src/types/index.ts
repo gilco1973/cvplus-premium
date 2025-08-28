@@ -223,17 +223,7 @@ export interface TierLimits {
  */
 export type Currency = 'USD' | 'EUR' | 'GBP';
 
-/**
- * Payment status
- */
-export type PaymentStatus = 
-  | 'pending'
-  | 'processing' 
-  | 'succeeded' 
-  | 'failed' 
-  | 'cancelled' 
-  | 'refunded'
-  | 'disputed';
+// PaymentStatus is imported from payments.types.ts as enum
 
 /**
  * Payment method types
@@ -738,7 +728,7 @@ export interface PremiumConfig {
 // =============================================================================
 
 export * from './subscription.types';
-export {
+export type {
   BillingAddress,
   BillingCycleConfig,
   TaxInfo,
@@ -752,6 +742,8 @@ export * from './stripe.types';
 export * from './usage.types';
 
 // Payment Provider Types - Phase 1 Gap Closure
+// Export enum separately and types with export type
+export { PaymentStatus } from './payments.types';
 export type {
   PaymentMethod,
   PaymentIntent,
