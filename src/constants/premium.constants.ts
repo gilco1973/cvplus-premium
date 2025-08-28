@@ -383,3 +383,100 @@ export const FEATURE_FLAGS = {
   REFUND_PROCESSING: false, // Disabled by default
   MULTI_CURRENCY: false // Disabled by default
 } as const;
+
+// =============================================================================
+// CONSOLIDATED FEATURE DEFINITIONS - PHASE 2 IMPLEMENTATION
+// =============================================================================
+
+import { PremiumFeature, PremiumTier, FeatureAccess } from '../types';
+
+/**
+ * Feature definitions for consolidated access control
+ * Centralized feature configuration eliminating duplicated validation logic
+ */
+export const FEATURE_DEFINITIONS: Record<PremiumFeature, FeatureAccess> = {
+  [PremiumFeature.ADVANCED_CV_GENERATION]: {
+    feature: PremiumFeature.ADVANCED_CV_GENERATION,
+    requiredTier: PremiumTier.BASIC,
+    requiresSubscription: true,
+    description: 'AI-powered CV generation with advanced templates',
+    limits: {
+      maxUsage: 25,
+      resetPeriod: 'monthly'
+    }
+  },
+  [PremiumFeature.PORTFOLIO_GALLERY]: {
+    feature: PremiumFeature.PORTFOLIO_GALLERY,
+    requiredTier: PremiumTier.BASIC,
+    requiresSubscription: true,
+    description: 'Create and manage professional portfolio galleries',
+    limits: {
+      maxUsage: 10,
+      resetPeriod: 'monthly'
+    }
+  },
+  [PremiumFeature.VIDEO_INTRODUCTION]: {
+    feature: PremiumFeature.VIDEO_INTRODUCTION,
+    requiredTier: PremiumTier.BASIC,
+    requiresSubscription: true,
+    description: 'Generate personalized video introductions',
+    limits: {
+      maxUsage: 5,
+      resetPeriod: 'monthly'
+    }
+  },
+  [PremiumFeature.PODCAST_GENERATION]: {
+    feature: PremiumFeature.PODCAST_GENERATION,
+    requiredTier: PremiumTier.PRO,
+    requiresSubscription: true,
+    description: 'AI-generated podcast content creation',
+    limits: {
+      maxUsage: 10,
+      resetPeriod: 'monthly'
+    }
+  },
+  [PremiumFeature.ANALYTICS_DASHBOARD]: {
+    feature: PremiumFeature.ANALYTICS_DASHBOARD,
+    requiredTier: PremiumTier.PRO,
+    requiresSubscription: true,
+    description: 'Advanced analytics and performance insights'
+  },
+  [PremiumFeature.CUSTOM_BRANDING]: {
+    feature: PremiumFeature.CUSTOM_BRANDING,
+    requiredTier: PremiumTier.PRO,
+    requiresSubscription: true,
+    description: 'Custom branding and white-label options'
+  },
+  [PremiumFeature.API_ACCESS]: {
+    feature: PremiumFeature.API_ACCESS,
+    requiredTier: PremiumTier.PRO,
+    requiresSubscription: true,
+    description: 'Full API access for integrations',
+    limits: {
+      maxUsage: 1000,
+      resetPeriod: 'monthly'
+    }
+  },
+  [PremiumFeature.PRIORITY_SUPPORT]: {
+    feature: PremiumFeature.PRIORITY_SUPPORT,
+    requiredTier: PremiumTier.PRO,
+    requiresSubscription: true,
+    description: '24/7 priority customer support'
+  },
+  [PremiumFeature.UNLIMITED_CVS]: {
+    feature: PremiumFeature.UNLIMITED_CVS,
+    requiredTier: PremiumTier.PRO,
+    requiresSubscription: true,
+    description: 'Unlimited CV generation and storage'
+  },
+  [PremiumFeature.TEAM_COLLABORATION]: {
+    feature: PremiumFeature.TEAM_COLLABORATION,
+    requiredTier: PremiumTier.ENTERPRISE,
+    requiresSubscription: true,
+    description: 'Team collaboration and management features',
+    limits: {
+      maxUsage: 50, // team members
+      resetPeriod: 'monthly'
+    }
+  }
+} as const;

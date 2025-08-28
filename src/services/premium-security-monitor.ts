@@ -9,13 +9,9 @@
  */
 
 import { doc, collection, addDoc, serverTimestamp, getDoc, updateDoc, increment } from 'firebase/firestore';
-import { db } from '../../../lib/firebase';
-import type { PremiumFeature } from '../types/premium-features';
-import { 
-  isValidPremiumFeature, 
-  getFeatureSecurityConfig, 
-  getRateLimitingConfig 
-} from '../types/premium-features';
+import { getFirestore } from 'firebase-admin/firestore';
+const db = getFirestore();
+import { PremiumFeature, isValidPremiumFeature } from '../types/premium-features';
 
 // =============================================================================
 // TYPES

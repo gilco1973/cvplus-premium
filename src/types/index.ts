@@ -1,13 +1,32 @@
 /**
  * CVPlus Premium Module - TypeScript Types
  * 
- * Comprehensive type definitions for subscription, billing, and premium features
+ * Comprehensive type definitions for subscription, billing, premium features,
+ * advanced analytics, enterprise management, and ML-driven predictions
  * 
  * @author Gil Klainert
- * @version 1.0.0
+ * @version 4.0.0 - Post-Migration
  */
 
 import { Timestamp } from 'firebase-admin/firestore';
+import { PremiumFeature, PremiumTier } from './premium-features';
+import { PaymentStatus } from './payments.types';
+
+// =============================================================================
+// CORE PREMIUM FEATURE TYPES - MIGRATED
+// =============================================================================
+
+/**
+ * Premium feature flags - MASTER DEFINITION IMPORTED
+ */
+export { PremiumFeature, PremiumTier } from './premium-features';
+export { 
+  isValidPremiumFeature,
+  requiresSubscription,
+  getMinimumTier,
+  getFeatureDefinition
+} from './premium-features';
+export type { FeatureAccess } from './premium-features';
 
 // =============================================================================
 // SUBSCRIPTION TYPES
@@ -30,29 +49,19 @@ export type SubscriptionStatus =
   | 'premium_suspended';
 
 /**
- * Premium feature flags - IMPORTED FROM MASTER DEFINITION
- * @deprecated Use import from ./premium-features.ts instead
- */
-export type { PremiumFeature } from './premium-features';
-export { 
-  PREMIUM_FEATURE_SECURITY_CONFIG,
-  isValidPremiumFeature,
-  getFeatureSecurityConfig,
-  requiresSubscription,
-  getMinimumTier
-} from './premium-features';
-
-/**
- * Feature access map
+ * Feature access map - Aligned with PremiumFeature enum
  */
 export interface PremiumFeatures {
-  webPortal: boolean;
-  aiChat: boolean;
-  podcast: boolean;
-  advancedAnalytics: boolean;
-  videoIntroduction: boolean;
-  roleDetection: boolean;
-  externalData: boolean;
+  [PremiumFeature.ADVANCED_CV_GENERATION]: boolean;
+  [PremiumFeature.PORTFOLIO_GALLERY]: boolean;
+  [PremiumFeature.VIDEO_INTRODUCTION]: boolean;
+  [PremiumFeature.PODCAST_GENERATION]: boolean;
+  [PremiumFeature.ANALYTICS_DASHBOARD]: boolean;
+  [PremiumFeature.CUSTOM_BRANDING]: boolean;
+  [PremiumFeature.API_ACCESS]: boolean;
+  [PremiumFeature.PRIORITY_SUPPORT]: boolean;
+  [PremiumFeature.UNLIMITED_CVS]: boolean;
+  [PremiumFeature.TEAM_COLLABORATION]: boolean;
 }
 
 /**
@@ -63,6 +72,8 @@ export interface UserSubscriptionData {
   email: string;
   googleId: string;
   subscriptionStatus: SubscriptionStatus;
+  tier: PremiumTier;
+  status: string;
   paymentMethod?: 'stripe' | 'paypal' | 'other';
   stripeCustomerId?: string;
   stripePaymentIntentId?: string;
@@ -71,6 +82,8 @@ export interface UserSubscriptionData {
   features: PremiumFeatures;
   purchasedAt?: Timestamp | Date;
   expiresAt?: Timestamp | Date;
+  currentPeriodStart?: Timestamp | Date;
+  currentPeriodEnd?: Timestamp | Date;
   metadata: {
     paymentAmount?: number;
     currency?: string;
@@ -89,6 +102,116 @@ export interface UserSubscriptionData {
   };
   createdAt: Timestamp | Date;
   updatedAt: Timestamp | Date;
+}
+
+// =============================================================================
+// CONSOLIDATED PREMIUM ACCESS TYPES - PHASE 2 IMPLEMENTATION
+// =============================================================================
+
+/**
+ * Feature access context for validation
+ */
+export interface FeatureAccessContext {
+  teamId?: string;
+  sessionId?: string;
+  apiCall?: boolean;
+  userAgent?: string;
+  ipAddress?: string;
+  [key: string]: any;
+}
+
+/**
+ * Feature access validation result
+ */
+export interface FeatureAccessResult {
+  hasAccess: boolean;
+  subscriptionStatus?: string;
+  lifetimeAccess?: boolean;
+  currentTier?: PremiumTier;
+  requiredTier?: PremiumTier;
+  message?: string;
+  upgradeRequired?: boolean;
+  currentUsage?: number;
+  maxUsage?: number;
+  resetDate?: Date;
+}
+
+/**
+ * Tier validation result
+ */
+export interface TierValidationResult {
+  hasAccess: boolean;
+  userTier: PremiumTier;
+  requiredTier: PremiumTier;
+  message: string;
+  upgradeRequired: boolean;
+}
+
+/**
+ * Subscription validation result
+ */
+export interface SubscriptionValidationResult {
+  isValid: boolean;
+  status: string;
+  tier: PremiumTier;
+  message: string;
+  requiresAction: boolean;
+  actionType?: 'subscribe' | 'renew' | 'resubscribe' | 'update_billing' | 'contact_support';
+  subscription?: UserSubscriptionData;
+  expirationDate?: Date;
+  billingIssue?: string;
+}
+
+/**
+ * Billing status information
+ */
+export interface BillingStatus {
+  isHealthy: boolean;
+  message: string;
+  issue?: 'payment_failed' | 'card_expired' | 'insufficient_funds' | 'other';
+  lastAttempt?: Date;
+}
+
+/**
+ * Tier feature matrix for UI display
+ */
+export interface TierFeatureMatrix {
+  [PremiumTier.FREE]: TierFeatures;
+  [PremiumTier.BASIC]: TierFeatures;
+  [PremiumTier.PRO]: TierFeatures;
+  [PremiumTier.ENTERPRISE]: TierFeatures;
+}
+
+/**
+ * Features available in each tier
+ */
+export interface TierFeatures {
+  cvGeneration: FeatureLimits;
+  templates: FeatureLimits;
+  analytics: FeatureLimits & { basic?: boolean; advanced?: boolean; custom?: boolean };
+  customBranding: FeatureLimits & { whiteLabel?: boolean };
+  apiAccess: FeatureLimits;
+  prioritySupport: FeatureLimits & { dedicated?: boolean };
+  teamCollaboration: FeatureLimits;
+}
+
+/**
+ * Feature limits configuration
+ */
+export interface FeatureLimits {
+  enabled: boolean;
+  limit?: number; // -1 for unlimited
+  resetPeriod?: 'daily' | 'weekly' | 'monthly' | 'unlimited';
+}
+
+/**
+ * Tier limits for specific feature
+ */
+export interface TierLimits {
+  tier: PremiumTier;
+  feature: string;
+  limits: FeatureLimits;
+  hasAccess: boolean;
 }
 
 // =============================================================================
@@ -615,6 +738,24 @@ export interface PremiumConfig {
 // =============================================================================
 
 export * from './subscription.types';
-export * from './billing.types';
+export {
+  BillingAddress,
+  BillingCycleConfig,
+  TaxInfo,
+  Discount,
+  DetailedInvoiceItem,
+  PaymentMethodDetails,
+  BillingPreferences,
+  RevenueAnalytics
+} from './billing.types';
 export * from './stripe.types';
 export * from './usage.types';
+
+// Payment Provider Types - Phase 1 Gap Closure
+export type {
+  PaymentMethod,
+  PaymentIntent,
+  PaymentSession,
+  PaymentResult
+} from './payments.types';
+export * from './providers.types';

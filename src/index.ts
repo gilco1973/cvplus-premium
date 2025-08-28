@@ -1,22 +1,23 @@
 /**
  * CVPlus Premium Module - Main Export
  * 
- * Self-contained premium subscription and billing module with Stripe integration
+ * Complete premium subscription, billing, analytics, and enterprise management module
  * 
  * @author Gil Klainert
- * @version 1.0.0
+ * @version 4.0.0 - Post-Migration
  */
 
 // =============================================================================
 // TYPES
 // =============================================================================
 
-// Core types
+// Core types with migrated premium features
 export * from './types';
 export * from './types/subscription.types';
 export * from './types/billing.types';
 export * from './types/stripe.types';
 export * from './types/usage.types';
+export * from './types/premium-features';
 
 // =============================================================================
 // CONSTANTS
@@ -34,6 +35,59 @@ export { SubscriptionService } from './services/subscription.service';
 export { BillingService } from './services/billing.service';
 export { FeatureService } from './services/features.service';
 export { UsageService } from './services/usage.service';
+
+// Phase 2 Consolidated Services - Deduplication Implementation
+export {
+  FeatureAccessService,
+  TierValidationService,
+  SubscriptionUtilsService,
+  requirePremiumTier,
+  requireFeatureAccess,
+  enforceFeatureGate,
+  requireTier,
+  requirePremium,
+  requireEnterprise,
+  requireActiveSubscription,
+  getSubscriptionStatus,
+  SubscriptionStatusType,
+  PremiumServices,
+  initializePremiumServices
+} from './services';
+
+// Backend services and functions - selective exports to avoid conflicts
+export { 
+  // Firebase Functions - using main versions, not payments subdirectory
+  manageSubscription,
+  advancedAnalytics,
+  dynamicPricing,
+  enterpriseManagement,
+  batchTrackingEvents,
+  getRealtimeUsageStats,
+  predictChurn,
+  getUserSubscriptionInternal,
+  invalidateUserSubscriptionCache
+} from './backend';
+
+// Use specific imports to avoid conflicts
+export { handleStripeWebhook } from './backend/functions/handleStripeWebhook';
+export { checkFeatureAccess } from './backend/functions/checkFeatureAccess';
+export { getUserSubscription } from './backend/functions/payments/core/getUserSubscription';
+
+// Advanced Analytics Services
+export { PricingAnalyticsService } from './backend/services/analytics/pricingAnalytics';
+export { ReportBuilderService } from './backend/services/analytics/reportBuilder';
+
+// Enterprise Services
+export { EnterpriseRBACService } from './backend/services/enterprise/rbac';
+export { SSOManager } from './backend/services/enterprise/ssoManager';
+export { EnterpriseAccountManager } from './backend/services/enterprise/tenantManager';
+
+// Pricing Services
+export { DynamicPricingEngine } from './backend/services/pricing/dynamicEngine';
+export { MarketIntelligenceService } from './backend/services/pricing/marketIntelligence';
+
+// Feature Registry
+export { FeatureRegistry } from './backend/services/featureRegistry';
 
 // =============================================================================
 // REACT COMPONENTS
@@ -313,7 +367,7 @@ export const createDefaultPremiumConfig = (environment: 'development' | 'staging
 /**
  * Version information
  */
-export const PREMIUM_MODULE_VERSION = '1.0.0';
+export const PREMIUM_MODULE_VERSION = '4.0.0';
 export const PREMIUM_MODULE_NAME = '@cvplus/premium';
 
 /**
@@ -322,7 +376,7 @@ export const PREMIUM_MODULE_NAME = '@cvplus/premium';
 export const getPremiumModuleInfo = () => ({
   name: PREMIUM_MODULE_NAME,
   version: PREMIUM_MODULE_VERSION,
-  description: 'CVPlus Premium subscription and billing module with Stripe integration',
+  description: 'CVPlus Premium subscription, billing, analytics, and enterprise management module',
   author: 'Gil Klainert',
   features: [
     'Stripe payment processing',
@@ -330,6 +384,10 @@ export const getPremiumModuleInfo = () => ({
     'Feature gating',
     'Usage tracking',
     'Billing history',
+    'Advanced Analytics',
+    'Enterprise RBAC & SSO',
+    'Dynamic Pricing',
+    'ML Predictions',
     'React components',
     'TypeScript support',
     'Comprehensive error handling'

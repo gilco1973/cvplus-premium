@@ -742,3 +742,6 @@ export class SubscriptionService {
     throw new Error('saveSubscriptionToDatabase must be implemented');
   }
 }
+
+// Export singleton instance for cached subscription service
+export const cachedSubscriptionService = new SubscriptionService();

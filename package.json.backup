@@ -54,6 +54,7 @@
   "author": "Gil Klainert",
   "license": "MIT",
   "peerDependencies": {
+    "@cvplus/core": "^1.0.0",
     "react": "^18.0.0",
     "firebase": "^10.0.0",
     "stripe": "^15.0.0"
