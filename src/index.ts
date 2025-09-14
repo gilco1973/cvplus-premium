@@ -55,7 +55,7 @@ export {
 } from './services';
 
 // Backend services and functions - selective exports to avoid conflicts
-export { 
+export {
   // Firebase Functions - using main versions, not payments subdirectory
   manageSubscription,
   advancedAnalytics,
@@ -65,7 +65,16 @@ export {
   getRealtimeUsageStats,
   predictChurn,
   getUserSubscriptionInternal,
-  invalidateUserSubscriptionCache
+  invalidateUserSubscriptionCache,
+  // Global Payment Functions
+  getLocalizedPricing,
+  getSupportedRegions,
+  validateVATNumber,
+  assessFraudRisk,
+  convertCurrency,
+  globalPaymentsHealthCheck,
+  generateTaxReport,
+  getFraudStatistics
 } from './backend';
 
 // Use specific imports to avoid conflicts
@@ -86,8 +95,53 @@ export { EnterpriseAccountManager } from './backend/services/enterprise/tenantMa
 export { DynamicPricingEngine } from './backend/services/pricing/dynamicEngine';
 export { MarketIntelligenceService } from './backend/services/pricing/marketIntelligence';
 
-// Feature Registry
-export { FeatureRegistry } from './backend/services/featureRegistry';
+// Backend Feature Registry
+export { FeatureRegistry as BackendFeatureRegistry } from './backend/services/featureRegistry';
+
+// Global Payment Services
+export { CurrencyManager } from './backend/services/payments/global/currency-manager';
+export { TaxComplianceService } from './backend/services/payments/global/tax-compliance';
+export { RegionalPaymentMethodsService } from './backend/services/payments/global/regional-payment-methods';
+export { FraudPreventionService } from './backend/services/payments/global/fraud-prevention';
+
+// Performance & Monitoring Services
+export { PerformanceMonitor } from './backend/services/monitoring/performance-monitor';
+export { AutoScalingService } from './backend/services/monitoring/auto-scaling';
+export { CDNOptimizer } from './backend/services/monitoring/cdn-optimizer';
+
+// =============================================================================
+// MIDDLEWARE (MOVED FROM CORE MODULE)
+// =============================================================================
+
+// Premium access control middleware
+export { 
+  PremiumGuardService,
+  premiumGuardService,
+  premiumGuard,
+  withPremiumAccess,
+  requireAnyPremiumFeature 
+} from './middleware/premium-guard';
+
+// Enhanced premium guard with security features
+export {
+  enhancedPremiumGuard,
+  premiumFeatureGuard,
+  enterpriseFeatureGuard
+} from './middleware/enhanced-premium-guard';
+
+// Feature registry service
+export { FeatureRegistry, featureRegistry } from './services/feature-registry';
+
+// Core integration services (implements Core interfaces)
+export {
+  CoreIntegrationServiceFactory,
+  coreIntegrationFactory,
+  corePremiumGuardService,
+  coreRateLimitGuardService,
+  coreFeatureRegistryService,
+  coreSubscriptionService,
+  coreSecurityMonitorService
+} from './services/core-integration';
 
 // =============================================================================
 // REACT COMPONENTS

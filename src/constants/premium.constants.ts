@@ -7,7 +7,7 @@
  * @version 1.0.0
  */
 
-import { PremiumFeatures, SubscriptionTier, Currency } from '../types';
+import { PremiumFeatures, SubscriptionTier, Currency, PremiumFeature, PremiumTier, FeatureAccess } from '../types';
 
 // =============================================================================
 // SUBSCRIPTION CONSTANTS
@@ -25,6 +25,18 @@ export const SUBSCRIPTION_TIERS: Record<SubscriptionTier, string> = {
  * Free tier features
  */
 export const FREE_TIER_FEATURES: PremiumFeatures = {
+  // Original PremiumFeature enum values
+  [PremiumFeature.ADVANCED_CV_GENERATION]: false,
+  [PremiumFeature.PORTFOLIO_GALLERY]: false,
+  [PremiumFeature.VIDEO_INTRODUCTION]: false,
+  [PremiumFeature.PODCAST_GENERATION]: false,
+  [PremiumFeature.ANALYTICS_DASHBOARD]: false,
+  [PremiumFeature.CUSTOM_BRANDING]: false,
+  [PremiumFeature.API_ACCESS]: false,
+  [PremiumFeature.PRIORITY_SUPPORT]: false,
+  [PremiumFeature.UNLIMITED_CVS]: false,
+  [PremiumFeature.TEAM_COLLABORATION]: false,
+  // Additional modern features
   webPortal: false,
   aiChat: false,
   podcast: false,
@@ -38,6 +50,18 @@ export const FREE_TIER_FEATURES: PremiumFeatures = {
  * Premium tier features
  */
 export const PREMIUM_TIER_FEATURES: PremiumFeatures = {
+  // Original PremiumFeature enum values
+  [PremiumFeature.ADVANCED_CV_GENERATION]: true,
+  [PremiumFeature.PORTFOLIO_GALLERY]: true,
+  [PremiumFeature.VIDEO_INTRODUCTION]: true,
+  [PremiumFeature.PODCAST_GENERATION]: true,
+  [PremiumFeature.ANALYTICS_DASHBOARD]: true,
+  [PremiumFeature.CUSTOM_BRANDING]: true,
+  [PremiumFeature.API_ACCESS]: true,
+  [PremiumFeature.PRIORITY_SUPPORT]: true,
+  [PremiumFeature.UNLIMITED_CVS]: true,
+  [PremiumFeature.TEAM_COLLABORATION]: true,
+  // Additional modern features
   webPortal: true,
   aiChat: true,
   podcast: true,
@@ -51,6 +75,18 @@ export const PREMIUM_TIER_FEATURES: PremiumFeatures = {
  * Feature display names
  */
 export const FEATURE_DISPLAY_NAMES: Record<keyof PremiumFeatures, string> = {
+  // Original PremiumFeature enum display names
+  [PremiumFeature.ADVANCED_CV_GENERATION]: 'Advanced CV Generation',
+  [PremiumFeature.PORTFOLIO_GALLERY]: 'Portfolio Gallery',
+  [PremiumFeature.VIDEO_INTRODUCTION]: 'Video Introduction',
+  [PremiumFeature.PODCAST_GENERATION]: 'Podcast Generation',
+  [PremiumFeature.ANALYTICS_DASHBOARD]: 'Analytics Dashboard',
+  [PremiumFeature.CUSTOM_BRANDING]: 'Custom Branding',
+  [PremiumFeature.API_ACCESS]: 'API Access',
+  [PremiumFeature.PRIORITY_SUPPORT]: 'Priority Support',
+  [PremiumFeature.UNLIMITED_CVS]: 'Unlimited CVs',
+  [PremiumFeature.TEAM_COLLABORATION]: 'Team Collaboration',
+  // Additional modern feature display names
   webPortal: 'Personal Web Portal',
   aiChat: 'AI Chat Assistant',
   podcast: 'AI Career Podcast',
@@ -64,6 +100,18 @@ export const FEATURE_DISPLAY_NAMES: Record<keyof PremiumFeatures, string> = {
  * Feature descriptions
  */
 export const FEATURE_DESCRIPTIONS: Record<keyof PremiumFeatures, string> = {
+  // Original PremiumFeature enum descriptions
+  [PremiumFeature.ADVANCED_CV_GENERATION]: 'Access advanced CV generation features with AI assistance',
+  [PremiumFeature.PORTFOLIO_GALLERY]: 'Create and showcase a professional portfolio gallery',
+  [PremiumFeature.VIDEO_INTRODUCTION]: 'Create professional video introduction content',
+  [PremiumFeature.PODCAST_GENERATION]: 'Generate AI-powered career podcasts',
+  [PremiumFeature.ANALYTICS_DASHBOARD]: 'Access comprehensive analytics and insights dashboard',
+  [PremiumFeature.CUSTOM_BRANDING]: 'Customize your professional branding and appearance',
+  [PremiumFeature.API_ACCESS]: 'Programmatic access to CVPlus features via API',
+  [PremiumFeature.PRIORITY_SUPPORT]: 'Receive priority customer support and assistance',
+  [PremiumFeature.UNLIMITED_CVS]: 'Create unlimited CV variations and versions',
+  [PremiumFeature.TEAM_COLLABORATION]: 'Collaborate with team members on CV projects',
+  // Additional modern feature descriptions
   webPortal: 'Create a personalized web portal to showcase your professional profile',
   aiChat: 'Get personalized career advice and CV improvement suggestions from AI',
   podcast: 'Generate AI-powered career podcasts with personalized insights',
@@ -387,8 +435,6 @@ export const FEATURE_FLAGS = {
 // =============================================================================
 // CONSOLIDATED FEATURE DEFINITIONS - PHASE 2 IMPLEMENTATION
 // =============================================================================
-
-import { PremiumFeature, PremiumTier, FeatureAccess } from '../types';
 
 /**
  * Feature definitions for consolidated access control

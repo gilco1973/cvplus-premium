@@ -6,13 +6,38 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';
 import { corsOptions } from '../../../../config/cors';
-import { cachedSubscriptionService } from '../../../../services/subscription.service';
-import { UserSubscriptionData } from '../../../../types';
+import { cachedSubscriptionService } from '../../../services/cached-subscription.service';
+import { UserSubscriptionData, PremiumFeatures, PremiumFeature, PremiumTier, SubscriptionStatus } from '../../../../types';
 
 interface GetUserSubscriptionData {
   includeUsage?: boolean;
   includePaymentMethods?: boolean;
   includeUpcomingInvoice?: boolean;
+}
+
+/**
+ * Create empty PremiumFeatures object with all features set to false
+ */
+function createEmptyFeatures(): PremiumFeatures {
+  return {
+    [PremiumFeature.ADVANCED_CV_GENERATION]: false,
+    [PremiumFeature.PORTFOLIO_GALLERY]: false,
+    [PremiumFeature.VIDEO_INTRODUCTION]: false,
+    [PremiumFeature.PODCAST_GENERATION]: false,
+    [PremiumFeature.ANALYTICS_DASHBOARD]: false,
+    [PremiumFeature.CUSTOM_BRANDING]: false,
+    [PremiumFeature.API_ACCESS]: false,
+    [PremiumFeature.PRIORITY_SUPPORT]: false,
+    [PremiumFeature.UNLIMITED_CVS]: false,
+    [PremiumFeature.TEAM_COLLABORATION]: false,
+    webPortal: false,
+    aiChat: false,
+    podcast: false,
+    advancedAnalytics: false,
+    videoIntroduction: false,
+    roleDetection: false,
+    externalData: false,
+  };
 }
 
 interface SubscriptionResponse extends UserSubscriptionData {
@@ -43,7 +68,7 @@ interface SubscriptionResponse extends UserSubscriptionData {
 
 export const getUserSubscription = onCall<GetUserSubscriptionData>(
   {
-    cors: corsOptions,
+    cors: true,
     enforceAppCheck: false,
     memory: '512MiB',
     timeoutSeconds: 30,
@@ -77,12 +102,16 @@ export const getUserSubscription = onCall<GetUserSubscriptionData>(
         
         return {
           userId: auth.uid,
-          subscription: null,
-          features: {},
-          hasActiveSubscription: false,
-          isTrialActive: false,
-          daysUntilExpiry: 0,
-          lastUpdated: new Date(),
+          email: auth.token?.email || '',
+          googleId: auth.uid,
+          subscriptionStatus: 'free' as SubscriptionStatus,
+          tier: PremiumTier.FREE,
+          status: 'active',
+          lifetimeAccess: false,
+          features: createEmptyFeatures(),
+          metadata: {},
+          createdAt: new Date(),
+          updatedAt: new Date(),
         };
       }
 
@@ -90,28 +119,28 @@ export const getUserSubscription = onCall<GetUserSubscriptionData>(
       const response: SubscriptionResponse = { ...subscriptionData };
 
       // Include usage data if requested
-      if (includeUsage && subscriptionData.subscription) {
-        response.usage = await getUserFeatureUsage(auth.uid, subscriptionData.subscription.planId);
+      if (includeUsage && subscriptionData.subscriptionStatus === 'premium_active') {
+        response.usage = await getUserFeatureUsage(auth.uid, subscriptionData.tier);
       }
 
       // Include payment methods if requested
-      if (includePaymentMethods && subscriptionData.subscription?.stripeCustomerId) {
+      if (includePaymentMethods && subscriptionData.stripeCustomerId) {
         response.paymentMethods = await getUserPaymentMethods(
-          subscriptionData.subscription.stripeCustomerId
+          subscriptionData.stripeCustomerId
         );
       }
 
       // Include upcoming invoice if requested
-      if (includeUpcomingInvoice && subscriptionData.subscription?.stripeCustomerId) {
+      if (includeUpcomingInvoice && subscriptionData.stripeCustomerId) {
         response.upcomingInvoice = await getUpcomingInvoice(
-          subscriptionData.subscription.stripeCustomerId
+          subscriptionData.stripeCustomerId
         );
       }
 
       logger.info(`Subscription data retrieved successfully for user ${auth.uid}`, {
-        hasSubscription: !!subscriptionData.subscription,
-        planId: subscriptionData.subscription?.planId,
-        status: subscriptionData.subscription?.status,
+        hasSubscription: subscriptionData.subscriptionStatus === 'premium_active',
+        tier: subscriptionData.tier,
+        status: subscriptionData.status,
         includesUsage: !!response.usage,
         includesPaymentMethods: !!response.paymentMethods,
         includesUpcomingInvoice: !!response.upcomingInvoice,
@@ -163,7 +192,7 @@ async function getUserFeatureUsage(
   planId: string
 ): Promise<{ [feature: string]: { current: number; limit: number; resetDate: Date } }> {
   try {
-    const { db } = await import('../../../../../functions/src/config/firebase');
+    const { db } = await import('../../../config/firebase');
     
     // Get plan limits
     const planDoc = await db.collection('subscription_plans').doc(planId).get();
@@ -240,7 +269,7 @@ async function getUserPaymentMethods(stripeCustomerId: string): Promise<Array<{
     }
 
     const stripe = new Stripe(stripeSecretKey, {
-      apiVersion: '2024-06-20',
+      apiVersion: '2024-04-10',
     });
 
     // Get customer's payment methods
@@ -251,7 +280,7 @@ async function getUserPaymentMethods(stripeCustomerId: string): Promise<Array<{
 
     // Get customer to find default payment method
     const customer = await stripe.customers.retrieve(stripeCustomerId);
-    const defaultPaymentMethodId = typeof customer !== 'string' 
+    const defaultPaymentMethodId = (typeof customer !== 'string' && !customer.deleted) 
       ? customer.invoice_settings?.default_payment_method 
       : null;
 
@@ -295,7 +324,7 @@ async function getUpcomingInvoice(stripeCustomerId: string): Promise<{
     }
 
     const stripe = new Stripe(stripeSecretKey, {
-      apiVersion: '2024-06-20',
+      apiVersion: '2024-04-10',
     });
 
     // Get upcoming invoice
@@ -308,7 +337,7 @@ async function getUpcomingInvoice(stripeCustomerId: string): Promise<{
     }
 
     return {
-      id: invoice.id || 'upcoming',
+      id: 'upcoming_invoice', // UpcomingInvoice doesn't have an id property
       amount: (invoice.amount_due || 0) / 100, // Convert from cents
       currency: invoice.currency || 'usd',
       dueDate: new Date((invoice.period_end || invoice.created) * 1000),

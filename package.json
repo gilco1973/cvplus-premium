@@ -33,7 +33,13 @@
     "lint": "eslint src --ext .ts,.tsx",
     "test": "jest",
     "test:watch": "jest --watch",
-    "clean": "rimraf dist"
+    "test:coverage": "jest --coverage",
+    "test:payments": "jest --testPathPattern=payments",
+    "test:monitoring": "jest --testPathPattern=monitoring",
+    "test:functions": "jest --testPathPattern=functions",
+    "test:comprehensive": "./scripts/run-tests.sh",
+    "clean": "rimraf dist",
+    "validate-dependencies": "./scripts/validate-dependencies.sh"
   },
   "keywords": [
     "premium",

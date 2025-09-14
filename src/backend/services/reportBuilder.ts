@@ -7,11 +7,7 @@
  * @category Enterprise Analytics
  */
 
-import { Logger } from '../../shared/logger';
-
-const logger = new Logger();
-import { BaseService } from '../../shared/base-service';
-import { db } from '../../config/firebase';
+import { EnhancedBaseService, EnhancedServiceConfig } from '../../shared/enhanced-base-service';
 
 export interface CustomReport {
   reportId: string;
@@ -224,16 +220,39 @@ export interface GlobalFilter {
  * Custom Report Builder Service
  * Provides dynamic report generation and dashboard customization
  */
-export class ReportBuilderService extends BaseService {
+export class ReportBuilderService extends EnhancedBaseService {
   private readonly REPORTS_COLLECTION = 'custom_reports';
   private readonly DASHBOARDS_COLLECTION = 'dashboards';
+  
+  constructor() {
+    super({
+      name: 'ReportBuilderService',
+      version: '4.0.0',
+      enabled: true,
+      cache: {
+        ttlSeconds: 300, // 5 minutes for report data
+        keyPrefix: 'report_builder',
+        enableMetrics: true
+      },
+      database: {
+        enableTransactions: true,
+        retryAttempts: 3,
+        batchSize: 500
+      },
+      enableMixins: {
+        cache: true,
+        database: true,
+        apiClient: false
+      }
+    });
+  }
 
   /**
    * Create new custom report
    */
   async createCustomReport(tenantId: string, config: Partial<CustomReport>): Promise<CustomReport> {
     try {
-      logger.info('Creating custom report', { tenantId, title: config.title });
+      this.logger.info('Creating custom report', { tenantId, title: config.title });
 
       // Validate report configuration
       this.validateReportConfig(config);
@@ -264,15 +283,17 @@ export class ReportBuilderService extends BaseService {
         status: 'draft'
       };
 
-      // Store report
-      await db.collection(`tenants/${tenantId}/${this.REPORTS_COLLECTION}`)
-        .doc(reportId)
-        .set(report);
+      // Store report using enhanced database service
+      await this.createDocument<CustomReport>(
+        `tenants/${tenantId}/${this.REPORTS_COLLECTION}`,
+        report,
+        reportId
+      );
 
-      logger.info('Custom report created successfully', { reportId, tenantId });
+      this.logger.info('Custom report created successfully', { reportId, tenantId });
       return report;
     } catch (error) {
-      logger.error(null, { error: (error as Error), tenantId, config });
+      this.logger.error('Failed to create custom report', { error, tenantId, config });
       throw new Error(`Report creation failed: ${error.message}`);
     }
   }
@@ -282,7 +303,16 @@ export class ReportBuilderService extends BaseService {
    */
   async generateReport(reportId: string, parameters: ReportParameters): Promise<ReportData> {
     try {
-      logger.info('Generating report', { reportId, parameters });
+      this.logger.info('Generating report', { reportId, parameters });
+      
+      // Check cache for recently generated report
+      const cacheKey = `report_data:${reportId}:${JSON.stringify(parameters)}`;
+      const cached = await this.getCached<ReportData>(cacheKey);
+      
+      if (cached.cached && cached.data) {
+        this.logger.info('Returning cached report data', { reportId });
+        return cached.data;
+      }
 
       // Get report configuration
       const report = await this.getReport(reportId);
@@ -316,10 +346,10 @@ export class ReportBuilderService extends BaseService {
         summary
       };
 
-      // Cache report data
-      await this.cacheReportData(reportId, reportData);
+      // Cache report data for 5 minutes
+      await this.setCached(cacheKey, reportData, 300);
 
-      logger.info('Report generated successfully', {
+      this.logger.info('Report generated successfully', {
         reportId,
         rowCount: data.length,
         executionTime
@@ -327,7 +357,7 @@ export class ReportBuilderService extends BaseService {
 
       return reportData;
     } catch (error) {
-      logger.error(null, { error: (error as Error), reportId, parameters });
+      this.logger.error('Report generation failed', { error, reportId, parameters });
       throw error;
     }
   }
@@ -337,22 +367,22 @@ export class ReportBuilderService extends BaseService {
    */
   async scheduleReport(reportId: string, schedule: ScheduleConfig): Promise<void> {
     try {
-      logger.info('Scheduling report', { reportId, frequency: schedule.frequency });
+      this.logger.info('Scheduling report', { reportId, frequency: schedule.frequency });
 
       // Update report with schedule configuration
-      await db.collection(`tenants/${await this.getReportTenantId(reportId)}/${this.REPORTS_COLLECTION}`)
-        .doc(reportId)
-        .update({
-          schedule,
-          updatedAt: new Date()
-        });
+      const tenantId = await this.getReportTenantId(reportId);
+      await this.updateDocument(
+        `tenants/${tenantId}/${this.REPORTS_COLLECTION}`,
+        reportId,
+        { schedule }
+      );
 
       // Create scheduled job
       await this.createScheduledJob(reportId, schedule);
 
-      logger.info('Report scheduled successfully', { reportId });
+      this.logger.info('Report scheduled successfully', { reportId });
     } catch (error) {
-      logger.error(null, { error: (error as Error), reportId, schedule });
+      this.logger.error('Report scheduling failed', { error, reportId, schedule });
       throw error;
     }
   }
@@ -362,7 +392,7 @@ export class ReportBuilderService extends BaseService {
    */
   async createDashboard(tenantId: string, config: Partial<DashboardLayout>): Promise<DashboardLayout> {
     try {
-      logger.info('Creating dashboard', { tenantId, name: config.name });
+      this.logger.info('Creating dashboard', { tenantId, name: config.name });
 
       const dashboardId = this.generateDashboardId();
 
@@ -384,14 +414,17 @@ export class ReportBuilderService extends BaseService {
         permissions: config.permissions || []
       };
 
-      await db.collection(`tenants/${tenantId}/${this.DASHBOARDS_COLLECTION}`)
-        .doc(dashboardId)
-        .set(dashboard);
+      // Store dashboard using enhanced database service
+      await this.createDocument<any>(
+        `tenants/${tenantId}/${this.DASHBOARDS_COLLECTION}`,
+        dashboard,
+        dashboardId
+      );
 
-      logger.info('Dashboard created successfully', { dashboardId, tenantId });
+      this.logger.info('Dashboard created successfully', { dashboardId, tenantId });
       return dashboard;
     } catch (error) {
-      logger.error(null, { error: (error as Error), tenantId, config });
+      this.logger.error('Dashboard creation failed', { error, tenantId, config });
       throw error;
     }
   }
@@ -401,7 +434,7 @@ export class ReportBuilderService extends BaseService {
    */
   async generateBrandedReport(reportId: string, branding: WhiteLabelConfig): Promise<BrandedReport> {
     try {
-      logger.info('Generating branded report', { reportId, companyName: branding.companyName });
+      this.logger.info('Generating branded report', { reportId, companyName: branding.companyName });
 
       // Get base report data
       const reportData = await this.getCachedReportData(reportId);
@@ -421,10 +454,10 @@ export class ReportBuilderService extends BaseService {
       // Store branded report
       await this.storeBrandedReport(reportId, brandedReport);
 
-      logger.info('Branded report generated successfully', { reportId });
+      this.logger.info('Branded report generated successfully', { reportId });
       return brandedReport;
     } catch (error) {
-      logger.error(null, { error: (error as Error), reportId, branding });
+      this.logger.error('Branded report generation failed', { error, reportId, branding });
       throw error;
     }
   }
@@ -438,7 +471,7 @@ export class ReportBuilderService extends BaseService {
     parameters: ReportParameters
   ): Promise<ExportResult> {
     try {
-      logger.info('Exporting report', { reportId, format });
+      this.logger.info('Exporting report', { reportId, format });
 
       // Generate report data
       const reportData = await this.generateReport(reportId, parameters);
@@ -479,10 +512,10 @@ export class ReportBuilderService extends BaseService {
         generatedAt: new Date()
       };
 
-      logger.info('Report exported successfully', { reportId, format, fileSize: exportResult.fileSize });
+      this.logger.info('Report exported successfully', { reportId, format, fileSize: exportResult.fileSize });
       return exportResult;
     } catch (error) {
-      logger.error(null, { error: (error as Error), reportId, format });
+      this.logger.error('Report export failed', { error, reportId, format });
       throw error;
     }
   }
@@ -618,7 +651,7 @@ export class ReportBuilderService extends BaseService {
 
   private async cacheReportData(reportId: string, reportData: ReportData): Promise<void> {
     // Implementation would cache report data
-    logger.info('Report data cached', { reportId });
+    this.logger.info('Report data cached', { reportId });
   }
 
   private async getCachedReportData(reportId: string): Promise<ReportData | null> {
@@ -628,7 +661,7 @@ export class ReportBuilderService extends BaseService {
 
   private async createScheduledJob(reportId: string, schedule: ScheduleConfig): Promise<void> {
     // Implementation would create scheduled job in job queue
-    logger.info('Scheduled job created', { reportId, frequency: schedule.frequency });
+    this.logger.info('Scheduled job created', { reportId, frequency: schedule.frequency });
   }
 
   private generateCustomCSS(branding: WhiteLabelConfig): string {
@@ -664,7 +697,7 @@ export class ReportBuilderService extends BaseService {
 
   private async storeBrandedReport(reportId: string, brandedReport: BrandedReport): Promise<void> {
     // Implementation would store branded report
-    logger.info('Branded report stored', { reportId });
+    this.logger.info('Branded report stored', { reportId });
   }
 
   private async generatePDF(reportData: ReportData): Promise<Buffer> {
@@ -705,12 +738,12 @@ export class ReportBuilderService extends BaseService {
   }
 
   protected async onInitialize(): Promise<void> {
-    logger.info('ReportBuilderService initializing');
+    this.logger.info('ReportBuilderService initializing');
     // Initialize any required connections or configurations
   }
 
   protected async onCleanup(): Promise<void> {
-    logger.info('ReportBuilderService cleaning up');
+    this.logger.info('ReportBuilderService cleaning up');
     // Cleanup resources
   }
 

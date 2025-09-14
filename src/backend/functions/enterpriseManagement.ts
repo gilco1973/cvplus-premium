@@ -103,7 +103,7 @@ export const createEnterpriseAccount = https.onCall(
         }
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Enterprise account creation failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -163,7 +163,7 @@ export const getEnterpriseAccount = https.onCall(
         }
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Failed to get enterprise account', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -221,7 +221,7 @@ export const assignUserRole = https.onCall(
         message: 'Role assigned successfully'
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Role assignment failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -270,7 +270,7 @@ export const checkPermission = https.onCall(
         timestamp: new Date().toISOString()
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Permission check failed', { error, data: request.data });
       
       return {
         success: false,
@@ -317,7 +317,7 @@ export const createCustomRole = https.onCall(
         message: 'Custom role created successfully'
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Custom role creation failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -368,7 +368,7 @@ export const configureSAMLSSO = https.onCall(
         message: 'SAML SSO configured successfully'
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('SAML SSO configuration failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -419,7 +419,7 @@ export const configureOAuthSSO = https.onCall(
         message: 'OAuth SSO configured successfully'
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('OAuth SSO configuration failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -479,7 +479,7 @@ export const processSSOLogin = https.onCall(
         }
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('SSO login processing failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -527,7 +527,7 @@ export const getEnterpriseAnalytics = https.onCall(
         analytics
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Enterprise analytics generation failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -586,7 +586,7 @@ export const auditUserAccess = https.onCall(
         totalEntries: accessLogs.length
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('User access audit failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -639,7 +639,7 @@ export const getSSOMetrics = https.onCall(
         metrics
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('SSO metrics generation failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;

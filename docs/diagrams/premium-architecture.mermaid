@@ -1,0 +1,101 @@
+graph TB
+    subgraph "Premium Subscription & Billing Architecture"
+        subgraph "Frontend Layer"
+            PLANS[Subscription Plans]
+            PAYMENT[Payment Forms]
+            BILLING[Billing Dashboard]
+            GATE[Feature Gates]
+        end
+        
+        subgraph "Service Layer"
+            SUBS[Subscription Service]
+            PAY_PROC[Payment Processor]
+            FEAT_GATE[Feature Gating Service]
+            ANALYTICS[Revenue Analytics]
+            PRICING[Dynamic Pricing]
+        end
+        
+        subgraph "Payment Providers"
+            STRIPE[Stripe Integration]
+            PAYPAL[PayPal Integration]
+            CRYPTO[Crypto Payments]
+        end
+        
+        subgraph "Data Layer"
+            FIRESTORE[(Firestore)]
+            CACHE[(Redis Cache)]
+            METRICS[(Analytics DB)]
+        end
+        
+        subgraph "Security Layer"
+            FRAUD[Fraud Detection]
+            PCI[PCI Compliance]
+            ENCRYPT[Data Encryption]
+            AUDIT[Audit Logging]
+        end
+        
+        subgraph "Enterprise Features"
+            RBAC[Role-Based Access]
+            SSO[SSO Integration]
+            TENANT[Multi-Tenant]
+            COMPLIANCE[Compliance Reporting]
+        end
+        
+        subgraph "External Integrations"
+            CVPLUS_CORE[@cvplus/core]
+            CVPLUS_AUTH[@cvplus/auth]
+            CVPLUS_ANALYTICS[@cvplus/analytics]
+            FIREBASE[Firebase Functions]
+        end
+    end
+    
+    %% Frontend connections
+    PLANS --> SUBS
+    PAYMENT --> PAY_PROC
+    BILLING --> SUBS
+    GATE --> FEAT_GATE
+    
+    %% Service layer connections
+    SUBS --> FIRESTORE
+    SUBS --> CACHE
+    PAY_PROC --> STRIPE
+    PAY_PROC --> PAYPAL
+    PAY_PROC --> CRYPTO
+    FEAT_GATE --> FIRESTORE
+    FEAT_GATE --> CACHE
+    ANALYTICS --> METRICS
+    PRICING --> ANALYTICS
+    
+    %% Security connections
+    PAY_PROC --> FRAUD
+    PAY_PROC --> PCI
+    SUBS --> ENCRYPT
+    ANALYTICS --> AUDIT
+    
+    %% Enterprise connections
+    FEAT_GATE --> RBAC
+    SUBS --> SSO
+    ANALYTICS --> TENANT
+    AUDIT --> COMPLIANCE
+    
+    %% External integrations
+    SUBS --> CVPLUS_CORE
+    PAY_PROC --> CVPLUS_AUTH
+    ANALYTICS --> CVPLUS_ANALYTICS
+    PAY_PROC --> FIREBASE
+    
+    classDef frontend fill:#e1f5fe
+    classDef service fill:#f3e5f5
+    classDef payment fill:#e8f5e8
+    classDef data fill:#fff3e0
+    classDef security fill:#ffebee
+    classDef enterprise fill:#f1f8e9
+    classDef external fill:#fafafa
+    
+    class PLANS,PAYMENT,BILLING,GATE frontend
+    class SUBS,PAY_PROC,FEAT_GATE,ANALYTICS,PRICING service
+    class STRIPE,PAYPAL,CRYPTO payment
+    class FIRESTORE,CACHE,METRICS data
+    class FRAUD,PCI,ENCRYPT,AUDIT security
+    class RBAC,SSO,TENANT,COMPLIANCE enterprise
+    class CVPLUS_CORE,CVPLUS_AUTH,CVPLUS_ANALYTICS,FIREBASE external

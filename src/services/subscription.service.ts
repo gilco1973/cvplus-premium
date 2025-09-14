@@ -13,6 +13,7 @@ import {
   UserSubscriptionData,
   SubscriptionStatus,
   PremiumFeature,
+  PremiumTier,
   PremiumFeatures,
   SubscriptionEvent,
   SubscriptionChangeReason,
@@ -673,6 +674,8 @@ export class SubscriptionService {
       email: '', // Would need to be set from user data
       googleId: '', // Would need to be set from user data
       subscriptionStatus: 'free',
+      tier: PremiumTier.FREE,
+      status: 'active',
       lifetimeAccess: false,
       features: { ...FREE_TIER_FEATURES },
       metadata: {

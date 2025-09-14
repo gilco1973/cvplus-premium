@@ -62,6 +62,14 @@ export interface PremiumFeatures {
   [PremiumFeature.PRIORITY_SUPPORT]: boolean;
   [PremiumFeature.UNLIMITED_CVS]: boolean;
   [PremiumFeature.TEAM_COLLABORATION]: boolean;
+  // Additional modern features used throughout the codebase
+  webPortal: boolean;
+  aiChat: boolean;
+  podcast: boolean;
+  advancedAnalytics: boolean;
+  videoIntroduction: boolean;
+  roleDetection: boolean;
+  externalData: boolean;
 }
 
 /**

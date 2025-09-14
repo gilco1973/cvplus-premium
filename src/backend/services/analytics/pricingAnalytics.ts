@@ -9,7 +9,7 @@
 
 import { Logger } from '../../shared/logger';
 
-const logger = new Logger();
+const logger = new Logger('PricingAnalytics');
 import { BaseService } from '../../shared/base-service';
 
 export interface PricingPerformance {

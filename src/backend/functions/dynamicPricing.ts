@@ -81,7 +81,7 @@ export const getOptimizedPricing = https.onCall(
         }
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Pricing calculation failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -148,7 +148,7 @@ export const createPricingTest = https.onCall(
         estimatedDuration: `${duration} days`
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Pricing test creation failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -245,7 +245,7 @@ export const getPricingAnalytics = https.onCall(
         }
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Pricing analytics generation failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -305,7 +305,7 @@ export const optimizePricingStrategy = https.onCall(
         }
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Pricing optimization failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -367,7 +367,7 @@ export const getPricingTestResults = https.onCall(
         }
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Failed to get pricing test results', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -419,7 +419,7 @@ export const recordPricingConversion = https.onCall(
         message: 'Conversion recorded successfully'
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Failed to record pricing conversion', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;

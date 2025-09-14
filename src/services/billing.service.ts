@@ -17,11 +17,10 @@ import {
   InvoiceItem,
   BillingPreferences,
   RevenueAnalytics,
-  RefundRequest,
-  RefundResponse,
   PaymentMethodDetails,
   Currency
 } from '../types';
+import type { RefundRequest, RefundResponse } from '../types/billing.types';
 import { CACHE_TTL, CACHE_KEYS, CURRENCY_SYMBOLS } from '../constants/premium.constants';
 import { Timestamp } from 'firebase-admin/firestore';
 
@@ -411,7 +410,7 @@ export class BillingService {
       // Update payment record with refund information
       const updatedPayment: PaymentHistory = {
         ...payment,
-        status: refundAmount === payment.amount ? 'refunded' : 'succeeded',
+        status: refundAmount === payment.amount ? PaymentStatus.REFUNDED : PaymentStatus.SUCCEEDED,
         refundAmount,
         refundReason: refundRequest.reason,
         refundedAt: new Date(),
@@ -632,7 +631,7 @@ export class BillingService {
    * Check if status change affects revenue calculation
    */
   private isRevenueAffectingStatusChange(fromStatus: PaymentStatus, toStatus: PaymentStatus): boolean {
-    const revenueStatuses: PaymentStatus[] = ['succeeded', 'refunded'];
+    const revenueStatuses: PaymentStatus[] = [PaymentStatus.SUCCEEDED, PaymentStatus.REFUNDED];
     return revenueStatuses.includes(fromStatus) || revenueStatuses.includes(toStatus);
   }
 

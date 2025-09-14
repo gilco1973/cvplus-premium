@@ -7,10 +7,7 @@
  * @category Enterprise Analytics
  */
 
-import { Logger } from '../../shared/logger';
-
-const logger = new Logger();
-import { BaseService } from '../../shared/base-service';
+import { EnhancedBaseService, EnhancedServiceConfig } from '../../shared/enhanced-base-service';
 
 export interface PricingPerformance {
   timeframe: TimeRange;
@@ -179,14 +176,45 @@ export interface RiskFactor {
  * Pricing Analytics Service for CVPlus Premium
  * Provides comprehensive pricing performance analysis and optimization recommendations
  */
-export class PricingAnalyticsService extends BaseService {
+export class PricingAnalyticsService extends EnhancedBaseService {
+  
+  constructor() {
+    super({
+      name: 'PricingAnalyticsService',
+      version: '4.0.0',
+      enabled: true,
+      cache: {
+        ttlSeconds: 600, // 10 minutes for pricing data
+        keyPrefix: 'pricing_analytics',
+        enableMetrics: true
+      },
+      database: {
+        enableTransactions: true,
+        retryAttempts: 3
+      },
+      enableMixins: {
+        cache: true,
+        database: true,
+        apiClient: false // No external APIs needed
+      }
+    });
+  }
   
   /**
    * Generate comprehensive pricing performance report
    */
   async generatePricingReport(timeframe: TimeRange): Promise<PricingPerformance> {
     try {
-      logger.info('Generating pricing performance report', { timeframe });
+      this.logger.info('Generating pricing performance report', { timeframe });
+      
+      // Try to get from cache first
+      const cacheKey = `pricing_report:${timeframe.start.getTime()}:${timeframe.end.getTime()}`;
+      const cachedReport = await this.getCached<PricingPerformance>(cacheKey);
+      
+      if (cachedReport.cached && cachedReport.data) {
+        this.logger.info('Returning cached pricing report', { timeframe });
+        return cachedReport.data;
+      }
 
       const [
         conversionMetrics,
@@ -226,15 +254,17 @@ export class PricingAnalyticsService extends BaseService {
         kpis
       };
 
-      await this.cacheReport(report);
-      logger.info('Pricing report generated successfully', { 
+      // Cache the report for 10 minutes
+      await this.setCached(cacheKey, report, 600);
+      
+      this.logger.info('Pricing report generated successfully', { 
         actionCount: recommendedActions.length,
         kpiScore: kpis.conversionRate 
       });
 
       return report;
     } catch (error) {
-      logger.error(null, { error: (error as Error), timeframe });
+      this.logger.error('Failed to generate pricing report', { error, timeframe });
       throw new Error('Pricing report generation failed');
     }
   }
@@ -527,7 +557,16 @@ export class PricingAnalyticsService extends BaseService {
    */
   async optimizePricingStrategy(): Promise<OptimizationResults> {
     try {
-      logger.info('Starting pricing strategy optimization');
+      this.logger.info('Starting pricing strategy optimization');
+      
+      // Check cache for recent optimization
+      const cacheKey = 'pricing_optimization:latest';
+      const cached = await this.getCached<OptimizationResults>(cacheKey);
+      
+      if (cached.cached && cached.data) {
+        this.logger.info('Returning cached optimization results');
+        return cached.data;
+      }
 
       const timeframe: TimeRange = {
         start: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000), // 90 days ago
@@ -549,14 +588,17 @@ export class PricingAnalyticsService extends BaseService {
         riskAssessment
       };
 
-      logger.info('Pricing optimization completed', {
+      // Cache optimization results for 30 minutes
+      await this.setCached(cacheKey, results, 1800);
+      
+      this.logger.info('Pricing optimization completed', {
         strategiesCount: optimizedStrategies.length,
         projectedRevenueIncrease: projectedImpact.revenueIncrease
       });
 
       return results;
     } catch (error) {
-      logger.error('Pricing optimization failed', { error });
+      this.logger.error('Pricing optimization failed', { error });
       throw error;
     }
   }
@@ -642,26 +684,54 @@ export class PricingAnalyticsService extends BaseService {
     ];
   }
 
-  private async cacheReport(report: PricingPerformance): Promise<void> {
-    // Cache report for performance
-    logger.info('Pricing report cached', { timeframe: report.timeframe });
-  }
+  // Remove the old cacheReport method as we now use the enhanced caching
 
   protected async onInitialize(): Promise<void> {
-    logger.info('PricingAnalyticsService initializing');
-    // Initialize any required connections or configurations
+    this.logger.info('PricingAnalyticsService initializing');
+    // Warm up cache with common queries
+    await this.warmCache(['conversion_metrics', 'revenue_optimization']);
   }
 
   protected async onCleanup(): Promise<void> {
-    logger.info('PricingAnalyticsService cleaning up');
+    this.logger.info('PricingAnalyticsService cleaning up');
     // Cleanup resources
   }
 
   protected async onHealthCheck(): Promise<Partial<any>> {
+    const cacheMetrics = this.getCacheMetrics();
+    
     return {
       status: 'healthy',
       component: 'PricingAnalyticsService',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      cache: {
+        hitRate: this.getCacheHitRate(),
+        totalRequests: cacheMetrics.totalRequests,
+        errors: cacheMetrics.errors
+      }
     };
+  }
+  
+  protected async warmCachePattern(pattern: string): Promise<void> {
+    // Implement specific warm-up logic for pricing analytics
+    switch (pattern) {
+      case 'conversion_metrics':
+        // Warm up with last 30 days conversion data
+        const timeframe: TimeRange = {
+          start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+          end: new Date(),
+          period: 'daily'
+        };
+        await this.analyzeConversionByPrice(timeframe);
+        break;
+      case 'revenue_optimization':
+        // Warm up optimization cache
+        await this.analyzeRevenueOptimization({
+          start: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+          end: new Date(),
+          period: 'daily'
+        });
+        break;
+    }
   }
 }

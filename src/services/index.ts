@@ -84,9 +84,9 @@ export const PremiumServices = {
  * Service initialization helper
  */
 export async function initializePremiumServices(): Promise<{
-  featureAccess: typeof import('./feature-access').FeatureAccessService;
-  tierValidation: typeof import('./tier-validation').TierValidationService;
-  subscriptionUtils: typeof import('./subscription-utils').SubscriptionUtilsService;
+  featureAccess: import('./feature-access').FeatureAccessService;
+  tierValidation: import('./tier-validation').TierValidationService;
+  subscriptionUtils: import('./subscription-utils').SubscriptionUtilsService;
 }> {
   const [
     { FeatureAccessService },

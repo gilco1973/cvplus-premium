@@ -11,13 +11,9 @@ import { https } from 'firebase-functions/v2';
 import { logger } from 'firebase-functions/v2';
 import { ReportBuilderService } from '../services/analytics/reportBuilder';
 import { requireAuth } from '../../middleware/authGuard';
-import { enhancedPremiumGuard } from '../../middleware/enhancedPremiumGuard';
+import { checkFeatureAccess } from './checkFeatureAccess';
 
-const reportBuilder = new ReportBuilderService({
-  name: 'ReportBuilderService',
-  version: '1.0.0',
-  enabled: true
-});
+const reportBuilder = new ReportBuilderService();
 
 /**
  * Create custom report (Enterprise only)
@@ -40,7 +36,10 @@ export const createCustomReport = https.onCall(
       }
 
       // Check enterprise analytics access
-      await enhancedPremiumGuard(request.auth.uid, 'enterprise_analytics', { tenantId });
+      const accessCheck = await checkFeatureAccess({ data: { feature: 'enterprise_analytics' }, auth: request.auth });
+      if (!accessCheck.hasAccess) {
+        throw new https.HttpsError('permission-denied', accessCheck.reason || 'Enterprise analytics access required');
+      }
 
       logger.info('Creating custom report', {
         tenantId,
@@ -64,8 +63,7 @@ export const createCustomReport = https.onCall(
         }
       };
     } catch (error) {
-      const err = error as Error;
-      logger.error('Custom report creation failed', { error: err, data: request.data });
+      logger.error('Custom report creation failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -74,7 +72,7 @@ export const createCustomReport = https.onCall(
       throw new https.HttpsError(
         'internal',
         'Failed to create custom report',
-        { originalError: err.message }
+        { originalError: error.message }
       );
     }
   }
@@ -123,7 +121,7 @@ export const generateReportData = https.onCall(
         }
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Report data generation failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -132,7 +130,7 @@ export const generateReportData = https.onCall(
       throw new https.HttpsError(
         'internal',
         'Failed to generate report data',
-        { originalError: (error as Error).message }
+        { originalError: error.message }
       );
     }
   }
@@ -159,7 +157,10 @@ export const createDashboard = https.onCall(
       }
 
       // Check enterprise analytics access
-      await enhancedPremiumGuard(request.auth.uid, 'enterprise_analytics', { tenantId });
+      const accessCheck = await checkFeatureAccess({ data: { feature: 'enterprise_analytics' }, auth: request.auth });
+      if (!accessCheck.hasAccess) {
+        throw new https.HttpsError('permission-denied', accessCheck.reason || 'Enterprise analytics access required');
+      }
 
       logger.info('Creating dashboard', {
         tenantId,
@@ -181,7 +182,7 @@ export const createDashboard = https.onCall(
         }
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Dashboard creation failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -190,7 +191,7 @@ export const createDashboard = https.onCall(
       throw new https.HttpsError(
         'internal',
         'Failed to create dashboard',
-        { originalError: (error as Error).message }
+        { originalError: error.message }
       );
     }
   }
@@ -244,7 +245,7 @@ export const scheduleReportDelivery = https.onCall(
         }
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Report scheduling failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -253,7 +254,7 @@ export const scheduleReportDelivery = https.onCall(
       throw new https.HttpsError(
         'internal',
         'Failed to schedule report',
-        { originalError: (error as Error).message }
+        { originalError: error.message }
       );
     }
   }
@@ -309,7 +310,7 @@ export const generateWhiteLabelReport = https.onCall(
         }
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('White-label report generation failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -318,7 +319,7 @@ export const generateWhiteLabelReport = https.onCall(
       throw new https.HttpsError(
         'internal',
         'Failed to generate white-labeled report',
-        { originalError: (error as Error).message }
+        { originalError: error.message }
       );
     }
   }
@@ -373,7 +374,7 @@ export const exportReport = https.onCall(
         }
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Report export failed', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -382,7 +383,7 @@ export const exportReport = https.onCall(
       throw new https.HttpsError(
         'internal',
         'Failed to export report',
-        { originalError: (error as Error).message }
+        { originalError: error.message }
       );
     }
   }
@@ -425,7 +426,7 @@ export const getDataSources = https.onCall(
         }))
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Failed to get data sources', { error, data: request.data });
       
       if (error instanceof https.HttpsError) {
         throw error;
@@ -434,7 +435,7 @@ export const getDataSources = https.onCall(
       throw new https.HttpsError(
         'internal',
         'Failed to retrieve data sources',
-        { originalError: (error as Error).message }
+        { originalError: error.message }
       );
     }
   }
@@ -504,7 +505,7 @@ export const getReportTemplates = https.onCall(
       throw new https.HttpsError(
         'internal',
         'Failed to retrieve report templates',
-        { originalError: (error as Error).message }
+        { originalError: error.message }
       );
     }
   }
@@ -564,7 +565,7 @@ export const validateReportConfig = https.onCall(
         validation
       };
     } catch (error) {
-      logger.error(null, { error: (error as Error), data: request.data });
+      logger.error('Report configuration validation failed', { error, data: request.data });
       
       return {
         success: false,

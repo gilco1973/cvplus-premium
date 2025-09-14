@@ -30,21 +30,57 @@ export type {
 } from './checkFeatureAccess';
 
 // Advanced Analytics Functions
-export { advancedAnalytics } from './advancedAnalytics';
+export { 
+  advancedAnalytics,
+  createCustomReport,
+  generateReportData,
+  createDashboard,
+  scheduleReportDelivery,
+  generateWhiteLabelReport,
+  exportReport,
+  getDataSources,
+  getReportTemplates,
+  validateReportConfig,
+  analyticsHealthCheck
+} from './advancedAnalytics';
 export type { 
   AdvancedAnalyticsRequest, 
   AdvancedAnalyticsResponse 
 } from './advancedAnalytics';
 
 // Dynamic Pricing Functions
-export { dynamicPricing } from './dynamicPricing';
+export { 
+  dynamicPricing, 
+  getOptimizedPricing,
+  createPricingTest,
+  getPricingAnalytics,
+  optimizePricingStrategy,
+  getPricingTestResults,
+  recordPricingConversion,
+  pricingHealthCheck
+} from './dynamicPricing';
 export type { 
   DynamicPricingRequest, 
   DynamicPricingResponse 
 } from './dynamicPricing';
 
 // Enterprise Management Functions
-export { enterpriseManagement } from './enterpriseManagement';
+export { 
+  enterpriseManagement, 
+  createEnterpriseAccount,
+  getEnterpriseAccount,
+  assignUserRole,
+  checkPermission,
+  createCustomRole,
+  configureSAMLSSO,
+  configureOAuthSSO,
+  processSSOLogin,
+  getEnterpriseAnalytics,
+  auditUserAccess,
+  getSSOMetrics,
+  getRoleTemplates,
+  enterpriseHealthCheck
+} from './enterpriseManagement';
 export type { 
   EnterpriseManagementRequest, 
   EnterpriseManagementResponse 
@@ -66,10 +102,26 @@ export type {
 
 // ML Prediction Functions
 export { predictChurn } from './predictChurn';
-export type { 
-  PredictChurnRequest, 
-  PredictChurnResponse 
+export type {
+  PredictChurnRequest,
+  PredictChurnResponse
 } from './predictChurn';
+
+// Global Payment Infrastructure Functions
+export {
+  getLocalizedPricing,
+  getSupportedRegions,
+  validateVATNumber,
+  assessFraudRisk,
+  convertCurrency,
+  globalPaymentsHealthCheck,
+  generateTaxReport,
+  getFraudStatistics,
+  currencyManager,
+  taxCompliance,
+  paymentMethods,
+  fraudPrevention
+} from './globalPayments';
 
 // Package metadata
 export const PREMIUM_FUNCTIONS_VERSION = '4.0.0';
