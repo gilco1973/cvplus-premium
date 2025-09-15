@@ -1,12 +1,11 @@
 /**
- * Premium Services - Staging for Migration
+ * Premium Services Export Index
  *
- * This staging area contains subscription, pricing, and premium feature services
- * that will be moved to the @cvplus/premium submodule.
+ * Centralizes all premium-related services including subscription management,
+ * pricing, feature access, usage tracking, and tier management.
  *
- * Domain: Subscriptions, Billing, Premium Features, Usage Tracking
- * Target Submodule: @cvplus/premium
- * Migration Phase: 4B
+ * Domain: Subscriptions, Billing, Premium Features, Usage Tracking, Tier Management
+ * Architecture Layer: Layer 3 (Business Services)
  */
 
 // Premium cache services - only export what actually exists
@@ -36,4 +35,16 @@ export type {
   BatchedUsageData
 } from './usage-batch-cache.service';
 
-// Note: Utility functions will be exported once they are properly implemented in the services
+// Tier Management Services (migrated from core)
+export { TierManager } from './tier-management/TierManager';
+export type {
+  UserTier,
+  TierConfig,
+  UserTierInfo,
+  TierLimits,
+  TierCheckResult,
+  FeatureAccessRequest,
+  FeatureAccessResponse,
+  UsageStats,
+  SubscriptionStatus
+} from './tier-management/types';

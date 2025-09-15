@@ -36,6 +36,20 @@ export { BillingService } from './services/billing.service';
 export { FeatureService } from './services/features.service';
 export { UsageService } from './services/usage.service';
 
+// Tier Management Services (migrated from core)
+export { TierManager } from './services/tier-management/TierManager';
+export type {
+  UserTier,
+  TierConfig,
+  UserTierInfo,
+  TierLimits,
+  TierCheckResult,
+  FeatureAccessRequest,
+  FeatureAccessResponse,
+  UsageStats,
+  SubscriptionStatus
+} from './services/tier-management/types';
+
 // Phase 2 Consolidated Services - Deduplication Implementation
 export {
   FeatureAccessService,
