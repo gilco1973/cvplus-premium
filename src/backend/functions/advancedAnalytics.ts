@@ -9,11 +9,15 @@
 
 import { https } from 'firebase-functions/v2';
 import { logger } from 'firebase-functions/v2';
-import { ReportBuilderService } from '../services/analytics/reportBuilder';
+import { ReportBuilderService } from '../../services/premium/reportBuilder';
 import { requireAuth } from '../../middleware/authGuard';
-import { checkFeatureAccess } from './checkFeatureAccess';
+import { enhancedPremiumGuard } from '../../middleware/enhancedPremiumGuard';
 
-const reportBuilder = new ReportBuilderService();
+const reportBuilder = new ReportBuilderService({
+  name: 'ReportBuilderService',
+  version: '1.0.0',
+  enabled: true
+});
 
 /**
  * Create custom report (Enterprise only)
@@ -36,10 +40,7 @@ export const createCustomReport = https.onCall(
       }
 
       // Check enterprise analytics access
-      const accessCheck = await checkFeatureAccess({ data: { feature: 'enterprise_analytics' }, auth: request.auth });
-      if (!accessCheck.hasAccess) {
-        throw new https.HttpsError('permission-denied', accessCheck.reason || 'Enterprise analytics access required');
-      }
+      await enhancedPremiumGuard(request.auth.uid, 'enterprise_analytics', { tenantId });
 
       logger.info('Creating custom report', {
         tenantId,
@@ -157,10 +158,7 @@ export const createDashboard = https.onCall(
       }
 
       // Check enterprise analytics access
-      const accessCheck = await checkFeatureAccess({ data: { feature: 'enterprise_analytics' }, auth: request.auth });
-      if (!accessCheck.hasAccess) {
-        throw new https.HttpsError('permission-denied', accessCheck.reason || 'Enterprise analytics access required');
-      }
+      await enhancedPremiumGuard(request.auth.uid, 'enterprise_analytics', { tenantId });
 
       logger.info('Creating dashboard', {
         tenantId,

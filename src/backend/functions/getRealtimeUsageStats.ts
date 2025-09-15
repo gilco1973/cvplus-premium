@@ -8,7 +8,7 @@
 import { onCall } from 'firebase-functions/v2/https';
 import { getFirestore } from 'firebase-admin/firestore';
 import { logger } from 'firebase-functions';
-import { FeatureRegistry } from '../services/featureRegistry';
+import { FeatureRegistry } from '../../services/premium/featureRegistry';
 
 interface RealtimeUsageStats {
   todayUsage: Record<string, number>;

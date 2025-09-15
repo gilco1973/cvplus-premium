@@ -8,7 +8,7 @@
 import { onCall } from 'firebase-functions/v2/https';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import { logger } from 'firebase-functions';
-import { FeatureRegistry } from '../services/featureRegistry';
+import { FeatureRegistry } from '../../services/premium/featureRegistry';
 
 interface AnalyticsEvent {
   userId: string;

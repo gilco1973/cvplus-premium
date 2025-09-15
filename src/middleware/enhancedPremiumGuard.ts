@@ -3,16 +3,18 @@
  * Comprehensive backend protection for premium features
  * Author: Gil Klainert
  * Date: August 27, 2025
+ * 
+ * ARCHITECTURAL FIX: Removed direct dependency on Premium module
+ * Uses dependency injection with IFeatureRegistry interface from Core module
  */
 
 import { Request, Response, NextFunction } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
 import { logger } from 'firebase-functions';
-import { FeatureRegistry } from '../backend/services/featureRegistry';
-// Using premium security monitor instead of missing services for now
-// import { SecureRateLimitGuard } from '../services/security/rate-limit-guard.service';
-// import { SecurityMonitorService } from '../services/security/security-monitor.service';
+import { IFeatureRegistry, Feature } from '@cvplus/core';
+import { SecureRateLimitGuard } from '../services/security/rate-limit-guard.service';
+import { SecurityMonitorService } from '../services/security/security-monitor.service';
 
 interface AuthenticatedRequest extends Request {
   user?: {
@@ -62,13 +64,31 @@ interface UsageRecord {
 }
 
 /**
- * Enhanced Premium Guard Middleware Factory
+ * Enhanced Premium Guard Middleware Factory with Dependency Injection
+ * 
+ * @param options Premium guard configuration options
+ * @param featureRegistry Optional feature registry instance (injected dependency)
  */
-export function enhancedPremiumGuard(options: PremiumGuardOptions) {
+export function enhancedPremiumGuard(
+  options: PremiumGuardOptions,
+  featureRegistry?: IFeatureRegistry
+) {
   return async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const startTime = Date.now();
     
     try {
+      // Validate feature registry dependency
+      if (!featureRegistry) {
+        logger.error('Feature registry not provided to enhancedPremiumGuard', {
+          requiredFeature: options.requiredFeature
+        });
+        return res.status(500).json({
+          error: 'Internal server error - feature registry unavailable',
+          code: 'FEATURE_REGISTRY_MISSING',
+          featureId: options.requiredFeature
+        });
+      }
+
       // Extract user information from request
       const userId = req.user?.uid;
       if (!userId) {
@@ -80,8 +100,8 @@ export function enhancedPremiumGuard(options: PremiumGuardOptions) {
         });
       }
 
-      // Get feature configuration
-      const feature = FeatureRegistry.getFeature(options.requiredFeature);
+      // Get feature configuration using injected registry
+      const feature = featureRegistry.getFeature(options.requiredFeature);
       if (!feature) {
         logger.error(`Feature not found: ${options.requiredFeature}`);
         return res.status(500).json({
@@ -92,13 +112,10 @@ export function enhancedPremiumGuard(options: PremiumGuardOptions) {
 
       // Check rate limiting first - using secure service
       if (options.rateLimitPerMinute) {
-        // TODO: Implement rate limiting when services are available
-        // const secureRateLimit = SecureRateLimitGuard.getInstance();
-        // const rateLimitCheck = await secureRateLimit.checkRateLimit(userId, options.requiredFeature, {
-        //   limitPerMinute: options.rateLimitPerMinute
-        // });
-        // if (!rateLimitCheck.allowed) {
-        const rateLimitCheck = { allowed: true }; // Temporary bypass
+        const secureRateLimit = SecureRateLimitGuard.getInstance();
+        const rateLimitCheck = await secureRateLimit.checkRateLimit(userId, options.requiredFeature, {
+          limitPerMinute: options.rateLimitPerMinute
+        });
         if (!rateLimitCheck.allowed) {
           await trackUsageEvent({
             userId,
@@ -179,24 +196,23 @@ export function enhancedPremiumGuard(options: PremiumGuardOptions) {
         });
 
         // Log security event for unauthorized access attempt
-        // TODO: Implement security monitoring when service is available
-        // const securityMonitor = SecurityMonitorService.getInstance();
-        // await securityMonitor.logSecurityEvent({
-        //   eventType: 'UNAUTHORIZED_ACCESS_ATTEMPT',
-        //   severity: 'HIGH',
-        //   userId,
-        //   featureId: options.requiredFeature,
-        //   service: 'EnhancedPremiumGuard',
-        //   message: `Unauthorized access attempt to premium feature: ${options.requiredFeature}`,
-        //   details: {
-        //     reason: hasBasicAccess.reason,
-        //     currentTier: subscription?.tier || 'none',
-        //     requiredTier: feature.tier,
-        //     endpoint: req.path,
-        //     userAgent: req.headers['user-agent'],
-        //     ipAddress: req.ip
-        //   }
-        // });
+        const securityMonitor = SecurityMonitorService.getInstance();
+        await securityMonitor.logSecurityEvent({
+          eventType: 'UNAUTHORIZED_ACCESS_ATTEMPT',
+          severity: 'HIGH',
+          userId,
+          featureId: options.requiredFeature,
+          service: 'EnhancedPremiumGuard',
+          message: `Unauthorized access attempt to premium feature: ${options.requiredFeature}`,
+          details: {
+            reason: hasBasicAccess.reason,
+            currentTier: subscription?.tier || 'none',
+            requiredTier: feature.tier,
+            endpoint: req.path,
+            userAgent: req.headers['user-agent'],
+            ipAddress: req.ip
+          }
+        });
 
         return res.status(403).json({
           error: options.customErrorMessage || 'Premium feature required',
@@ -215,7 +231,7 @@ export function enhancedPremiumGuard(options: PremiumGuardOptions) {
 
       // Check usage limits
       if (subscription && feature.usageLimits) {
-        const usageCheck = await checkUsageLimits(userId, options.requiredFeature, subscription);
+        const usageCheck = await checkUsageLimits(userId, options.requiredFeature, subscription, featureRegistry);
         
         if (!usageCheck.withinLimits) {
           await trackUsageEvent({
@@ -335,7 +351,7 @@ async function getUserSubscription(userId: string): Promise<UserSubscription | n
   }
 }
 
-function checkBasicFeatureAccess(feature: any, subscription: UserSubscription | null): {
+function checkBasicFeatureAccess(feature: Feature, subscription: UserSubscription | null): {
   allowed: boolean;
   reason?: string;
 } {
@@ -401,7 +417,12 @@ async function checkGracePeriod(subscription: UserSubscription, gracePeriodDays:
   };
 }
 
-async function checkUsageLimits(userId: string, featureId: string, subscription: UserSubscription): Promise<{
+async function checkUsageLimits(
+  userId: string, 
+  featureId: string, 
+  subscription: UserSubscription,
+  featureRegistry: IFeatureRegistry
+): Promise<{
   withinLimits: boolean;
   currentUsage: number;
   limit: number;
@@ -425,8 +446,8 @@ async function checkUsageLimits(userId: string, featureId: string, subscription:
     const usageSnapshot = await usageQuery.get();
     const currentUsage = usageSnapshot.size;
 
-    // Get limit from feature configuration
-    const feature = FeatureRegistry.getFeature(featureId);
+    // Get limit from feature configuration using injected registry
+    const feature = featureRegistry.getFeature(featureId);
     const limit = feature?.usageLimits?.[subscription.tier] ?? -1;
 
     return {
@@ -435,7 +456,7 @@ async function checkUsageLimits(userId: string, featureId: string, subscription:
       limit,
       resetDate,
       upgradeOptions: limit !== -1 && currentUsage >= limit ? 
-        generateUpgradeOptions(featureId) : 
+        generateUpgradeOptions(featureId, featureRegistry) : 
         undefined
     };
   } catch (error) {
@@ -443,21 +464,20 @@ async function checkUsageLimits(userId: string, featureId: string, subscription:
     logger.error('CRITICAL: Usage limits check failed - DENYING ACCESS', error);
     
     // Log security event
-    // TODO: Implement security monitoring when service is available
-    // const securityMonitor = SecurityMonitorService.getInstance();
-    // await securityMonitor.logSecurityEvent({
-    //   eventType: 'USAGE_SERVICE_FAILURE',
-    //   severity: 'CRITICAL',
-    //   userId,
-    //   featureId,
-    //   service: 'EnhancedPremiumGuard',
-    //   message: 'Usage limits verification failed - access denied',
-    //   details: {
-    //     error: error instanceof Error ? error.message : 'Unknown error',
-    //     securityPolicy: 'FAIL_CLOSED',
-    //     action: 'DENY_ACCESS'
-    //   }
-    // });
+    const securityMonitor = SecurityMonitorService.getInstance();
+    await securityMonitor.logSecurityEvent({
+      eventType: 'USAGE_SERVICE_FAILURE',
+      severity: 'CRITICAL',
+      userId,
+      featureId,
+      service: 'EnhancedPremiumGuard',
+      message: 'Usage limits verification failed - access denied',
+      details: {
+        error: error instanceof Error ? error.message : 'Unknown error',
+        securityPolicy: 'FAIL_CLOSED',
+        action: 'DENY_ACCESS'
+      }
+    });
     
     return {
       withinLimits: false, // SECURITY FIX: FAIL CLOSED
@@ -498,22 +518,21 @@ async function checkRateLimit(userId: string, featureId: string, limitPerMinute:
     logger.error('CRITICAL: Rate limit check failed - DENYING ACCESS', error);
     
     // Log security event
-    // TODO: Implement security monitoring when service is available
-    // const securityMonitor = SecurityMonitorService.getInstance();
-    // await securityMonitor.logSecurityEvent({
-    //   eventType: 'RATE_LIMIT_SERVICE_FAILURE',
-    //   severity: 'CRITICAL',
-    //   userId,
-    //   featureId,
-    //   service: 'EnhancedPremiumGuard',
-    //   message: 'Rate limit verification failed - access denied',
-    //   details: {
-    //     error: error instanceof Error ? error.message : 'Unknown error',
-    //     securityPolicy: 'FAIL_CLOSED',
-    //     action: 'DENY_ACCESS',
-    //     limitPerMinute
-    //   }
-    // });
+    const securityMonitor = SecurityMonitorService.getInstance();
+    await securityMonitor.logSecurityEvent({
+      eventType: 'RATE_LIMIT_SERVICE_FAILURE',
+      severity: 'CRITICAL',
+      userId,
+      featureId,
+      service: 'EnhancedPremiumGuard',
+      message: 'Rate limit verification failed - access denied',
+      details: {
+        error: error instanceof Error ? error.message : 'Unknown error',
+        securityPolicy: 'FAIL_CLOSED',
+        action: 'DENY_ACCESS',
+        limitPerMinute
+      }
+    });
     
     return { 
       allowed: false,  // SECURITY FIX: FAIL CLOSED
@@ -533,8 +552,8 @@ async function trackUsageEvent(event: UsageRecord): Promise<void> {
   }
 }
 
-function generateUpgradeOptions(featureId: string): any[] {
-  const feature = FeatureRegistry.getFeature(featureId);
+function generateUpgradeOptions(featureId: string, featureRegistry: IFeatureRegistry): any[] {
+  const feature = featureRegistry.getFeature(featureId);
   if (!feature?.usageLimits) return [];
 
   return [
@@ -556,25 +575,25 @@ function generateUpgradeOptions(featureId: string): any[] {
 /**
  * Convenience wrapper for common premium features
  */
-export const premiumFeatureGuard = (featureId: string, options?: Partial<PremiumGuardOptions>) =>
+export const premiumFeatureGuard = (featureId: string, options?: Partial<PremiumGuardOptions>, featureRegistry?: IFeatureRegistry) =>
   enhancedPremiumGuard({
     requiredFeature: featureId,
     trackUsage: true,
     allowGracePeriod: true,
     gracePeriodDays: 7,
     ...options
-  });
+  }, featureRegistry);
 
 /**
  * Wrapper for enterprise-only features
  */
-export const enterpriseFeatureGuard = (featureId: string, options?: Partial<PremiumGuardOptions>) =>
+export const enterpriseFeatureGuard = (featureId: string, options?: Partial<PremiumGuardOptions>, featureRegistry?: IFeatureRegistry) =>
   enhancedPremiumGuard({
     requiredFeature: featureId,
     trackUsage: true,
     allowGracePeriod: false,
     customErrorMessage: 'Enterprise feature - upgrade required',
     ...options
-  });
+  }, featureRegistry);
 
 export default enhancedPremiumGuard;
