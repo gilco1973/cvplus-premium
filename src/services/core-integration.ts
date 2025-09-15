@@ -22,7 +22,7 @@ import {
   IMiddleware
 } from '@cvplus/core';
 import { PremiumGuardService } from '../middleware/premium-guard';
-import { SecureRateLimitGuard } from '../backend/services/security/rate-limit-guard.service';
+import { SecureRateLimitGuard } from '@cvplus/core';
 import { SecurityMonitorService } from '../backend/services/security/security-monitor.service';
 import { FeatureRegistry } from './feature-registry';
 import { logger } from 'firebase-functions';

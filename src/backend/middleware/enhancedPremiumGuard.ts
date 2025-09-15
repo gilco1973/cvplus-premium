@@ -9,8 +9,7 @@ import { Request, Response, NextFunction } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
 import { logger } from 'firebase-functions';
-// Circular import removed - use relative path;
-import { SecureRateLimitGuard } from '../services/security/rate-limit-guard.service';
+import { SecureRateLimitGuard } from '@cvplus/core';
 import { SecurityMonitorService } from '../services/security/security-monitor.service';
 
 interface AuthenticatedRequest extends Request {
