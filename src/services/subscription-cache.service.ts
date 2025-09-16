@@ -7,7 +7,7 @@
  * @author Gil Klainert
  * @version 1.0.0  
  * @created 2025-08-28
- */
+  */
 
 import { logger } from 'firebase-functions';
 import { cacheService } from '../../../services/cache/cache.service';
@@ -44,7 +44,7 @@ class SubscriptionCacheService {
 
   /**
    * Get user subscription with caching
-   */
+    */
   async getUserSubscription(userId: string): Promise<SubscriptionCacheResult> {
     const startTime = Date.now();
     this.metrics.requests++;
@@ -99,7 +99,7 @@ class SubscriptionCacheService {
 
   /**
    * Get multiple user subscriptions in batch
-   */
+    */
   async getBatchSubscriptions(userIds: string[]): Promise<Record<string, SubscriptionCacheResult>> {
     const startTime = Date.now();
     
@@ -183,7 +183,7 @@ class SubscriptionCacheService {
 
   /**
    * Update user subscription and invalidate cache
-   */
+    */
   async updateSubscription(userId: string, updates: Partial<UserSubscriptionData>): Promise<boolean> {
     try {
       // Update database first
@@ -211,7 +211,7 @@ class SubscriptionCacheService {
 
   /**
    * Invalidate subscription cache for specific user or all users
-   */
+    */
   async invalidateSubscription(userId?: string): Promise<number> {
     this.metrics.invalidations++;
     
@@ -245,7 +245,7 @@ class SubscriptionCacheService {
 
   /**
    * Check if user has specific feature with caching
-   */
+    */
   async hasFeature(userId: string, featureKey: string): Promise<{
     hasFeature: boolean;
     cached: boolean;
@@ -275,7 +275,7 @@ class SubscriptionCacheService {
 
   /**
    * Check multiple features for user with single cache lookup
-   */
+    */
   async hasFeatures(
     userId: string, 
     featureKeys: string[]
@@ -317,7 +317,7 @@ class SubscriptionCacheService {
 
   /**
    * Pre-warm cache for active users
-   */
+    */
   async warmCache(userIds: string[]): Promise<void> {
     logger.info('Starting subscription cache warm-up', { users: userIds.length });
     
@@ -338,7 +338,7 @@ class SubscriptionCacheService {
 
   /**
    * Fetch subscription from database (fallback)
-   */
+    */
   private async fetchSubscriptionFromDatabase(userId: string): Promise<{
     subscription: UserSubscriptionData;
     cachedAt: number;
@@ -379,7 +379,7 @@ class SubscriptionCacheService {
 
   /**
    * Get default subscription for new users
-   */
+    */
   private getDefaultSubscription(): UserSubscriptionData {
     return {
       userId: '',
@@ -401,7 +401,7 @@ class SubscriptionCacheService {
 
   /**
    * Normalize subscription data to ensure consistency
-   */
+    */
   private normalizeSubscriptionData(data: any): UserSubscriptionData {
     const normalized: UserSubscriptionData = {
       userId: data.userId || '',
@@ -429,21 +429,21 @@ class SubscriptionCacheService {
 
   /**
    * Build cache key for subscription
-   */
+    */
   private buildSubscriptionKey(userId: string): string {
     return userId;
   }
 
   /**
    * Parse cache key back to user ID
-   */
+    */
   private parseKeyToUserId(key: string): string | null {
     return key || null;
   }
 
   /**
    * Update average response time metric
-   */
+    */
   private updateAverageResponseTime(responseTime: number): void {
     if (this.metrics.requests === 1) {
       this.metrics.averageResponseTime = responseTime;
@@ -455,14 +455,14 @@ class SubscriptionCacheService {
 
   /**
    * Get subscription cache performance metrics
-   */
+    */
   getMetrics(): SubscriptionCacheMetrics {
     return { ...this.metrics };
   }
 
   /**
    * Get cache hit rate
-   */
+    */
   getHitRate(): number {
     if (this.metrics.requests === 0) return 0;
     return this.metrics.cacheHits / this.metrics.requests;
@@ -470,7 +470,7 @@ class SubscriptionCacheService {
 
   /**
    * Reset metrics (for testing)
-   */
+    */
   resetMetrics(): void {
     this.metrics = {
       requests: 0,

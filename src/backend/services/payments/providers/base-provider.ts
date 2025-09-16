@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Base Payment Provider
  * Abstract base class for payment provider implementations
- */
+  */
 
 import {
   PaymentProviderName,
@@ -31,7 +31,7 @@ import {
 
 /**
  * Abstract base class that provides common functionality for payment providers
- */
+  */
 export abstract class BasePaymentProvider implements IPaymentProvider {
   protected _initialized = false;
   protected _metrics: ProviderMetrics;
@@ -81,14 +81,14 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Check if provider is initialized
-   */
+    */
   isInitialized(): boolean {
     return this._initialized;
   }
 
   /**
    * Health check implementation with common retry logic
-   */
+    */
   async healthCheck(): Promise<{
     status: 'healthy' | 'degraded' | 'unhealthy';
     latency?: number;
@@ -134,14 +134,14 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Get current provider metrics
-   */
+    */
   getMetrics(): ProviderMetrics {
     return { ...this._metrics };
   }
 
   /**
    * Get current health status
-   */
+    */
   getHealthStatus(): ProviderHealthStatus {
     return { ...this._healthStatus };
   }
@@ -152,7 +152,7 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Validate payment request common fields
-   */
+    */
   protected validatePaymentRequest(request: PaymentRequest): void {
     if (!request.amount || request.amount <= 0) {
       throw new Error('Payment amount must be greater than 0');
@@ -169,7 +169,7 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Validate refund request
-   */
+    */
   protected validateRefundRequest(request: RefundRequest): void {
     if (!request.payment_intent_id) {
       throw new Error('Payment intent ID is required for refund');
@@ -182,7 +182,7 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Log payment event with structured data
-   */
+    */
   protected logPaymentEvent(
     eventType: ProviderEventType,
     data: Record<string, any>,
@@ -205,7 +205,7 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Update metrics after transaction
-   */
+    */
   protected updateMetrics(success: boolean, amount?: number, currency?: string): void {
     this._metrics.total_transactions++;
     
@@ -230,7 +230,7 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Create standardized payment error
-   */
+    */
   protected createPaymentError(
     code: string,
     message: string,
@@ -247,7 +247,7 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Handle provider-specific errors and convert to standard format
-   */
+    */
   protected handleProviderError(error: any): PaymentError {
     // Base implementation - providers should override for specific error handling
     return this.createPaymentError(
@@ -259,7 +259,7 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Retry logic for provider operations
-   */
+    */
   protected async retry<T>(
     operation: () => Promise<T>,
     maxAttempts = 3,
@@ -291,7 +291,7 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Initialize provider metrics
-   */
+    */
   private initializeMetrics(): ProviderMetrics {
     return {
       provider: this.providerName,
@@ -309,7 +309,7 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Initialize health status
-   */
+    */
   private initializeHealthStatus(): ProviderHealthStatus {
     return {
       provider: this.providerName,
@@ -324,7 +324,7 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
   /**
    * Perform provider-specific health check
    * Override in concrete implementations
-   */
+    */
   protected async performHealthCheck(): Promise<void> {
     // Base implementation - just check if initialized
     if (!this._initialized) {
@@ -334,14 +334,14 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Generate unique event ID
-   */
+    */
   private generateEventId(): string {
     return `${this.providerName}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Emit provider event (placeholder for event bus integration)
-   */
+    */
   private emitProviderEvent(event: ProviderEvent): void {
     // In a real implementation, this would emit to an event bus
     // For now, just log the event
@@ -349,7 +349,7 @@ export abstract class BasePaymentProvider implements IPaymentProvider {
 
   /**
    * Simple delay utility
-   */
+    */
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }

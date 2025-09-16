@@ -4,7 +4,7 @@
  * Moved from Core module to maintain architectural compliance
  * Author: Gil Klainert
  * Date: 2025-08-29
- */
+  */
 
 import { Request, Response, NextFunction } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
@@ -48,7 +48,7 @@ interface UsageRecord {
 
 /**
  * Enhanced Premium Guard Middleware Factory
- */
+  */
 export function enhancedPremiumGuard(options: PremiumGuardOptions): IMiddleware {
   return async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const startTime = Date.now();
@@ -282,7 +282,7 @@ export function enhancedPremiumGuard(options: PremiumGuardOptions): IMiddleware 
 
 /**
  * Helper Functions
- */
+  */
 
 async function getUserSubscription(userId: string): Promise<UserSubscription | null> {
   try {
@@ -471,7 +471,7 @@ function generateUpgradeOptions(featureId: string): UpgradeOption[] {
 
 /**
  * Convenience wrapper for common premium features
- */
+  */
 export const premiumFeatureGuard = (featureId: string, options?: Partial<PremiumGuardOptions>) =>
   enhancedPremiumGuard({
     requiredFeature: featureId,
@@ -483,7 +483,7 @@ export const premiumFeatureGuard = (featureId: string, options?: Partial<Premium
 
 /**
  * Wrapper for enterprise-only features
- */
+  */
 export const enterpriseFeatureGuard = (featureId: string, options?: Partial<PremiumGuardOptions>) =>
   enhancedPremiumGuard({
     requiredFeature: featureId,

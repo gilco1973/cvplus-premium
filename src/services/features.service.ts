@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { logger } from '../utils/logger';
 import {
@@ -31,7 +31,7 @@ import {
 
 /**
  * Feature access result
- */
+  */
 interface FeatureAccessResult {
   hasAccess: boolean;
   reason?: string;
@@ -42,7 +42,7 @@ interface FeatureAccessResult {
 
 /**
  * Feature usage tracking
- */
+  */
 interface FeatureUsage {
   userId: string;
   feature: PremiumFeature;
@@ -54,7 +54,7 @@ interface FeatureUsage {
 
 /**
  * Feature gate configuration
- */
+  */
 interface FeatureGateConfig {
   feature: PremiumFeature;
   enabledTiers: SubscriptionTier[];
@@ -66,7 +66,7 @@ interface FeatureGateConfig {
 
 /**
  * Feature service configuration
- */
+  */
 interface FeatureServiceConfig {
   cache: {
     enabled: boolean;
@@ -85,7 +85,7 @@ interface FeatureServiceConfig {
 
 /**
  * Default configuration
- */
+  */
 const DEFAULT_CONFIG: FeatureServiceConfig = {
   cache: {
     enabled: true,
@@ -104,7 +104,7 @@ const DEFAULT_CONFIG: FeatureServiceConfig = {
 
 /**
  * Comprehensive feature gating and access control service
- */
+  */
 export class FeatureService {
   private config: FeatureServiceConfig;
   private subscriptionService: SubscriptionService;
@@ -135,7 +135,7 @@ export class FeatureService {
 
   /**
    * Check if user has access to a specific feature
-   */
+    */
   async hasFeatureAccess(userId: string, feature: PremiumFeature): Promise<FeatureAccessResult> {
     try {
       const cacheKey = `${CACHE_KEYS.FEATURES}${userId}:${feature}`;
@@ -198,7 +198,7 @@ export class FeatureService {
 
   /**
    * Check access to multiple features at once
-   */
+    */
   async hasMultipleFeatureAccess(
     userId: string,
     features: PremiumFeature[]
@@ -229,7 +229,7 @@ export class FeatureService {
 
   /**
    * Get all available features for a user
-   */
+    */
   async getAvailableFeatures(userId: string): Promise<PremiumFeature[]> {
     try {
       const subscription = await this.subscriptionService.getUserSubscription(userId);
@@ -254,7 +254,7 @@ export class FeatureService {
 
   /**
    * Validate feature access and throw error if denied
-   */
+    */
   async validateFeatureAccess(userId: string, feature: PremiumFeature): Promise<void> {
     const result = await this.hasFeatureAccess(userId, feature);
     
@@ -279,7 +279,7 @@ export class FeatureService {
 
   /**
    * Configure feature gate
-   */
+    */
   configureFeatureGate(config: FeatureGateConfig): void {
     this.featureGates.set(config.feature, config);
     
@@ -292,7 +292,7 @@ export class FeatureService {
 
   /**
    * Enable feature for specific tiers
-   */
+    */
   enableFeatureForTiers(feature: PremiumFeature, tiers: SubscriptionTier[]): void {
     this.configureFeatureGate({
       feature,
@@ -302,7 +302,7 @@ export class FeatureService {
 
   /**
    * Set feature rollout percentage
-   */
+    */
   setFeatureRollout(feature: PremiumFeature, percentage: number): void {
     const existingConfig = this.featureGates.get(feature) || {
       feature,
@@ -317,7 +317,7 @@ export class FeatureService {
 
   /**
    * Check if user is in rollout group
-   */
+    */
   private isUserInRollout(userId: string, percentage: number): boolean {
     if (percentage >= 100) return true;
     if (percentage <= 0) return false;
@@ -329,7 +329,7 @@ export class FeatureService {
 
   /**
    * Simple hash function for deterministic rollout
-   */
+    */
   private hashUserId(userId: string): number {
     let hash = 0;
     for (let i = 0; i < userId.length; i++) {
@@ -346,7 +346,7 @@ export class FeatureService {
 
   /**
    * Get feature information
-   */
+    */
   getFeatureInfo(feature: PremiumFeature): {
     name: string;
     description: string;
@@ -368,7 +368,7 @@ export class FeatureService {
 
   /**
    * Get all feature information
-   */
+    */
   getAllFeatureInfo(): Record<PremiumFeature, ReturnType<typeof this.getFeatureInfo>> {
     const features = Object.keys(FEATURE_DISPLAY_NAMES) as PremiumFeature[];
     const featureInfo = {} as Record<PremiumFeature, ReturnType<typeof this.getFeatureInfo>>;
@@ -382,7 +382,7 @@ export class FeatureService {
 
   /**
    * Get upgrade suggestions for user
-   */
+    */
   async getUpgradeSuggestions(userId: string): Promise<{
     currentTier: SubscriptionTier;
     availableFeatures: PremiumFeature[];
@@ -432,7 +432,7 @@ export class FeatureService {
 
   /**
    * Get feature usage history for user
-   */
+    */
   getFeatureUsageHistory(userId: string, limit: number = 50): FeatureUsage[] {
     const history = this.usageHistory.get(userId) || [];
     return history.slice(-limit);
@@ -440,7 +440,7 @@ export class FeatureService {
 
   /**
    * Get feature usage statistics
-   */
+    */
   getFeatureUsageStats(userId: string): {
     totalAttempts: number;
     grantedAttempts: number;
@@ -476,7 +476,7 @@ export class FeatureService {
 
   /**
    * Invalidate feature cache for user
-   */
+    */
   invalidateUserFeatureCache(userId: string): void {
     const keysToDelete: string[] = [];
     
@@ -495,7 +495,7 @@ export class FeatureService {
 
   /**
    * Clear all feature cache
-   */
+    */
   clearFeatureCache(): void {
     this.cache.clear();
     logger.info('All feature cache cleared');
@@ -507,7 +507,7 @@ export class FeatureService {
 
   /**
    * Initialize default feature gates
-   */
+    */
   private initializeFeatureGates(): void {
     // Configure gates based on default tier features
     const premiumFeatures = Object.keys(PREMIUM_TIER_FEATURES) as PremiumFeature[];
@@ -531,7 +531,7 @@ export class FeatureService {
 
   /**
    * Check feature gate configuration
-   */
+    */
   private async checkFeatureGate(
     userId: string,
     feature: PremiumFeature,
@@ -566,7 +566,7 @@ export class FeatureService {
 
   /**
    * Check subscription-based feature access
-   */
+    */
   private checkSubscriptionAccess(
     feature: PremiumFeature,
     subscription: UserSubscriptionData
@@ -613,7 +613,7 @@ export class FeatureService {
 
   /**
    * Track feature usage
-   */
+    */
   private async trackFeatureUsage(usage: FeatureUsage): Promise<void> {
     if (!this.config.usage.trackUsage) return;
 

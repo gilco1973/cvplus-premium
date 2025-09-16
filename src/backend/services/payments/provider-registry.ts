@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Advanced Provider Registry
  * Phase 2: Comprehensive provider management with health monitoring and discovery
- */
+  */
 
 import {
   PaymentProviderName,
@@ -23,7 +23,7 @@ import {
 /**
  * Advanced Provider Registry with health monitoring and intelligent selection
  * Singleton pattern for managing multiple payment providers
- */
+  */
 export class ProviderRegistry implements IPaymentProviderRegistry {
   private static instance: ProviderRegistry;
   
@@ -44,7 +44,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Get singleton instance
-   */
+    */
   public static getInstance(): ProviderRegistry {
     if (!ProviderRegistry.instance) {
       ProviderRegistry.instance = new ProviderRegistry();
@@ -58,7 +58,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Register a payment provider with comprehensive validation
-   */
+    */
   register(provider: IPaymentProvider): void {
     const providerName = provider.providerName;
     
@@ -90,21 +90,21 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Get provider by name
-   */
+    */
   get(providerName: PaymentProviderName): IPaymentProvider | undefined {
     return this.providers.get(providerName);
   }
 
   /**
    * Get all registered providers
-   */
+    */
   getAll(): IPaymentProvider[] {
     return Array.from(this.providers.values());
   }
 
   /**
    * Get only healthy providers
-   */
+    */
   getHealthy(): IPaymentProvider[] {
     return this.getAll().filter(provider => {
       const healthStatus = this.healthStatuses.get(provider.providerName);
@@ -114,7 +114,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Remove provider from registry
-   */
+    */
   remove(providerName: PaymentProviderName): void {
     const provider = this.providers.get(providerName);
     if (!provider) {
@@ -140,7 +140,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Clear all providers
-   */
+    */
   clear(): void {
     const providerNames = Array.from(this.providers.keys());
     providerNames.forEach(name => this.remove(name));
@@ -152,14 +152,14 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Check if provider is registered
-   */
+    */
   isRegistered(providerName: PaymentProviderName): boolean {
     return this.providers.has(providerName);
   }
 
   /**
    * Get providers by capability
-   */
+    */
   getByCapability<T extends keyof PaymentProviderFeatures>(
     capability: T, 
     value: PaymentProviderFeatures[T]
@@ -172,7 +172,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Get providers that support a specific currency
-   */
+    */
   getByCurrency(currency: string): IPaymentProvider[] {
     return this.getAll().filter(provider => {
       const supportedCurrencies = provider.getSupportedCurrencies();
@@ -182,7 +182,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Get providers that support a specific region
-   */
+    */
   getByRegion(region: string): IPaymentProvider[] {
     // For now, return all providers - this would be enhanced with actual region support
     return this.getAll().filter(provider => {
@@ -193,7 +193,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Get providers by payment method support
-   */
+    */
   getByPaymentMethod(paymentMethod: PaymentMethod): IPaymentProvider[] {
     return this.getAll().filter(provider => {
       const supportedMethods = provider.getSupportedPaymentMethods();
@@ -203,7 +203,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Intelligent provider selection based on multiple criteria
-   */
+    */
   selectBestProvider(criteria: ProviderSelectionCriteria): IPaymentProvider | null {
     let candidates = this.getHealthy();
 
@@ -268,21 +268,21 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Get health status for all providers
-   */
+    */
   getHealthStatuses(): Map<PaymentProviderName, ProviderHealthStatus> {
     return new Map(this.healthStatuses);
   }
 
   /**
    * Get health status for specific provider
-   */
+    */
   getProviderHealth(providerName: PaymentProviderName): ProviderHealthStatus | undefined {
     return this.healthStatuses.get(providerName);
   }
 
   /**
    * Force health check for all providers
-   */
+    */
   async performHealthCheck(): Promise<Map<PaymentProviderName, ProviderHealthStatus>> {
     const healthPromises = Array.from(this.providers.entries()).map(
       async ([name, provider]) => {
@@ -346,21 +346,21 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Register callback for provider registration
-   */
+    */
   onProviderRegistered(callback: (provider: IPaymentProvider) => void): void {
     this.registrationCallbacks.push(callback);
   }
 
   /**
    * Register callback for provider removal
-   */
+    */
   onProviderRemoved(callback: (providerName: PaymentProviderName) => void): void {
     this.removalCallbacks.push(callback);
   }
 
   /**
    * Register callback for health status changes
-   */
+    */
   onHealthStatusChanged(callback: (status: ProviderHealthStatus) => void): void {
     this.healthCallbacks.push(callback);
   }
@@ -371,7 +371,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Auto-discover and register providers from environment
-   */
+    */
   async discoverProviders(): Promise<void> {
     // Check for Stripe configuration
     if (process.env.STRIPE_SECRET_KEY && process.env.STRIPE_PUBLISHABLE_KEY) {
@@ -402,7 +402,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Get provider with least current load
-   */
+    */
   getProviderWithLeastLoad(): IPaymentProvider | null {
     const healthyProviders = this.getHealthy();
     if (healthyProviders.length === 0) {
@@ -420,7 +420,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Shutdown registry and cleanup resources
-   */
+    */
   shutdown(): void {
     if (this.healthMonitorInterval) {
       clearInterval(this.healthMonitorInterval);
@@ -441,7 +441,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Validate provider before registration
-   */
+    */
   private validateProvider(provider: IPaymentProvider): void {
     if (!provider.providerName) {
       throw this.createError(
@@ -478,7 +478,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Initialize health status for new provider
-   */
+    */
   private initializeProviderHealth(provider: IPaymentProvider): void {
     const initialHealth: ProviderHealthStatus = {
       provider: provider.providerName,
@@ -494,7 +494,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Start health monitoring background process
-   */
+    */
   private startHealthMonitoring(): void {
     this.healthMonitorInterval = setInterval(async () => {
       try {
@@ -507,7 +507,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Calculate success rate for provider (placeholder)
-   */
+    */
   private calculateSuccessRate(providerName: PaymentProviderName): number {
     // In a real implementation, this would calculate based on recent transaction data
     return 0.95; // Placeholder
@@ -515,7 +515,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Calculate error rate for provider (placeholder)
-   */
+    */
   private calculateErrorRate(providerName: PaymentProviderName): number {
     // In a real implementation, this would calculate based on recent error data
     return 0.05; // Placeholder
@@ -523,7 +523,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Log provider events
-   */
+    */
   private logProviderEvent(
     type: string,
     provider: PaymentProviderName,
@@ -542,7 +542,7 @@ export class ProviderRegistry implements IPaymentProviderRegistry {
 
   /**
    * Create provider error with proper typing
-   */
+    */
   private createProviderError<P extends PaymentProviderName>(
     provider: P,
     code: ProviderErrorCode,

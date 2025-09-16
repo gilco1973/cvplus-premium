@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Stripe Payment Intent Creation Factory
  * Factory function that creates the payment intent function with dependencies
- */
+  */
 
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';
@@ -28,7 +28,7 @@ interface CreatePaymentIntentData {
 
 /**
  * Factory function to create payment intent Cloud Function
- */
+  */
 export function createPaymentIntentFactory({ db, corsOptions, stripeSecretKey }: Dependencies) {
   if (!stripeSecretKey) {
     throw new Error('Stripe secret key is required');

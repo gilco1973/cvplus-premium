@@ -7,7 +7,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @created 2025-08-28
- */
+  */
 
 import { logger } from 'firebase-functions';
 import { cacheService } from '../../../services/cache/cache.service';
@@ -69,7 +69,7 @@ class UsageBatchCacheService {
 
   /**
    * Track usage event (queued for batch processing)
-   */
+    */
   async trackUsage(event: UsageEvent): Promise<boolean> {
     try {
       const batchKey = this.buildBatchKey(event);
@@ -123,7 +123,7 @@ class UsageBatchCacheService {
 
   /**
    * Track multiple usage events in batch
-   */
+    */
   async trackBatchUsage(events: UsageEvent[]): Promise<{
     successful: number;
     failed: number;
@@ -217,7 +217,7 @@ class UsageBatchCacheService {
 
   /**
    * Manually flush specific batch to Firestore
-   */
+    */
   async flushBatch(batchKey: string): Promise<boolean> {
     try {
       // Get batch data
@@ -270,7 +270,7 @@ class UsageBatchCacheService {
 
   /**
    * Flush all pending batches to Firestore
-   */
+    */
   async flushAllBatches(): Promise<{
     flushed: number;
     failed: number;
@@ -308,7 +308,7 @@ class UsageBatchCacheService {
 
   /**
    * Get pending usage data for user (for real-time usage display)
-   */
+    */
   async getPendingUsage(userId: string): Promise<Record<string, BatchedUsageData>> {
     try {
       // Build pattern for user's batches  
@@ -334,7 +334,7 @@ class UsageBatchCacheService {
 
   /**
    * Start periodic batch flushing
-   */
+    */
   private startPeriodicFlush(): void {
     if (this.flushTimer) {
       clearInterval(this.flushTimer);
@@ -356,7 +356,7 @@ class UsageBatchCacheService {
 
   /**
    * Stop periodic batch flushing
-   */
+    */
   stopPeriodicFlush(): void {
     if (this.flushTimer) {
       clearInterval(this.flushTimer);
@@ -367,7 +367,7 @@ class UsageBatchCacheService {
 
   /**
    * Build cache key for usage batch
-   */
+    */
   private buildBatchKey(event: UsageEvent): string {
     const hour = new Date(event.timestamp).getHours();
     const date = new Date(event.timestamp).toISOString().split('T')[0];
@@ -376,7 +376,7 @@ class UsageBatchCacheService {
 
   /**
    * Merge new event with existing batch data
-   */
+    */
   private mergeBatchData(existing: BatchedUsageData | null, event: UsageEvent): BatchedUsageData {
     if (!existing) {
       return {
@@ -410,7 +410,7 @@ class UsageBatchCacheService {
 
   /**
    * Write batch data to Firestore
-   */
+    */
   private async writeBatchToFirestore(batchData: BatchedUsageData): Promise<boolean> {
     try {
       const userRef = db.collection('users').doc(batchData.userId);
@@ -453,7 +453,7 @@ class UsageBatchCacheService {
 
   /**
    * Fallback: write usage directly to Firestore (when cache fails)
-   */
+    */
   private async writeUsageDirectly(event: UsageEvent): Promise<boolean> {
     try {
       const userRef = db.collection('users').doc(event.userId);
@@ -484,7 +484,7 @@ class UsageBatchCacheService {
 
   /**
    * Update average batch size metric
-   */
+    */
   private updateAverageBatchSize(batchSize: number): void {
     if (this.metrics.batchesProcessed === 1) {
       this.metrics.averageBatchSize = batchSize;
@@ -496,14 +496,14 @@ class UsageBatchCacheService {
 
   /**
    * Get usage batch cache performance metrics
-   */
+    */
   getMetrics(): UsageBatchMetrics {
     return { ...this.metrics };
   }
 
   /**
    * Get write reduction percentage
-   */
+    */
   getWriteReduction(): number {
     if (this.metrics.eventsQueued === 0) return 0;
     return ((this.metrics.eventsQueued - this.metrics.firestoreWrites) / this.metrics.eventsQueued) * 100;
@@ -511,7 +511,7 @@ class UsageBatchCacheService {
 
   /**
    * Reset metrics (for testing)
-   */
+    */
   resetMetrics(): void {
     this.metrics = {
       eventsQueued: 0,
@@ -526,7 +526,7 @@ class UsageBatchCacheService {
 
   /**
    * Cleanup resources
-   */
+    */
   destroy(): void {
     this.stopPeriodicFlush();
   }

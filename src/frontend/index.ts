@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 // Services
 export { UnifiedPaymentService, getUnifiedPaymentService } from './services/unified-payment.service';

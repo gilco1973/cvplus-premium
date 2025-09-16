@@ -1,7 +1,7 @@
 /**
  * CVPlus PayPal Mock Provider
  * Mock implementation for testing PayPal integration
- */
+  */
 
 import { BasePaymentProvider } from '../providers/base-provider';
 import {
@@ -27,7 +27,7 @@ import {
 
 /**
  * Mock PayPal Provider for Testing
- */
+  */
 export class MockPayPalPaymentProvider extends BasePaymentProvider {
   private mockOrders = new Map<string, any>();
   private mockCustomers = new Map<string, CustomerInfo>();
@@ -45,28 +45,28 @@ export class MockPayPalPaymentProvider extends BasePaymentProvider {
 
   /**
    * Configure the mock to fail the next operation
-   */
+    */
   public setFailNextOperation(fail: boolean = true): void {
     this.shouldFailNextOperation = fail;
   }
 
   /**
    * Configure the mock to simulate network latency
-   */
+    */
   public setSimulateLatency(simulate: boolean = true): void {
     this.simulateLatency = simulate;
   }
 
   /**
    * Get all mock orders for testing
-   */
+    */
   public getMockOrders(): Map<string, any> {
     return this.mockOrders;
   }
 
   /**
    * Clear all mock data
-   */
+    */
   public clearMockData(): void {
     this.mockOrders.clear();
     this.mockCustomers.clear();

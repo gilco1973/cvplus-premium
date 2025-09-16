@@ -7,7 +7,7 @@
  * @author Gil Klainert
  * @version 1.0.0  
  * @created 2025-08-29
- */
+  */
 
 import { logger } from 'firebase-functions';
 import { cacheService } from '../../../services/cache/cache.service';
@@ -43,7 +43,7 @@ class FeatureAccessCacheService {
 
   /**
    * Check if user has access to specific feature
-   */
+    */
   async checkFeatureAccess(userId: string, featureId: string): Promise<FeatureAccessResult> {
     const startTime = Date.now();
     this.metrics.requests++;
@@ -100,7 +100,7 @@ class FeatureAccessCacheService {
 
   /**
    * Warm cache for common users
-   */
+    */
   async warmCache(userIds: string[]): Promise<void> {
     try {
       const commonFeatures = ['cv_generation', 'export_pdf', 'basic_templates'];
@@ -122,7 +122,7 @@ class FeatureAccessCacheService {
 
   /**
    * Get cache hit rate
-   */
+    */
   getHitRate(): number {
     const totalRequests = this.metrics.cacheHits + this.metrics.cacheMisses;
     return totalRequests > 0 ? this.metrics.cacheHits / totalRequests : 0;
@@ -130,14 +130,14 @@ class FeatureAccessCacheService {
 
   /**
    * Get performance metrics
-   */
+    */
   getMetrics(): FeatureAccessCacheMetrics {
     return { ...this.metrics };
   }
 
   /**
    * Invalidate cache for user
-   */
+    */
   async invalidateUser(userId: string): Promise<void> {
     try {
       const pattern = `${this.CACHE_NAMESPACE}:${userId}:*`;
@@ -151,7 +151,7 @@ class FeatureAccessCacheService {
 
   /**
    * Clear all feature access cache
-   */
+    */
   async clearAll(): Promise<void> {
     try {
       const pattern = `${this.CACHE_NAMESPACE}:*`;
@@ -165,7 +165,7 @@ class FeatureAccessCacheService {
 
   /**
    * Update average response time metric
-   */
+    */
   private updateAverageResponseTime(responseTime: number): void {
     const totalRequests = this.metrics.requests;
     this.metrics.averageResponseTime = 
@@ -174,7 +174,7 @@ class FeatureAccessCacheService {
 
   /**
    * Reset metrics
-   */
+    */
   resetMetrics(): void {
     this.metrics = {
       requests: 0,

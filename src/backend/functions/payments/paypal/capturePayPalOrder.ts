@@ -1,7 +1,7 @@
 /**
  * CVPlus PayPal Capture Order Firebase Function
  * Captures PayPal order after user approval
- */
+  */
 
 import { https } from 'firebase-functions';
 import { PayPalPaymentProvider } from '../../../services/payments/providers/paypal-provider';
@@ -15,7 +15,7 @@ interface CaptureOrderRequest {
 
 /**
  * Capture PayPal Order Function
- */
+  */
 export const capturePayPalOrder = https.onCall(async (data: CaptureOrderRequest, context) => {
   // Validate authentication
   if (!context.auth) {

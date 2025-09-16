@@ -3,7 +3,7 @@
  * Server-side feature configuration and validation
  * Author: Gil Klainert
  * Date: August 27, 2025
- */
+  */
 
 export interface CVFeature {
   id: string;
@@ -27,7 +27,7 @@ export interface CVFeature {
 /**
  * Complete CVPlus Backend Feature Registry
  * Matches frontend registry but includes backend-specific metadata
- */
+  */
 export const CV_FEATURES: CVFeature[] = [
   // ========== CORE FEATURES (Free Tier) ==========
   {
@@ -370,18 +370,18 @@ export const CV_FEATURES: CVFeature[] = [
 
 /**
  * Backend Feature Registry Helper Class
- */
+  */
 export class FeatureRegistry {
   /**
    * Get feature by ID
-   */
+    */
   static getFeature(featureId: string): CVFeature | undefined {
     return CV_FEATURES.find(feature => feature.id === featureId);
   }
 
   /**
    * Get features by tier
-   */
+    */
   static getFeaturesByTier(tier: 'free' | 'premium' | 'enterprise'): CVFeature[] {
     if (tier === 'enterprise') return CV_FEATURES; // Enterprise has all features
     if (tier === 'premium') return CV_FEATURES.filter(f => f.tier === 'free' || f.tier === 'premium');
@@ -390,14 +390,14 @@ export class FeatureRegistry {
 
   /**
    * Get features by backend service
-   */
+    */
   static getFeaturesByService(serviceName: string): CVFeature[] {
     return CV_FEATURES.filter(feature => feature.backendService === serviceName);
   }
 
   /**
    * Get features by API endpoint
-   */
+    */
   static getFeaturesByEndpoint(endpoint: string): CVFeature[] {
     return CV_FEATURES.filter(feature => 
       feature.apiEndpoints?.includes(endpoint)
@@ -406,7 +406,7 @@ export class FeatureRegistry {
 
   /**
    * Check if user has access to feature
-   */
+    */
   static hasFeatureAccess(featureId: string, userTier: 'free' | 'premium' | 'enterprise'): boolean {
     const feature = this.getFeature(featureId);
     if (!feature) return false;
@@ -417,7 +417,7 @@ export class FeatureRegistry {
 
   /**
    * Get usage limit for feature
-   */
+    */
   static getUsageLimit(featureId: string, userTier: 'free' | 'premium' | 'enterprise'): number {
     const feature = this.getFeature(featureId);
     if (!feature?.usageLimits) return -1; // Unlimited if not specified
@@ -427,7 +427,7 @@ export class FeatureRegistry {
 
   /**
    * Get estimated cost for feature execution
-   */
+    */
   static getExecutionCost(featureId: string): number {
     const feature = this.getFeature(featureId);
     return feature?.costPerExecution ?? 0;
@@ -435,7 +435,7 @@ export class FeatureRegistry {
 
   /**
    * Validate feature requirements
-   */
+    */
   static validateFeatureRequirements(featureId: string, userAuth: boolean): {
     valid: boolean;
     reasons: string[];
@@ -460,35 +460,35 @@ export class FeatureRegistry {
 
   /**
    * Get premium features (non-free)
-   */
+    */
   static getPremiumFeatures(): CVFeature[] {
     return CV_FEATURES.filter(f => f.tier !== 'free');
   }
 
   /**
    * Get enterprise-only features
-   */
+    */
   static getEnterpriseFeatures(): CVFeature[] {
     return CV_FEATURES.filter(f => f.tier === 'enterprise');
   }
 
   /**
    * Get high-cost features (for monitoring)
-   */
+    */
   static getHighCostFeatures(threshold: number = 20): CVFeature[] {
     return CV_FEATURES.filter(f => (f.costPerExecution ?? 0) >= threshold);
   }
 
   /**
    * Get features requiring specific dependencies
-   */
+    */
   static getFeaturesWithDependencies(): CVFeature[] {
     return CV_FEATURES.filter(f => f.dependencies && f.dependencies.length > 0);
   }
 
   /**
    * Calculate total cost for feature list
-   */
+    */
   static calculateTotalCost(featureIds: string[]): number {
     return featureIds.reduce((total, featureId) => {
       return total + this.getExecutionCost(featureId);
@@ -497,7 +497,7 @@ export class FeatureRegistry {
 
   /**
    * Get feature statistics
-   */
+    */
   static getFeatureStatistics(): {
     totalFeatures: number;
     byTier: Record<string, number>;

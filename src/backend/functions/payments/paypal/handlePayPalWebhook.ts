@@ -1,7 +1,7 @@
 /**
  * CVPlus PayPal Webhook Handler Firebase Function
  * Processes PayPal webhook events with signature verification
- */
+  */
 
 import { https } from 'firebase-functions';
 import { PayPalPaymentProvider } from '../../../services/payments/providers/paypal-provider';
@@ -11,7 +11,7 @@ import { PaymentEvent } from '../../../../types/payments.types';
 
 /**
  * PayPal Webhook Handler Function
- */
+  */
 export const handlePayPalWebhook = https.onRequest(async (req, res) => {
   // Validate HTTP method
   if (req.method !== 'POST') {

@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Payment Services Index
  * Phase 2: Complete payment abstraction layer with advanced features
- */
+  */
 
 // =============================================================================
 // PHASE 1: Core Provider System
@@ -75,7 +75,7 @@ export type {
 /**
  * Complete Payment Processing System
  * Main entry point for payment processing with full feature set
- */
+  */
 export class PaymentSystem {
   public readonly registry = providerRegistry;
   public readonly configManager = configurationManager;
@@ -88,7 +88,7 @@ export class PaymentSystem {
 
   /**
    * Initialize the complete payment system
-   */
+    */
   async initialize(): Promise<void> {
     console.log('[PaymentSystem] Initializing advanced payment processing system...');
     
@@ -105,7 +105,7 @@ export class PaymentSystem {
 
   /**
    * Get system health overview
-   */
+    */
   async getSystemHealth(): Promise<{
     status: 'healthy' | 'degraded' | 'unhealthy';
     providers: Record<string, any>;
@@ -150,7 +150,7 @@ export class PaymentSystem {
 
   /**
    * Shutdown the payment system gracefully
-   */
+    */
   shutdown(): void {
     console.log('[PaymentSystem] Shutting down payment system...');
     this.registry.shutdown();

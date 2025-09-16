@@ -9,7 +9,7 @@
  * @version 1.0.0
  * @created 2025-08-28
  * @category Premium Services
- */
+  */
 
 import { logger } from 'firebase-functions';
 import { HttpsError } from 'firebase-functions/v2/https';
@@ -30,7 +30,7 @@ import {
 /**
  * Centralized Feature Access Service
  * Eliminates duplicated validation logic across Firebase Functions
- */
+  */
 export class FeatureAccessService {
   private static instance: FeatureAccessService;
   private cache = new Map<string, { data: any; timestamp: number }>();
@@ -38,7 +38,7 @@ export class FeatureAccessService {
 
   /**
    * Singleton instance
-   */
+    */
   public static getInstance(): FeatureAccessService {
     if (!FeatureAccessService.instance) {
       FeatureAccessService.instance = new FeatureAccessService();
@@ -49,7 +49,7 @@ export class FeatureAccessService {
   /**
    * Primary feature access validation
    * Replaces duplicated validation logic in multiple Firebase Functions
-   */
+    */
   async checkFeatureAccess(
     userId: string,
     feature: PremiumFeature,
@@ -108,7 +108,7 @@ export class FeatureAccessService {
 
   /**
    * Validate premium tier access (replaces scattered tier validation)
-   */
+    */
   async validatePremiumTier(
     userId: string,
     requiredTier: PremiumTier
@@ -153,7 +153,7 @@ export class FeatureAccessService {
 
   /**
    * Check billing status (replaces scattered billing checks)
-   */
+    */
   private checkBillingStatus(subscription: UserSubscriptionData | null): FeatureAccessResult {
     if (!subscription) {
       return {
@@ -194,7 +194,7 @@ export class FeatureAccessService {
 
   /**
    * Check basic feature access against user's tier
-   */
+    */
   private checkBasicAccess(
     subscription: UserSubscriptionData | null,
     featureDefinition: any
@@ -225,7 +225,7 @@ export class FeatureAccessService {
 
   /**
    * Check usage limits for features with restrictions
-   */
+    */
   private async checkUsageLimits(
     userId: string,
     feature: PremiumFeature,
@@ -283,7 +283,7 @@ export class FeatureAccessService {
 
   /**
    * Check feature-specific conditions
-   */
+    */
   private async checkFeatureConditions(
     userId: string,
     feature: PremiumFeature,
@@ -302,7 +302,7 @@ export class FeatureAccessService {
 
   /**
    * Get user subscription with caching to reduce database calls
-   */
+    */
   private async getUserSubscriptionCached(userId: string): Promise<UserSubscriptionData | null> {
     const cacheKey = `subscription:${userId}`;
     const cached = this.cache.get(cacheKey);
@@ -335,7 +335,7 @@ export class FeatureAccessService {
 
   /**
    * Clear cache for user (call when subscription changes)
-   */
+    */
   public clearUserCache(userId: string): void {
     const cacheKey = `subscription:${userId}`;
     this.cache.delete(cacheKey);
@@ -343,7 +343,7 @@ export class FeatureAccessService {
 
   /**
    * Record feature usage for analytics and limits
-   */
+    */
   async recordFeatureUsage(
     userId: string,
     feature: PremiumFeature,
@@ -412,11 +412,11 @@ export class FeatureAccessService {
 
 /**
  * Convenience functions for common access patterns
- */
+  */
 
 /**
  * Quick premium tier validation (replaces scattered validation)
- */
+  */
 export async function requirePremiumTier(userId: string, tier: PremiumTier): Promise<void> {
   const service = FeatureAccessService.getInstance();
   const result = await service.validatePremiumTier(userId, tier);
@@ -428,7 +428,7 @@ export async function requirePremiumTier(userId: string, tier: PremiumTier): Pro
 
 /**
  * Quick feature access check (replaces duplicated checks)
- */
+  */
 export async function requireFeatureAccess(
   userId: string, 
   feature: PremiumFeature,
@@ -444,7 +444,7 @@ export async function requireFeatureAccess(
 
 /**
  * Enforce feature gate (replaces boilerplate in functions)
- */
+  */
 export async function enforceFeatureGate<T>(
   userId: string,
   feature: PremiumFeature,

@@ -1,10 +1,10 @@
 /**
  * Billing-specific types for the Premium module
- */
+  */
 
 /**
  * Billing address
- */
+  */
 export interface BillingAddress {
   line1: string;
   line2?: string;
@@ -16,7 +16,7 @@ export interface BillingAddress {
 
 /**
  * Tax information
- */
+  */
 export interface TaxInfo {
   type: 'vat' | 'gst' | 'sales_tax';
   rate: number;
@@ -27,7 +27,7 @@ export interface TaxInfo {
 
 /**
  * Discount information
- */
+  */
 export interface Discount {
   type: 'percentage' | 'fixed_amount';
   value: number;
@@ -37,7 +37,7 @@ export interface Discount {
 
 /**
  * Detailed invoice item with tax and discount support
- */
+  */
 export interface DetailedInvoiceItem {
   id: string;
   description: string;
@@ -52,7 +52,7 @@ export interface DetailedInvoiceItem {
 
 /**
  * Payment method details
- */
+  */
 export interface PaymentMethodDetails {
   id: string;
   type: 'card' | 'bank_account' | 'wallet';
@@ -78,7 +78,7 @@ export interface PaymentMethodDetails {
 
 /**
  * Refund request
- */
+  */
 export interface RefundRequest {
   paymentId: string;
   amount?: number; // partial refund if specified
@@ -89,7 +89,7 @@ export interface RefundRequest {
 
 /**
  * Refund response
- */
+  */
 export interface RefundResponse {
   id: string;
   amount: number;
@@ -102,7 +102,7 @@ export interface RefundResponse {
 
 /**
  * Billing cycle configuration
- */
+  */
 export interface BillingCycleConfig {
   type: 'monthly' | 'yearly' | 'lifetime';
   interval: number; // 1 for monthly, 12 for yearly
@@ -114,7 +114,7 @@ export interface BillingCycleConfig {
 
 /**
  * Billing preferences
- */
+  */
 export interface BillingPreferences {
   userId: string;
   currency: string;
@@ -137,7 +137,7 @@ export interface BillingPreferences {
 
 /**
  * Revenue analytics data
- */
+  */
 export interface RevenueAnalytics {
   period: string; // YYYY-MM format
   totalRevenue: number;

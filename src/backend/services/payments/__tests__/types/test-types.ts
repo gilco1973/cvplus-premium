@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Payment Testing Types
  * Phase 2: Comprehensive testing types for payment provider testing
- */
+  */
 
 import {
   PaymentProviderName,
@@ -39,7 +39,7 @@ import {
 
 /**
  * Mock Payment Provider for testing with configurable behavior
- */
+  */
 export interface MockPaymentProvider extends IPaymentProvider {
   // Mock-specific methods
   setMockBehavior(behavior: MockProviderBehavior): void;
@@ -53,7 +53,7 @@ export interface MockPaymentProvider extends IPaymentProvider {
 
 /**
  * Configurable behavior for mock providers
- */
+  */
 export interface MockProviderBehavior {
   // Success/failure rates
   success_rate?: number; // 0-1, default 1.0
@@ -79,7 +79,7 @@ export interface MockProviderBehavior {
 
 /**
  * Record of mock provider method calls for verification
- */
+  */
 export interface MockCallRecord {
   method_name: string;
   arguments: any[];
@@ -91,7 +91,7 @@ export interface MockCallRecord {
 
 /**
  * Mock provider factory for creating test providers
- */
+  */
 export interface MockProviderFactory {
   createMockStripeProvider(config?: Partial<MockProviderBehavior>): MockPaymentProvider;
   createMockPayPalProvider(config?: Partial<MockProviderBehavior>): MockPaymentProvider;
@@ -107,7 +107,7 @@ export interface MockProviderFactory {
 
 /**
  * Comprehensive test data fixtures
- */
+  */
 export interface PaymentTestFixtures {
   customers: TestCustomerFixture[];
   payment_methods: TestPaymentMethodFixture[];
@@ -119,7 +119,7 @@ export interface PaymentTestFixtures {
 
 /**
  * Test customer data
- */
+  */
 export interface TestCustomerFixture {
   id: string;
   name: string;
@@ -132,7 +132,7 @@ export interface TestCustomerFixture {
 
 /**
  * Test payment method data
- */
+  */
 export interface TestPaymentMethodFixture {
   id: string;
   name: string;
@@ -145,7 +145,7 @@ export interface TestPaymentMethodFixture {
 
 /**
  * Test payment request data
- */
+  */
 export interface TestPaymentRequestFixture {
   id: string;
   name: string;
@@ -160,7 +160,7 @@ export interface TestPaymentRequestFixture {
 
 /**
  * Test payment context data
- */
+  */
 export interface TestPaymentContextFixture {
   id: string;
   name: string;
@@ -173,7 +173,7 @@ export interface TestPaymentContextFixture {
 
 /**
  * Test webhook data
- */
+  */
 export interface TestWebhookFixture {
   id: string;
   name: string;
@@ -188,7 +188,7 @@ export interface TestWebhookFixture {
 
 /**
  * Test error scenarios
- */
+  */
 export interface TestErrorFixture {
   id: string;
   name: string;
@@ -211,7 +211,7 @@ export interface TestErrorFixture {
 
 /**
  * Type-safe assertion helpers for payment testing
- */
+  */
 export interface PaymentAssertions {
   // Provider assertions
   assertProviderInitialized(provider: IPaymentProvider): void;
@@ -246,7 +246,7 @@ export interface PaymentAssertions {
 
 /**
  * Mock data builders for creating test data
- */
+  */
 export interface TestDataBuilder {
   // Customer builders
   buildCustomer(overrides?: Partial<CustomerInfo>): CustomerInfo;
@@ -295,7 +295,7 @@ export interface TestDataBuilder {
 
 /**
  * Predefined test scenarios
- */
+  */
 export type CustomerTestScenario = 
   | 'valid_us_customer'
   | 'valid_eu_customer'
@@ -328,7 +328,7 @@ export type ErrorTestScenario =
 
 /**
  * Test suite configuration
- */
+  */
 export interface PaymentTestSuiteConfig {
   providers_to_test: PaymentProviderName[];
   test_scenarios: PaymentTestScenario[];
@@ -342,7 +342,7 @@ export interface PaymentTestSuiteConfig {
 
 /**
  * Test environment configuration
- */
+  */
 export interface PaymentTestEnvironment {
   environment: 'test' | 'staging' | 'development';
   api_endpoints: Record<PaymentProviderName, string>;
@@ -364,7 +364,7 @@ export interface MockServiceEndpoints {
 
 /**
  * Provider stub for testing without actual API calls
- */
+  */
 export interface PaymentProviderStub extends IPaymentProvider {
   // Stub-specific configuration
   setStubResponse<T>(methodName: string, response: T | (() => T)): void;
@@ -396,7 +396,7 @@ export interface ProviderState {
 
 /**
  * Load testing configuration
- */
+  */
 export interface LoadTestConfig {
   concurrent_users: number;
   requests_per_second: number;
@@ -416,7 +416,7 @@ export interface LoadTestScenario {
 
 /**
  * Performance test results
- */
+  */
 export interface PerformanceTestResults {
   total_requests: number;
   successful_requests: number;
@@ -463,7 +463,7 @@ interface BankAccountDetails {
 
 /**
  * Complete test toolkit interface
- */
+  */
 export interface PaymentTestToolkit {
   mockFactory: MockProviderFactory;
   fixtures: PaymentTestFixtures;
@@ -475,7 +475,7 @@ export interface PaymentTestToolkit {
 
 /**
  * Test result aggregation
- */
+  */
 export interface TestResults {
   total_tests: number;
   passed_tests: number;

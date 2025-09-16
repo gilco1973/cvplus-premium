@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Stripe Payment Provider Implementation
  * Concrete implementation of IPaymentProvider for Stripe
- */
+  */
 
 import Stripe from 'stripe';
 import { BasePaymentProvider } from './base-provider';
@@ -29,7 +29,7 @@ import {
 
 /**
  * Stripe Payment Provider Implementation
- */
+  */
 export class StripePaymentProvider extends BasePaymentProvider {
   private stripe: Stripe | null = null;
   private readonly stripeConfig: StripeConfig;

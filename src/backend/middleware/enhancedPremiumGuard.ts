@@ -3,7 +3,7 @@
  * Comprehensive backend protection for premium features
  * Author: Gil Klainert
  * Date: August 27, 2025
- */
+  */
 
 import { Request, Response, NextFunction } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
@@ -61,7 +61,7 @@ interface UsageRecord {
 
 /**
  * Enhanced Premium Guard Middleware Factory
- */
+  */
 export function enhancedPremiumGuard(options: PremiumGuardOptions) {
   return async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const startTime = Date.now();
@@ -297,7 +297,7 @@ export function enhancedPremiumGuard(options: PremiumGuardOptions) {
 
 /**
  * Helper Functions
- */
+  */
 
 async function getUserSubscription(userId: string): Promise<UserSubscription | null> {
   try {
@@ -547,7 +547,7 @@ function generateUpgradeOptions(featureId: string): any[] {
 
 /**
  * Convenience wrapper for common premium features
- */
+  */
 export const premiumFeatureGuard = (featureId: string, options?: Partial<PremiumGuardOptions>) =>
   enhancedPremiumGuard({
     requiredFeature: featureId,
@@ -559,7 +559,7 @@ export const premiumFeatureGuard = (featureId: string, options?: Partial<Premium
 
 /**
  * Wrapper for enterprise-only features
- */
+  */
 export const enterpriseFeatureGuard = (featureId: string, options?: Partial<PremiumGuardOptions>) =>
   enhancedPremiumGuard({
     requiredFeature: featureId,

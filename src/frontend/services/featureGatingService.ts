@@ -3,7 +3,7 @@
  * Comprehensive access control and usage tracking for premium features
  * Author: Gil Klainert
  * Date: August 27, 2025
- */
+  */
 
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../../lib/firebase';
@@ -75,7 +75,7 @@ export interface UsageLimitCheck {
  * Enhanced Feature Gating Service
  * Provides comprehensive access control with real-time subscription validation,
  * usage tracking, grace period handling, and analytics integration
- */
+  */
 export class FeatureGatingService {
   private static instance: FeatureGatingService;
   private subscriptionCache: SubscriptionCache;
@@ -96,7 +96,7 @@ export class FeatureGatingService {
   /**
    * Check if user has access to a specific feature
    * Includes subscription validation, usage limits, and grace period handling
-   */
+    */
   async checkFeatureAccess(
     userId: string,
     featureId: string,
@@ -200,7 +200,7 @@ export class FeatureGatingService {
   /**
    * Enforce feature gate around an operation
    * Executes operation only if user has access, with comprehensive tracking
-   */
+    */
   async enforceFeatureGate<T>(
     userId: string,
     featureId: string,
@@ -267,7 +267,7 @@ export class FeatureGatingService {
 
   /**
    * Batch check multiple features for efficient permission validation
-   */
+    */
   async batchCheckFeatureAccess(
     userId: string,
     featureIds: string[],
@@ -290,7 +290,7 @@ export class FeatureGatingService {
 
   /**
    * Get user's feature access matrix for dashboard display
-   */
+    */
   async getUserFeatureMatrix(userId: string): Promise<{
     tier: string;
     features: Record<string, {
@@ -324,7 +324,7 @@ export class FeatureGatingService {
 
   /**
    * Private helper methods
-   */
+    */
   private async checkGracePeriod(userId: string, featureId: string): Promise<GracePeriod> {
     try {
       const checkGracePeriod = httpsCallable(functions, 'checkGracePeriod');

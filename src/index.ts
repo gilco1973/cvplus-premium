@@ -5,7 +5,7 @@
  * 
  * @author Gil Klainert
  * @version 4.0.0 - Post-Migration
- */
+  */
 
 // =============================================================================
 // TYPES
@@ -202,7 +202,7 @@ export {
 
 /**
  * Format currency amount for display
- */
+  */
 export const formatCurrency = (
   amount: number,
   currency: string = 'USD',
@@ -218,7 +218,7 @@ export const formatCurrency = (
 
 /**
  * Format date for billing display
- */
+  */
 export const formatBillingDate = (
   date: Date,
   locale: string = 'en-US'
@@ -234,7 +234,7 @@ export const formatBillingDate = (
 
 /**
  * Validate email address
- */
+  */
 export const validateEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
@@ -242,7 +242,7 @@ export const validateEmail = (email: string): boolean => {
 
 /**
  * Calculate subscription age in days
- */
+  */
 export const getSubscriptionAge = (createdAt: Date): number => {
   const now = new Date();
   const created = new Date(createdAt);
@@ -252,7 +252,7 @@ export const getSubscriptionAge = (createdAt: Date): number => {
 
 /**
  * Get feature utilization percentage
- */
+  */
 export const getFeatureUtilization = (features: Record<string, boolean>): number => {
   const totalFeatures = Object.keys(features).length;
   const enabledFeatures = Object.values(features).filter(Boolean).length;
@@ -261,7 +261,7 @@ export const getFeatureUtilization = (features: Record<string, boolean>): number
 
 /**
  * Create Stripe idempotency key
- */
+  */
 export const createIdempotencyKey = (operation: string, params: any): string => {
   const hash = require('crypto')
     .createHash('sha256')
@@ -277,14 +277,14 @@ export const createIdempotencyKey = (operation: string, params: any): string => 
 
 /**
  * Check if error is a Stripe error
- */
+  */
 export const isStripeError = (error: any): boolean => {
   return error?.type && error.type.startsWith('Stripe');
 };
 
 /**
  * Check if error is retryable
- */
+  */
 export const isRetryableError = (error: any): boolean => {
   const retryableCodes = ['rate_limit', 'api_connection_error', 'api_error'];
   const retryableTypes = [
@@ -298,7 +298,7 @@ export const isRetryableError = (error: any): boolean => {
 
 /**
  * Get user-friendly error message
- */
+  */
 export const getUserFriendlyErrorMessage = (error: any): string => {
   if (!error) return 'An unknown error occurred';
 
@@ -336,7 +336,7 @@ export const getUserFriendlyErrorMessage = (error: any): string => {
 
 /**
  * Create default premium configuration
- */
+  */
 export const createDefaultPremiumConfig = (environment: 'development' | 'staging' | 'production') => {
   return {
     stripe: {
@@ -455,13 +455,13 @@ export {
 
 /**
  * Version information
- */
+  */
 export const PREMIUM_MODULE_VERSION = '4.0.0';
 export const PREMIUM_MODULE_NAME = '@cvplus/premium';
 
 /**
  * Module information
- */
+  */
 export const getPremiumModuleInfo = () => ({
   name: PREMIUM_MODULE_NAME,
   version: PREMIUM_MODULE_VERSION,

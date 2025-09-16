@@ -7,7 +7,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @since Phase 3 - Analytics & Revenue Intelligence
- */
+  */
 
 import { onCall } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';
@@ -291,7 +291,7 @@ export const predictChurn = onCall<ChurnPredictionRequest>(
 
 /**
  * Helper functions
- */
+  */
 function calculateRiskLevel(riskScore: number): 'low' | 'medium' | 'high' | 'critical' {
   if (riskScore >= 0.8) return 'critical';
   if (riskScore >= 0.6) return 'high';

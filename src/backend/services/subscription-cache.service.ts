@@ -26,7 +26,7 @@ export class SubscriptionCacheService {
 
   /**
    * Get cached subscription data for a user
-   */
+    */
   get(userId: string): any | null {
     try {
       const key = this.generateKey(userId);
@@ -66,7 +66,7 @@ export class SubscriptionCacheService {
 
   /**
    * Store subscription data in cache
-   */
+    */
   set(userId: string, data: any, customTtl?: number): void {
     try {
       const key = this.generateKey(userId);
@@ -99,7 +99,7 @@ export class SubscriptionCacheService {
 
   /**
    * Invalidate cached subscription for a user
-   */
+    */
   invalidate(userId: string): boolean {
     try {
       const key = this.generateKey(userId);
@@ -120,7 +120,7 @@ export class SubscriptionCacheService {
 
   /**
    * Clear all cached subscriptions
-   */
+    */
   clearAll(): void {
     try {
       const previousSize = this.cache.size;
@@ -135,7 +135,7 @@ export class SubscriptionCacheService {
 
   /**
    * Get cache statistics
-   */
+    */
   getStats(): CacheStats {
     return {
       ...this.stats,
@@ -145,7 +145,7 @@ export class SubscriptionCacheService {
 
   /**
    * Clean up expired entries manually
-   */
+    */
   cleanupExpired(): number {
     try {
       let removedCount = 0;

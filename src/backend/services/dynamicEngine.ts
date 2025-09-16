@@ -5,7 +5,7 @@
  * @author Gil Klainert
  * @version 4.0.0
  * @category Enterprise Pricing
- */
+  */
 
 import { Logger } from '../../shared/logger';
 
@@ -85,7 +85,7 @@ export interface DemandData {
 /**
  * Dynamic Pricing Engine for CVPlus Premium
  * Implements ML-based price optimization with real-time adjustments
- */
+  */
 export class DynamicPricingEngine extends BaseService {
   private marketIntelligence: MarketIntelligenceService;
   private activePricingTests: Map<string, ABTestResults> = new Map();
@@ -123,7 +123,7 @@ export class DynamicPricingEngine extends BaseService {
 
   /**
    * Calculates optimal pricing for a specific user and product
-   */
+    */
   async calculateOptimalPrice(
     productId: string,
     userId: string,
@@ -168,7 +168,7 @@ export class DynamicPricingEngine extends BaseService {
 
   /**
    * Core pricing optimization logic
-   */
+    */
   private async optimizePricing(
     productId: string,
     context: OptimizationContext
@@ -225,14 +225,14 @@ export class DynamicPricingEngine extends BaseService {
 
   /**
    * Calculate regional price adjustment
-   */
+    */
   private calculateRegionalAdjustment(region: string): number {
     return this.REGIONAL_ADJUSTMENTS[region] || 1.0;
   }
 
   /**
    * Calculate demand-based price adjustment
-   */
+    */
   private calculateDemandAdjustment(demandData: DemandData): number {
     if (demandData.demandTrend === 'increasing' && demandData.capacity_utilization > 0.8) {
       return 1.15; // Increase price during high demand
@@ -245,7 +245,7 @@ export class DynamicPricingEngine extends BaseService {
 
   /**
    * Calculate competitive positioning adjustment
-   */
+    */
   private calculateCompetitiveAdjustment(marketAnalysis: MarketAnalysis): number {
     const avgCompetitorPrice = marketAnalysis.competitorPricing
       .reduce((sum, comp) => sum + comp.price, 0) / marketAnalysis.competitorPricing.length;
@@ -263,7 +263,7 @@ export class DynamicPricingEngine extends BaseService {
 
   /**
    * Calculate seasonal adjustment
-   */
+    */
   private calculateSeasonalAdjustment(marketAnalysis: MarketAnalysis): number {
     const currentMonth = new Date().getMonth();
     const q1Months = [0, 1, 2]; // Jan-Mar hiring season
@@ -281,7 +281,7 @@ export class DynamicPricingEngine extends BaseService {
 
   /**
    * Calculate user segment-based adjustment
-   */
+    */
   private calculateUserSegmentAdjustment(userProfile: UserProfile): number {
     switch (userProfile.segment) {
       case 'enterprise':
@@ -299,7 +299,7 @@ export class DynamicPricingEngine extends BaseService {
 
   /**
    * Run A/B pricing test
-   */
+    */
   async runABPricingTest(
     testId: string,
     productId: string,
@@ -338,14 +338,14 @@ export class DynamicPricingEngine extends BaseService {
 
   /**
    * Get A/B test results
-   */
+    */
   async getABTestResults(testId: string): Promise<ABTestResults | null> {
     return this.activePricingTests.get(testId) || null;
   }
 
   /**
    * Record conversion for A/B test
-   */
+    */
   async recordABTestConversion(testId: string, variantId: string, revenue: number): Promise<void> {
     const test = this.activePricingTests.get(testId);
     if (!test) return;
@@ -361,7 +361,7 @@ export class DynamicPricingEngine extends BaseService {
 
   /**
    * Conclude A/B test and determine winner
-   */
+    */
   private async concludeABTest(testId: string): Promise<void> {
     const test = this.activePricingTests.get(testId);
     if (!test) return;
@@ -389,7 +389,7 @@ export class DynamicPricingEngine extends BaseService {
 
   /**
    * Apply business constraints to pricing
-   */
+    */
   private applyBusinessConstraints(pricing: PricingStrategy): PricingStrategy {
     // Minimum price constraints
     const minPrice = pricing.basePrice * 0.5;
@@ -413,7 +413,7 @@ export class DynamicPricingEngine extends BaseService {
 
   /**
    * Get fallback pricing when optimization fails
-   */
+    */
   private getFallbackPricing(productId: string, region: string): PricingStrategy {
     const basePrice = this.BASE_PRICES[productId] || 29.99;
     const regionalAdjustment = this.calculateRegionalAdjustment(region);

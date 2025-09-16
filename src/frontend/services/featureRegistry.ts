@@ -3,7 +3,7 @@
  * Comprehensive catalog of all CV features with premium tier mapping
  * Author: Gil Klainert
  * Date: August 27, 2025
- */
+  */
 
 export interface CVFeature {
   id: string;
@@ -43,7 +43,7 @@ export interface PremiumTier {
 /**
  * Complete CVPlus Feature Registry
  * Based on codebase analysis and implementation reports
- */
+  */
 export const CV_FEATURES: CVFeature[] = [
   // ========== CORE FEATURES (Free Tier) ==========
   {
@@ -382,7 +382,7 @@ export const CV_FEATURES: CVFeature[] = [
 
 /**
  * Premium Tier Definitions
- */
+  */
 export const PREMIUM_TIERS: PremiumTier[] = [
   {
     tier: 'free',
@@ -433,7 +433,7 @@ export const PREMIUM_TIERS: PremiumTier[] = [
 
 /**
  * Feature Categories for Organization
- */
+  */
 export const FEATURE_CATEGORIES = {
   core: 'Essential CV functionality available to all users',
   'ai-powered': 'Advanced AI features for optimization and insights',
@@ -445,18 +445,18 @@ export const FEATURE_CATEGORIES = {
 
 /**
  * Helper Functions
- */
+  */
 export class FeatureRegistry {
   /**
    * Get feature by ID
-   */
+    */
   static getFeature(featureId: string): CVFeature | undefined {
     return CV_FEATURES.find(feature => feature.id === featureId);
   }
 
   /**
    * Get features by tier
-   */
+    */
   static getFeaturesByTier(tier: 'free' | 'premium' | 'enterprise'): CVFeature[] {
     if (tier === 'enterprise') return CV_FEATURES; // Enterprise has all features
     if (tier === 'premium') return CV_FEATURES.filter(f => f.tier === 'free' || f.tier === 'premium');
@@ -465,14 +465,14 @@ export class FeatureRegistry {
 
   /**
    * Get features by category
-   */
+    */
   static getFeaturesByCategory(category: CVFeature['category']): CVFeature[] {
     return CV_FEATURES.filter(feature => feature.category === category);
   }
 
   /**
    * Check if user has access to feature
-   */
+    */
   static hasFeatureAccess(featureId: string, userTier: 'free' | 'premium' | 'enterprise'): boolean {
     const feature = this.getFeature(featureId);
     if (!feature) return false;
@@ -483,7 +483,7 @@ export class FeatureRegistry {
 
   /**
    * Get usage limit for feature
-   */
+    */
   static getUsageLimit(featureId: string, userTier: 'free' | 'premium' | 'enterprise'): number {
     const feature = this.getFeature(featureId);
     if (!feature?.usageLimits) return -1; // Unlimited if not specified
@@ -493,14 +493,14 @@ export class FeatureRegistry {
 
   /**
    * Get premium features (non-free)
-   */
+    */
   static getPremiumFeatures(): CVFeature[] {
     return CV_FEATURES.filter(f => f.tier !== 'free');
   }
 
   /**
    * Get popular features (score >= 8)
-   */
+    */
   static getPopularFeatures(): CVFeature[] {
     return CV_FEATURES.filter(f => f.popularityScore && f.popularityScore >= 8)
                      .sort((a, b) => (b.popularityScore || 0) - (a.popularityScore || 0));

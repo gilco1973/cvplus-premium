@@ -1,7 +1,7 @@
 /**
  * CVPlus PayPal Testing Index
  * Exports for all PayPal testing utilities and mock providers
- */
+  */
 
 // Test utilities
 export { PayPalTestDataGenerator } from './test-setup';

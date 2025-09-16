@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Stripe Payment Intent Creation
  * Migrated from /functions/src/functions/payments/createPaymentIntent.ts
- */
+  */
 
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';

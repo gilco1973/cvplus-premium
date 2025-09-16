@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import Stripe from 'stripe';
 import { logger } from '../utils/logger';
@@ -31,7 +31,7 @@ import {
 
 /**
  * Stripe service configuration
- */
+  */
 interface StripeServiceConfig {
   secretKey: string;
   webhookSecret: string;
@@ -42,7 +42,7 @@ interface StripeServiceConfig {
 
 /**
  * Default retry configuration
- */
+  */
 const DEFAULT_RETRY_CONFIG: StripeRetryConfig = {
   maxAttempts: 3,
   initialDelay: 1000,
@@ -58,7 +58,7 @@ const DEFAULT_RETRY_CONFIG: StripeRetryConfig = {
 
 /**
  * Default idempotency configuration
- */
+  */
 const DEFAULT_IDEMPOTENCY_CONFIG: StripeIdempotencyConfig = {
   enabled: true,
   keyPrefix: 'cvplus',
@@ -75,7 +75,7 @@ const DEFAULT_IDEMPOTENCY_CONFIG: StripeIdempotencyConfig = {
 
 /**
  * Comprehensive Stripe integration service with security and reliability features
- */
+  */
 export class StripeService {
   private stripe: Stripe;
   private config: StripeServiceConfig;
@@ -108,7 +108,7 @@ export class StripeService {
 
   /**
    * Create or retrieve Stripe customer with idempotency
-   */
+    */
   async createOrRetrieveCustomer(params: {
     userId: string;
     email: string;
@@ -181,7 +181,7 @@ export class StripeService {
 
   /**
    * Update customer information
-   */
+    */
   async updateCustomer(customerId: string, updates: {
     name?: string;
     phone?: string;
@@ -222,7 +222,7 @@ export class StripeService {
 
   /**
    * Create payment intent with comprehensive configuration
-   */
+    */
   async createPaymentIntent(config: StripePaymentIntentConfig): Promise<Stripe.PaymentIntent> {
     const operation = 'create_payment_intent';
     
@@ -279,7 +279,7 @@ export class StripeService {
 
   /**
    * Retrieve payment intent with full details
-   */
+    */
   async getPaymentIntent(paymentIntentId: string): Promise<Stripe.PaymentIntent> {
     const operation = 'get_payment_intent';
     
@@ -305,7 +305,7 @@ export class StripeService {
 
   /**
    * Cancel payment intent if possible
-   */
+    */
   async cancelPaymentIntent(paymentIntentId: string, reason?: string): Promise<Stripe.PaymentIntent> {
     const operation = 'cancel_payment_intent';
     
@@ -336,7 +336,7 @@ export class StripeService {
 
   /**
    * Create Stripe Checkout session with security best practices
-   */
+    */
   async createCheckoutSession(config: StripeCheckoutConfig): Promise<any> {
     const operation = 'create_checkout_session';
     
@@ -401,7 +401,7 @@ export class StripeService {
 
   /**
    * Verify and process Stripe webhook with security validation
-   */
+    */
   async processWebhook(
     rawBody: string | Buffer,
     signature: string,
@@ -468,7 +468,7 @@ export class StripeService {
 
   /**
    * Process refund with proper validation
-   */
+    */
   async createRefund(params: {
     paymentIntentId?: string;
     chargeId?: string;
@@ -519,7 +519,7 @@ export class StripeService {
 
   /**
    * Execute operation with retry logic and exponential backoff
-   */
+    */
   private async executeWithRetry<T>(
     operation: () => Promise<T>,
     operationName: string
@@ -561,7 +561,7 @@ export class StripeService {
 
   /**
    * Check if error is retryable based on configuration
-   */
+    */
   private isRetryableError(error: any): boolean {
     if (error.type && this.config.retry.retryableErrorTypes.includes(error.type)) {
       return true;
@@ -576,7 +576,7 @@ export class StripeService {
 
   /**
    * Generate idempotency key for operations
-   */
+    */
   private generateIdempotencyKey(operation: string, params: any): string {
     if (!this.config.idempotency.enabled) {
       return '';
@@ -587,7 +587,7 @@ export class StripeService {
 
   /**
    * Rate limiting check
-   */
+    */
   private async checkRateLimit(operation: string): Promise<void> {
     const now = Date.now();
     const key = `${operation}`;
@@ -609,7 +609,7 @@ export class StripeService {
 
   /**
    * Map Stripe customer to our data structure
-   */
+    */
   private mapStripeCustomer(customer: Stripe.Customer): StripeCustomerData {
     return {
       id: customer.id,
@@ -626,7 +626,7 @@ export class StripeService {
 
   /**
    * Format Stripe error for logging (removing sensitive data)
-   */
+    */
   private formatStripeError(error: any): Record<string, any> {
     if (!error) return {};
     
@@ -644,7 +644,7 @@ export class StripeService {
 
   /**
    * Wrap Stripe errors with context
-   */
+    */
   private wrapStripeError(error: any, message: string): StripeErrorContext {
     const wrappedError = new Error(message) as StripeErrorContext;
     

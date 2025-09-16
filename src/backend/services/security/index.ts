@@ -6,7 +6,7 @@
  *
  * @author Gil Klainert
  * @version 4.0.0 - CVPlus Premium Module
- */
+  */
 
 // Rate limiting services - CONSOLIDATED TO CORE MODULE
 // Use: import { SecureRateLimitGuard, secureRateLimitGuard } from '@cvplus/core';

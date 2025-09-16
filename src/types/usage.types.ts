@@ -1,15 +1,15 @@
 /**
  * Usage tracking types for the Premium module
- */
+  */
 
 /**
  * Usage period types
- */
+  */
 export type UsagePeriod = 'hour' | 'day' | 'week' | 'month' | 'year';
 
 /**
  * Usage metric categories
- */
+  */
 export type UsageMetricCategory = 
   | 'core' 
   | 'premium' 
@@ -20,7 +20,7 @@ export type UsageMetricCategory =
 
 /**
  * Extended usage metric types with categories
- */
+  */
 export interface UsageMetricDefinition {
   type: string;
   category: UsageMetricCategory;
@@ -33,7 +33,7 @@ export interface UsageMetricDefinition {
 
 /**
  * Built-in usage metrics
- */
+  */
 export const USAGE_METRICS: Record<string, UsageMetricDefinition> = {
   CV_UPLOADS: {
     type: 'cv_uploads',
@@ -114,7 +114,7 @@ export const USAGE_METRICS: Record<string, UsageMetricDefinition> = {
 
 /**
  * Usage limit with flexible configuration
- */
+  */
 export interface FlexibleUsageLimit {
   metricType: string;
   tier: 'free' | 'premium' | 'unlimited';
@@ -139,7 +139,7 @@ export interface FlexibleUsageLimit {
 
 /**
  * Real-time usage tracking
- */
+  */
 export interface LiveUsageData {
   userId: string;
   metricType: string;
@@ -156,7 +156,7 @@ export interface LiveUsageData {
 
 /**
  * Usage analytics data
- */
+  */
 export interface UsageAnalytics {
   userId: string;
   period: string;
@@ -189,7 +189,7 @@ export interface UsageAnalytics {
 
 /**
  * Usage aggregation configuration
- */
+  */
 export interface UsageAggregationConfig {
   metrics: string[];
   periods: UsagePeriod[];
@@ -201,7 +201,7 @@ export interface UsageAggregationConfig {
 
 /**
  * Batch usage update
- */
+  */
 export interface BatchUsageUpdate {
   userId: string;
   updates: Array<{

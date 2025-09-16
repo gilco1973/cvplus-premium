@@ -8,7 +8,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @created 2025-08-28
- */
+  */
 
 import { logger } from 'firebase-functions';
 import { cacheService } from './cache.service';
@@ -67,7 +67,7 @@ class FeatureAccessCacheService {
 
   /**
    * Check feature access with caching
-   */
+    */
   async checkFeatureAccess(request: FeatureAccessRequest): Promise<FeatureAccessResult> {
     const startTime = Date.now();
     this.metrics.requests++;
@@ -150,7 +150,7 @@ class FeatureAccessCacheService {
 
   /**
    * Check multiple features for user in batch
-   */
+    */
   async checkBatchFeatureAccess(
     userId: string, 
     features: FeatureKey[]
@@ -297,7 +297,7 @@ class FeatureAccessCacheService {
 
   /**
    * Invalidate feature access cache for user
-   */
+    */
   async invalidateUserFeatures(userId: string, feature?: FeatureKey): Promise<number> {
     try {
       let pattern: string;
@@ -332,7 +332,7 @@ class FeatureAccessCacheService {
 
   /**
    * Pre-warm feature access cache for active users
-   */
+    */
   async warmCache(
     userIds: string[], 
     features: FeatureKey[] = ['webPortal', 'aiChat', 'podcast', 'advancedAnalytics']
@@ -365,7 +365,7 @@ class FeatureAccessCacheService {
 
   /**
    * Validate feature access from subscription data
-   */
+    */
   private validateFeatureFromSubscription(
     request: FeatureAccessRequest,
     subscription: UserSubscriptionData
@@ -409,7 +409,7 @@ class FeatureAccessCacheService {
 
   /**
    * Validate feature access (fallback when not cached)
-   */
+    */
   private async validateFeatureAccess(request: FeatureAccessRequest): Promise<{
     hasAccess: boolean;
     reason: string;
@@ -442,7 +442,7 @@ class FeatureAccessCacheService {
 
   /**
    * Check usage limits for features that have them
-   */
+    */
   private checkUsageLimits(feature: FeatureKey, subscription: UserSubscriptionData): {
     allowed: boolean;
     reason: string;
@@ -504,14 +504,14 @@ class FeatureAccessCacheService {
 
   /**
    * Build cache key for feature access
-   */
+    */
   private buildFeatureAccessKey(userId: string, feature: FeatureKey): string {
     return `${userId}:${feature}`;
   }
 
   /**
    * Parse cache key to extract feature
-   */
+    */
   private parseKeyToFeature(key: string): FeatureKey | null {
     const parts = key.split(':');
     if (parts.length !== 2) return null;
@@ -521,7 +521,7 @@ class FeatureAccessCacheService {
 
   /**
    * Update average response time metric
-   */
+    */
   private updateAverageResponseTime(responseTime: number): void {
     if (this.metrics.requests === 1) {
       this.metrics.averageResponseTime = responseTime;
@@ -533,14 +533,14 @@ class FeatureAccessCacheService {
 
   /**
    * Get feature access cache performance metrics
-   */
+    */
   getMetrics(): FeatureAccessMetrics {
     return { ...this.metrics };
   }
 
   /**
    * Get cache hit rate
-   */
+    */
   getHitRate(): number {
     if (this.metrics.requests === 0) return 0;
     return this.metrics.cacheHits / this.metrics.requests;
@@ -548,7 +548,7 @@ class FeatureAccessCacheService {
 
   /**
    * Get access denial rate
-   */
+    */
   getDenialRate(): number {
     if (this.metrics.requests === 0) return 0;
     return this.metrics.deniedRequests / this.metrics.requests;
@@ -556,7 +556,7 @@ class FeatureAccessCacheService {
 
   /**
    * Reset metrics (for testing)
-   */
+    */
   resetMetrics(): void {
     this.metrics = {
       requests: 0,

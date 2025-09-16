@@ -5,7 +5,7 @@
  * @author Gil Klainert
  * @version 4.0.0
  * @category Enterprise Analytics
- */
+  */
 
 import { Logger } from '../../shared/logger';
 
@@ -178,12 +178,12 @@ export interface RiskFactor {
 /**
  * Pricing Analytics Service for CVPlus Premium
  * Provides comprehensive pricing performance analysis and optimization recommendations
- */
+  */
 export class PricingAnalyticsService extends BaseService {
   
   /**
    * Generate comprehensive pricing performance report
-   */
+    */
   async generatePricingReport(timeframe: TimeRange): Promise<PricingPerformance> {
     try {
       logger.info('Generating pricing performance report', { timeframe });
@@ -241,7 +241,7 @@ export class PricingAnalyticsService extends BaseService {
 
   /**
    * Analyze conversion rates by price point
-   */
+    */
   private async analyzeConversionByPrice(timeframe: TimeRange): Promise<ConversionMetric[]> {
     // In production, this would query analytics database
     return [
@@ -286,7 +286,7 @@ export class PricingAnalyticsService extends BaseService {
 
   /**
    * Analyze revenue optimization opportunities
-   */
+    */
   private async analyzeRevenueOptimization(timeframe: TimeRange): Promise<RevenueMetric[]> {
     return [
       {
@@ -312,7 +312,7 @@ export class PricingAnalyticsService extends BaseService {
 
   /**
    * Analyze customer segment performance
-   */
+    */
   private async analyzeCustomerSegments(timeframe: TimeRange): Promise<SegmentPerformance[]> {
     return [
       {
@@ -360,7 +360,7 @@ export class PricingAnalyticsService extends BaseService {
 
   /**
    * Analyze competitive position
-   */
+    */
   private async analyzeCompetitivePosition(timeframe: TimeRange): Promise<CompetitiveAnalysis> {
     return {
       ourPosition: 'premium',
@@ -390,7 +390,7 @@ export class PricingAnalyticsService extends BaseService {
 
   /**
    * Analyze price elasticity
-   */
+    */
   private async analyzePriceElasticity(timeframe: TimeRange): Promise<ElasticityAnalysis> {
     const demandCurve: DemandPoint[] = [
       { price: 15.99, quantity: 2800, revenue: 44772 },
@@ -412,7 +412,7 @@ export class PricingAnalyticsService extends BaseService {
 
   /**
    * Get A/B test summary
-   */
+    */
   private async getABTestSummary(timeframe: TimeRange): Promise<ABTestSummary[]> {
     return [
       {
@@ -430,7 +430,7 @@ export class PricingAnalyticsService extends BaseService {
 
   /**
    * Calculate pricing KPIs
-   */
+    */
   private async calculatePricingKPIs(timeframe: TimeRange): Promise<PricingKPIs> {
     return {
       averageSellingPrice: 28.47,
@@ -445,7 +445,7 @@ export class PricingAnalyticsService extends BaseService {
 
   /**
    * Generate pricing action recommendations
-   */
+    */
   private async generatePricingActions(data: {
     conversionMetrics: ConversionMetric[];
     revenueMetrics: RevenueMetric[];
@@ -524,7 +524,7 @@ export class PricingAnalyticsService extends BaseService {
 
   /**
    * Optimize pricing strategy using ML algorithms
-   */
+    */
   async optimizePricingStrategy(): Promise<OptimizationResults> {
     try {
       logger.info('Starting pricing strategy optimization');

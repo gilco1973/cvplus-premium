@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Enhanced Payment Error Handling System
  * Phase 2: Comprehensive error classification, recovery, and reporting
- */
+  */
 
 import {
   PaymentProviderName,
@@ -26,7 +26,7 @@ import { paymentOrchestrator } from '../payment-orchestrator';
 /**
  * Advanced Payment Error Handler with intelligent classification,
  * recovery strategies, and comprehensive analytics
- */
+  */
 export class PaymentErrorHandler implements IPaymentErrorHandler {
   private static instance: PaymentErrorHandler;
   
@@ -45,7 +45,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Get singleton instance
-   */
+    */
   public static getInstance(): PaymentErrorHandler {
     if (!PaymentErrorHandler.instance) {
       PaymentErrorHandler.instance = new PaymentErrorHandler();
@@ -59,7 +59,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Handle error with comprehensive classification and recovery
-   */
+    */
   async handleError(error: unknown, context: PaymentContext): Promise<PaymentErrorHandlingResult> {
     const handlingId = this.generateHandlingId();
     const startTime = Date.now();
@@ -151,7 +151,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Classify error with comprehensive analysis
-   */
+    */
   classifyError(error: unknown): PaymentErrorClassification {
     // Default classification
     let classification: PaymentErrorClassification = {
@@ -194,7 +194,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Execute recovery strategy for specific error
-   */
+    */
   async executeRecoveryStrategy(
     error: ProviderError,
     strategy: ErrorRecoveryStrategy,
@@ -274,7 +274,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Report error for analytics and monitoring
-   */
+    */
   async reportError(error: ProviderError, context: PaymentContext): Promise<void> {
     try {
       const reportData = {
@@ -307,7 +307,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Get error statistics with filtering
-   */
+    */
   async getErrorStats(
     provider?: PaymentProviderName,
     timeRange?: DateRange
@@ -381,7 +381,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Execute provider failover recovery
-   */
+    */
   private async executeProviderFailover(
     error: ProviderError,
     strategy: ErrorRecoveryStrategy,
@@ -409,7 +409,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Execute retry with exponential backoff
-   */
+    */
   private async executeRetryWithBackoff(
     error: ProviderError,
     strategy: ErrorRecoveryStrategy,
@@ -447,7 +447,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Execute payment method fallback
-   */
+    */
   private async executePaymentMethodFallback(
     error: ProviderError,
     strategy: ErrorRecoveryStrategy,
@@ -463,7 +463,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Execute amount adjustment recovery
-   */
+    */
   private async executeAmountAdjustment(
     error: ProviderError,
     strategy: ErrorRecoveryStrategy,
@@ -482,7 +482,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Execute manual review process
-   */
+    */
   private async executeManualReview(
     error: ProviderError,
     strategy: ErrorRecoveryStrategy,
@@ -506,7 +506,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Initialize built-in recovery strategies
-   */
+    */
   private initializeRecoveryStrategies(): void {
     const strategies: ErrorRecoveryStrategy[] = [
       {
@@ -553,7 +553,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Start error analytics background process
-   */
+    */
   private startErrorAnalytics(): void {
     setInterval(() => {
       this.updateErrorTrends();
@@ -563,7 +563,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Check if error is a ProviderError
-   */
+    */
   private isProviderError(error: unknown): error is ProviderError {
     return (
       error !== null &&
@@ -576,7 +576,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Classify ProviderError specifically
-   */
+    */
   private classifyProviderError(error: ProviderError): PaymentErrorClassification {
     const classification: PaymentErrorClassification = {
       severity: this.determineSeverity(error.code),
@@ -591,7 +591,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Classify standard Error
-   */
+    */
   private classifyStandardError(error: Error): PaymentErrorClassification {
     const message = error.message.toLowerCase();
     
@@ -606,7 +606,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Determine error severity
-   */
+    */
   private determineSeverity(code: ProviderErrorCode): 'low' | 'medium' | 'high' | 'critical' {
     const criticalCodes = ['PROVIDER_UNAVAILABLE', 'PROVIDER_CONFIG_INVALID'];
     const highCodes = ['PAYMENT_DECLINED', 'PAYMENT_FAILED', 'WEBHOOK_SIGNATURE_INVALID'];
@@ -620,7 +620,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Determine error category
-   */
+    */
   private determineCategory(code: ProviderErrorCode): 'network' | 'authentication' | 'validation' | 'business' | 'system' {
     if (code.includes('INVALID') || code.includes('REQUIRED')) return 'validation';
     if (code.includes('AUTH') || code.includes('UNAUTHORIZED')) return 'authentication';
@@ -631,7 +631,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Check if error requires user action
-   */
+    */
   private isUserActionable(code: ProviderErrorCode): boolean {
     const userActionableCodes = [
       'PAYMENT_DECLINED',
@@ -646,7 +646,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Categorize error from message
-   */
+    */
   private categorizeFromMessage(message: string): 'network' | 'authentication' | 'validation' | 'business' | 'system' {
     if (message.includes('network') || message.includes('timeout')) return 'network';
     if (message.includes('auth') || message.includes('unauthorized')) return 'authentication';
@@ -657,7 +657,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Record error in history
-   */
+    */
   private recordError(
     error: unknown,
     context: PaymentContext,
@@ -689,7 +689,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Normalize any error to ProviderError
-   */
+    */
   private normalizeToProviderError(error: unknown): ProviderError {
     if (this.isProviderError(error)) {
       return error;
@@ -710,7 +710,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Sanitize context for logging
-   */
+    */
   private sanitizeContext(context: PaymentContext): Partial<PaymentContext> {
     return {
       userId: context.userId,
@@ -724,7 +724,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Check if recovery should be attempted
-   */
+    */
   private shouldAttemptRecovery(
     classification: PaymentErrorClassification,
     context: PaymentContext
@@ -749,7 +749,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Attempt error recovery
-   */
+    */
   private async attemptErrorRecovery(
     error: ProviderError,
     context: PaymentContext,
@@ -775,7 +775,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Find applicable recovery strategy
-   */
+    */
   private findRecoveryStrategy(
     error: ProviderError,
     classification: PaymentErrorClassification
@@ -800,7 +800,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Validate strategy conditions
-   */
+    */
   private validateStrategyConditions(
     strategy: ErrorRecoveryStrategy,
     error: ProviderError,
@@ -817,7 +817,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Determine if retry should be recommended
-   */
+    */
   private shouldRecommendRetry(
     classification: PaymentErrorClassification,
     context: PaymentContext
@@ -829,7 +829,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Check if user action is required
-   */
+    */
   private requiresUserAction(classification: PaymentErrorClassification): boolean {
     return classification.user_actionable || 
            classification.category === 'validation' ||
@@ -838,7 +838,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Update error statistics
-   */
+    */
   private updateErrorStatistics(record: ErrorRecord): void {
     const key = `${record.provider}_${record.providerError.code}`;
     const existing = this.errorStats.get(key);
@@ -868,7 +868,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Update error trends analysis
-   */
+    */
   private updateErrorTrends(): void {
     // Analyze recent error patterns
     const recentErrors = this.errorHistory.filter(
@@ -882,7 +882,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Clean up old error records
-   */
+    */
   private cleanupOldErrors(): void {
     const cutoffDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000); // 7 days ago
     const initialLength = this.errorHistory.length;
@@ -899,42 +899,42 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Generate unique handling ID
-   */
+    */
   private generateHandlingId(): string {
     return `err_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Generate unique execution ID
-   */
+    */
   private generateExecutionId(): string {
     return `exec_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Generate unique review ID
-   */
+    */
   private generateReviewId(): string {
     return `review_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Generate unique event ID
-   */
+    */
   private generateEventId(): string {
     return `evt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Simple delay utility
-   */
+    */
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   /**
    * Create provider error with proper typing
-   */
+    */
   private createProviderError<P extends PaymentProviderName>(
     provider: P,
     code: ProviderErrorCode,
@@ -957,7 +957,7 @@ export class PaymentErrorHandler implements IPaymentErrorHandler {
 
   /**
    * Log error handling events
-   */
+    */
   private logErrorEvent(
     type: string,
     context: PaymentContext,

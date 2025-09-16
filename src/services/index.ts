@@ -6,7 +6,7 @@
  *
  * Domain: Subscriptions, Billing, Premium Features, Usage Tracking, Tier Management
  * Architecture Layer: Layer 3 (Business Services)
- */
+  */
 
 // Premium cache services - only export what actually exists
 export { subscriptionCacheService } from './subscription-cache.service';

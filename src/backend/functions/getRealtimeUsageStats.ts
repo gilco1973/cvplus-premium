@@ -3,7 +3,7 @@
  * Provides real-time usage data for premium dashboard
  * Author: Gil Klainert
  * Date: August 27, 2025
- */
+  */
 
 import { onCall } from 'firebase-functions/v2/https';
 import { getFirestore } from 'firebase-admin/firestore';
@@ -22,7 +22,7 @@ interface RealtimeUsageStats {
 
 /**
  * Get real-time usage statistics for a user
- */
+  */
 export const getRealtimeUsageStats = onCall<
   { userId: string },
   Promise<RealtimeUsageStats>
@@ -98,7 +98,7 @@ export const getRealtimeUsageStats = onCall<
 
 /**
  * Extract today's usage from analytics data
- */
+  */
 function extractTodayUsage(userAnalytics: any, today: string): Record<string, number> {
   const todayUsage: Record<string, number> = {};
 
@@ -120,7 +120,7 @@ function extractTodayUsage(userAnalytics: any, today: string): Record<string, nu
 
 /**
  * Extract monthly usage from analytics data
- */
+  */
 function extractMonthlyUsage(userAnalytics: any, thisMonth: string): Record<string, number> {
   const monthlyUsage: Record<string, number> = {};
 
@@ -146,7 +146,7 @@ function extractMonthlyUsage(userAnalytics: any, thisMonth: string): Record<stri
 
 /**
  * Calculate remaining limits based on subscription and usage
- */
+  */
 function calculateRemainingLimits(
   subscription: any, 
   monthlyUsage: Record<string, number>
@@ -185,7 +185,7 @@ function calculateRemainingLimits(
 
 /**
  * Get top features by usage
- */
+  */
 function getTopFeatures(monthlyUsage: Record<string, number>): string[] {
   return Object.entries(monthlyUsage)
     .filter(([featureId]) => featureId !== 'uploads' && featureId !== 'generations')
@@ -196,7 +196,7 @@ function getTopFeatures(monthlyUsage: Record<string, number>): string[] {
 
 /**
  * Calculate conversion opportunities from blocked attempts
- */
+  */
 function calculateConversionOpportunities(userAnalytics: any): number {
   if (!userAnalytics?.conversionOpportunities) {
     return 0;
@@ -207,7 +207,7 @@ function calculateConversionOpportunities(userAnalytics: any): number {
 
 /**
  * Calculate total value/savings provided to user
- */
+  */
 function calculateTotalSavings(monthlyUsage: Record<string, number>): number {
   let totalSavings = 0;
 
@@ -226,7 +226,7 @@ function calculateTotalSavings(monthlyUsage: Record<string, number>): number {
 
 /**
  * Calculate total uploads for the month
- */
+  */
 function calculateTotalUploads(userAnalytics: any, thisMonth: string): number {
   let totalUploads = 0;
 
@@ -247,7 +247,7 @@ function calculateTotalUploads(userAnalytics: any, thisMonth: string): number {
 
 /**
  * Calculate total CV generations for the month
- */
+  */
 function calculateTotalGenerations(userAnalytics: any, thisMonth: string): number {
   let totalGenerations = 0;
 
@@ -268,7 +268,7 @@ function calculateTotalGenerations(userAnalytics: any, thisMonth: string): numbe
 
 /**
  * Get feature popularity metrics across all users
- */
+  */
 export const getFeaturePopularityMetrics = onCall<
   {},
   Promise<{
@@ -347,7 +347,7 @@ export const getFeaturePopularityMetrics = onCall<
 
 /**
  * Update feature usage (called when a feature is actually used)
- */
+  */
 export const updateFeatureUsage = onCall<
   { userId: string; featureId: string; timestamp: number },
   Promise<{ success: boolean }>
@@ -398,7 +398,7 @@ export const updateFeatureUsage = onCall<
 
 /**
  * Helper function to get current usage count for a user and feature
- */
+  */
 async function getUserFeatureUsageCount(
   db: any, 
   userId: string, 
@@ -423,7 +423,7 @@ async function getUserFeatureUsageCount(
 
 /**
  * Helper function to get global feature usage count
- */
+  */
 async function getFeatureUsageCount(
   db: any, 
   featureId: string, 

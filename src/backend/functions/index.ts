@@ -7,7 +7,7 @@
  * 
  * @author Gil Klainert
  * @version 4.0.0 - CVPlus Premium Module (Post-Migration)
- */
+  */
 
 // Subscription Management
 export { manageSubscription } from './manageSubscription';

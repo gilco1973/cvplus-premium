@@ -2,7 +2,7 @@
  * Premium Constants
  * 
  * Premium tier definitions, feature configurations, and billing constants.
- */
+  */
 
 import type { 
   PremiumPlan, 

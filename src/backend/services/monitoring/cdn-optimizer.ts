@@ -8,7 +8,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @category Performance Monitoring
- */
+  */
 
 import { logger } from 'firebase-functions/v2';
 import { BaseService } from '../../shared/base-service';
@@ -142,7 +142,7 @@ export interface GlobalPerformanceReport {
 /**
  * CDN Optimization Service
  * Manages global content delivery optimization and caching strategies
- */
+  */
 export class CDNOptimizerService extends BaseService {
   private edgeConfigurations = new Map<EdgeLocation, CDNConfiguration>();
   private cachePolicies = new Map<string, CachePolicy>();
@@ -167,7 +167,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Initialize edge location configurations
-   */
+    */
   private initializeEdgeConfigurations(): void {
     const configurations: CDNConfiguration[] = [
       // North America - Primary
@@ -284,13 +284,14 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Initialize cache policies
-   */
+    */
   private initializeCachePolicies(): void {
     const policies: CachePolicy[] = [
       // Static Assets
       {
         contentType: ContentType.STATIC_ASSETS,
-        pattern: '/static/*',
+        pattern: '/static/* ',
+  */
         ttl: 86400,        // 24 hours
         varyHeaders: ['Accept-Encoding'],
         compressionEnabled: true,
@@ -312,7 +313,8 @@ export class CDNOptimizerService extends BaseService {
       // API Responses
       {
         contentType: ContentType.API_RESPONSES,
-        pattern: '/api/premium/*',
+        pattern: '/api/premium/* ',
+  */
         ttl: 300,          // 5 minutes
         varyHeaders: ['Authorization', 'Accept-Language'],
         compressionEnabled: true,
@@ -322,7 +324,8 @@ export class CDNOptimizerService extends BaseService {
       },
       {
         contentType: ContentType.API_RESPONSES,
-        pattern: '/api/public/*',
+        pattern: '/api/public/* ',
+  */
         ttl: 1800,         // 30 minutes
         varyHeaders: ['Accept-Language'],
         compressionEnabled: true,
@@ -334,7 +337,8 @@ export class CDNOptimizerService extends BaseService {
       // Generated Content
       {
         contentType: ContentType.GENERATED_CONTENT,
-        pattern: '/generated/*.{pdf,docx,mp4,mp3}',
+        pattern: '/generated/* .{pdf,docx,mp4,mp3}',
+  */
         ttl: 3600,         // 1 hour
         varyHeaders: [],
         compressionEnabled: true,
@@ -346,7 +350,8 @@ export class CDNOptimizerService extends BaseService {
       // User Uploads
       {
         contentType: ContentType.USER_UPLOADS,
-        pattern: '/uploads/*',
+        pattern: '/uploads/* ',
+  */
         ttl: 7200,         // 2 hours
         varyHeaders: ['Authorization'],
         compressionEnabled: true,
@@ -358,7 +363,8 @@ export class CDNOptimizerService extends BaseService {
       // Dynamic HTML
       {
         contentType: ContentType.DYNAMIC_HTML,
-        pattern: '/profile/*',
+        pattern: '/profile/* ',
+  */
         ttl: 300,          // 5 minutes
         varyHeaders: ['Cookie', 'Accept-Language'],
         compressionEnabled: true,
@@ -382,7 +388,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Optimize CDN configuration based on performance data
-   */
+    */
   async optimizeCDNPerformance(): Promise<OptimizationRecommendation[]> {
     const recommendations: OptimizationRecommendation[] = [];
 
@@ -476,7 +482,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Generate global performance report
-   */
+    */
   async generateGlobalPerformanceReport(startDate: Date, endDate: Date): Promise<GlobalPerformanceReport> {
     const allMetrics: EdgeMetrics[] = [];
 
@@ -554,7 +560,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Invalidate cache for specific content
-   */
+    */
   async invalidateCache(
     pattern: string,
     contentType: ContentType,
@@ -604,7 +610,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Get CDN performance metrics
-   */
+    */
   getCDNMetrics(edgeLocation?: EdgeLocation, hours: number = 24): {
     metrics: EdgeMetrics[];
     summary: {
@@ -645,7 +651,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Start CDN optimization monitoring
-   */
+    */
   private startOptimizationMonitoring(): void {
     // Collect metrics periodically
     setInterval(() => {
@@ -677,7 +683,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Collect metrics from edge locations
-   */
+    */
   private async collectEdgeMetrics(): Promise<void> {
     const timestamp = new Date();
 
@@ -725,7 +731,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Get recent metrics for edge location
-   */
+    */
   private getRecentMetrics(location: EdgeLocation, hours: number): EdgeMetrics[] {
     const cutoff = new Date(Date.now() - hours * 60 * 60 * 1000);
     return this.edgeMetrics.get(location)?.filter(m => m.timestamp >= cutoff) || [];
@@ -733,7 +739,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Analyze compression opportunities
-   */
+    */
   private async analyzeCompressionOpportunities(
     location: EdgeLocation,
     metrics: EdgeMetrics[]
@@ -746,7 +752,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Generate global optimization recommendations
-   */
+    */
   private async generateGlobalOptimizationRecommendations(): Promise<OptimizationRecommendation[]> {
     const recommendations: OptimizationRecommendation[] = [];
 
@@ -783,7 +789,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Auto-apply low-risk optimizations
-   */
+    */
   private async autoApplyOptimizations(recommendations: OptimizationRecommendation[]): Promise<void> {
     const lowRiskOptimizations = recommendations.filter(r =>
       r.priority === 'low' &&
@@ -813,7 +819,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Invalidate cache at specific edge location
-   */
+    */
   private async invalidateCacheAtEdge(
     location: EdgeLocation,
     pattern: string,
@@ -825,7 +831,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Calculate cache purge time
-   */
+    */
   private calculatePurgeTime(pattern: string, locationCount: number): number {
     const baseTime = 30; // 30 seconds base
     const perLocationTime = 10; // 10 seconds per location
@@ -836,7 +842,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Calculate edge cost
-   */
+    */
   private calculateEdgeCost(location: EdgeLocation, metrics: EdgeMetrics[]): number {
     const totalBandwidth = metrics.reduce((sum, m) => sum + m.metrics.bandwidthUsage, 0) / 1024; // GB
     const baseRate = 0.085; // $0.085 per GB (example CDN pricing)
@@ -845,7 +851,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Estimate content type requests
-   */
+    */
   private estimateContentTypeRequests(contentType: ContentType, metrics: EdgeMetrics[]): number {
     const contentTypeDistribution = {
       [ContentType.STATIC_ASSETS]: 0.4,
@@ -861,7 +867,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Calculate content cache efficiency
-   */
+    */
   private calculateContentCacheEfficiency(contentType: ContentType, metrics: EdgeMetrics[]): number {
     // Different content types have different expected cache hit rates
     const expectedRates = {
@@ -880,7 +886,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Assess optimization opportunity
-   */
+    */
   private assessOptimizationOpportunity(contentType: ContentType, metrics: EdgeMetrics[]): number {
     const efficiency = this.calculateContentCacheEfficiency(contentType, metrics);
     return Math.max(0, 100 - efficiency);
@@ -888,7 +894,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Calculate cost savings from caching
-   */
+    */
   private calculateCostSavings(cacheHitRatio: number, totalBandwidthGB: number): number {
     const originRequestCost = 0.02; // $0.02 per GB from origin
     const cachedRequestCost = 0.005; // $0.005 per GB from cache
@@ -899,7 +905,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Health check for CDN optimizer
-   */
+    */
   async healthCheck(): Promise<{
     status: 'healthy' | 'degraded' | 'unhealthy';
     details: Record<string, any>;
@@ -935,7 +941,7 @@ export class CDNOptimizerService extends BaseService {
 
   /**
    * Stop CDN optimization monitoring
-   */
+    */
   stopMonitoring(): void {
     if (this.optimizationTimer) {
       clearInterval(this.optimizationTimer);

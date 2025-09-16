@@ -5,7 +5,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 export enum PremiumTier {
   FREE = 'free',

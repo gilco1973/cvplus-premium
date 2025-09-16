@@ -9,7 +9,7 @@
  * @version 1.0.0
  * @created 2025-08-28
  * @category Premium Services
- */
+  */
 
 import { logger } from 'firebase-functions';
 import { HttpsError } from 'firebase-functions/v2/https';
@@ -24,7 +24,7 @@ import {
 
 /**
  * Subscription status definitions
- */
+  */
 export enum SubscriptionStatusType {
   ACTIVE = 'active',
   CANCELED = 'canceled',
@@ -38,7 +38,7 @@ export enum SubscriptionStatusType {
 
 /**
  * Centralized Subscription Utilities Service
- */
+  */
 export class SubscriptionUtilsService {
   private static instance: SubscriptionUtilsService;
   private subscriptionCache = new Map<string, { data: UserSubscriptionData | null; timestamp: number }>();
@@ -46,7 +46,7 @@ export class SubscriptionUtilsService {
 
   /**
    * Singleton instance
-   */
+    */
   public static getInstance(): SubscriptionUtilsService {
     if (!SubscriptionUtilsService.instance) {
       SubscriptionUtilsService.instance = new SubscriptionUtilsService();
@@ -57,7 +57,7 @@ export class SubscriptionUtilsService {
   /**
    * Get user subscription with caching
    * Replaces duplicated subscription fetching across Firebase Functions
-   */
+    */
   async getUserSubscription(userId: string): Promise<UserSubscriptionData | null> {
     const cacheKey = `subscription:${userId}`;
     const cached = this.subscriptionCache.get(cacheKey);
@@ -93,7 +93,7 @@ export class SubscriptionUtilsService {
   /**
    * Validate subscription status
    * Replaces scattered subscription validation logic
-   */
+    */
   async validateSubscriptionStatus(userId: string): Promise<SubscriptionValidationResult> {
     try {
       const subscription = await this.getUserSubscription(userId);
@@ -175,7 +175,7 @@ export class SubscriptionUtilsService {
   /**
    * Check if user has active subscription
    * Replaces duplicated active subscription checks
-   */
+    */
   async hasActiveSubscription(userId: string): Promise<boolean> {
     try {
       const validation = await this.validateSubscriptionStatus(userId);
@@ -188,7 +188,7 @@ export class SubscriptionUtilsService {
 
   /**
    * Get subscription expiration info
-   */
+    */
   async getSubscriptionExpiration(userId: string): Promise<{
     expiresAt: Date | null;
     daysRemaining: number;
@@ -228,7 +228,7 @@ export class SubscriptionUtilsService {
 
   /**
    * Get subscription usage stats
-   */
+    */
   async getSubscriptionUsage(userId: string): Promise<{
     tier: PremiumTier;
     usage: Record<string, { current: number; limit: number; percentage: number }>;
@@ -257,7 +257,7 @@ export class SubscriptionUtilsService {
   /**
    * Check if subscription allows specific feature
    * Consolidates feature-specific subscription checks
-   */
+    */
   async allowsFeature(userId: string, feature: string): Promise<boolean> {
     try {
       const subscription = await this.getUserSubscription(userId);
@@ -277,7 +277,7 @@ export class SubscriptionUtilsService {
 
   /**
    * Update subscription cache when subscription changes
-   */
+    */
   async refreshSubscriptionCache(userId: string): Promise<UserSubscriptionData | null> {
     const cacheKey = `subscription:${userId}`;
     this.subscriptionCache.delete(cacheKey);
@@ -286,7 +286,7 @@ export class SubscriptionUtilsService {
 
   /**
    * Bulk subscription validation for multiple users
-   */
+    */
   async validateMultipleSubscriptions(userIds: string[]): Promise<Map<string, SubscriptionValidationResult>> {
     const results = new Map<string, SubscriptionValidationResult>();
 
@@ -329,7 +329,7 @@ export class SubscriptionUtilsService {
 
   /**
    * Private helper: Check if subscription is active
-   */
+    */
   private isSubscriptionActive(subscription: UserSubscriptionData): {
     valid: boolean;
     reason?: string;
@@ -353,7 +353,7 @@ export class SubscriptionUtilsService {
 
   /**
    * Private helper: Check if subscription is expired
-   */
+    */
   private isSubscriptionExpired(subscription: UserSubscriptionData): {
     expired: boolean;
     expirationDate?: Date;
@@ -373,7 +373,7 @@ export class SubscriptionUtilsService {
 
   /**
    * Private helper: Check billing status
-   */
+    */
   private async checkBillingStatus(
     userId: string,
     subscription: UserSubscriptionData
@@ -422,7 +422,7 @@ export class SubscriptionUtilsService {
 
   /**
    * Private helper: Get current period usage
-   */
+    */
   private async getCurrentPeriodUsage(
     userId: string
   ): Promise<Record<string, { current: number; limit: number; percentage: number }>> {
@@ -473,7 +473,7 @@ export class SubscriptionUtilsService {
 
   /**
    * Private helper: Get tier limits
-   */
+    */
   private getTierLimits(tier: PremiumTier): Record<string, number> {
     const limits: Record<PremiumTier, Record<string, number>> = {
       [PremiumTier.FREE]: {
@@ -503,7 +503,7 @@ export class SubscriptionUtilsService {
 
   /**
    * Private helper: Check if tier allows feature
-   */
+    */
   private tierAllowsFeature(tier: PremiumTier, feature: string): boolean {
     const tierFeatures: Record<PremiumTier, string[]> = {
       [PremiumTier.FREE]: [
@@ -544,7 +544,7 @@ export class SubscriptionUtilsService {
 
   /**
    * Clear all caches for user
-   */
+    */
   public clearUserCaches(userId: string): void {
     this.subscriptionCache.delete(`subscription:${userId}`);
   }
@@ -552,11 +552,11 @@ export class SubscriptionUtilsService {
 
 /**
  * Convenience functions for common subscription patterns
- */
+  */
 
 /**
  * Quick active subscription requirement
- */
+  */
 export async function requireActiveSubscription(userId: string): Promise<UserSubscriptionData> {
   const service = SubscriptionUtilsService.getInstance();
   const validation = await service.validateSubscriptionStatus(userId);
@@ -574,7 +574,7 @@ export async function requireActiveSubscription(userId: string): Promise<UserSub
 
 /**
  * Quick subscription status check
- */
+  */
 export async function getSubscriptionStatus(userId: string): Promise<{
   hasSubscription: boolean;
   tier: PremiumTier;

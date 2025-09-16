@@ -5,7 +5,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 // Re-export core types from @cvplus/core if available, otherwise define locally
 export interface ServiceError extends Error {

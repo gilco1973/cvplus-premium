@@ -1,12 +1,12 @@
 /**
  * Subscription-specific types for the Premium module
- */
+  */
 
 import { Timestamp } from 'firebase-admin/firestore';
 
 /**
  * Subscription lifecycle events
- */
+  */
 export type SubscriptionEvent = 
   | 'created'
   | 'activated' 
@@ -20,7 +20,7 @@ export type SubscriptionEvent =
 
 /**
  * Subscription change reason
- */
+  */
 export type SubscriptionChangeReason = 
   | 'user_requested'
   | 'payment_failed'
@@ -31,7 +31,7 @@ export type SubscriptionChangeReason =
 
 /**
  * Subscription metadata for tracking changes
- */
+  */
 export interface SubscriptionMetadata {
   source?: string;
   campaign?: string;
@@ -45,7 +45,7 @@ export interface SubscriptionMetadata {
 
 /**
  * Subscription change log entry
- */
+  */
 export interface SubscriptionChangeLog {
   id: string;
   userId: string;
@@ -60,7 +60,7 @@ export interface SubscriptionChangeLog {
 
 /**
  * Trial period configuration
- */
+  */
 export interface TrialConfig {
   enabled: boolean;
   duration: number; // days
@@ -70,7 +70,7 @@ export interface TrialConfig {
 
 /**
  * Subscription plan configuration
- */
+  */
 export interface SubscriptionPlan {
   id: string;
   name: string;
@@ -90,7 +90,7 @@ export interface SubscriptionPlan {
 
 /**
  * Subscription validation result
- */
+  */
 export interface SubscriptionValidation {
   isValid: boolean;
   errors: string[];

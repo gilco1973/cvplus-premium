@@ -1,7 +1,7 @@
 /**
  * Tier Management Types
  * Defines the types and interfaces for the tier management system
- */
+  */
 
 export enum UserTier {
   FREE = 'free',

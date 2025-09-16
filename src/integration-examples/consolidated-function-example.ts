@@ -11,7 +11,7 @@
  * @version 1.0.0
  * @created 2025-08-28
  * @category Integration Examples
- */
+  */
 
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';
@@ -33,7 +33,8 @@ import { PremiumFeature, PremiumTier } from '../types';
 // BEFORE: Duplicated Premium Validation Pattern (120+ lines across functions)
 // =============================================================================
 
-/*
+/* 
+  */
 // This pattern was repeated in 8+ Firebase Functions:
 
 export const someFirebaseFunction = onCall(async (request) => {
@@ -73,7 +74,7 @@ export const someFirebaseFunction = onCall(async (request) => {
   
   // Function logic here...
 });
-*/
+/*  */
 
 // =============================================================================
 // AFTER: Using Consolidated Premium Services (Clean Implementation)
@@ -82,7 +83,7 @@ export const someFirebaseFunction = onCall(async (request) => {
 /**
  * Advanced Analytics Function - Using Consolidated Services
  * Replaces 45+ lines of duplicated validation with clean service calls
- */
+  */
 export const advancedAnalyticsConsolidated = onCall(
   {
     ...corsOptions,
@@ -125,7 +126,7 @@ export const advancedAnalyticsConsolidated = onCall(
 /**
  * Dynamic Pricing Function - Using Consolidated Services
  * Replaces 30+ lines of duplicated validation with service calls
- */
+  */
 export const dynamicPricingConsolidated = onCall(
   {
     ...corsOptions,
@@ -163,7 +164,7 @@ export const dynamicPricingConsolidated = onCall(
 /**
  * Enterprise Management Function - Using Consolidated Services
  * Demonstrates complex validation with multiple service calls
- */
+  */
 export const enterpriseManagementConsolidated = onCall(
   {
     ...corsOptions,
@@ -214,7 +215,7 @@ export const enterpriseManagementConsolidated = onCall(
 /**
  * Bulk Feature Access Validation Example
  * Shows how to validate multiple features efficiently
- */
+  */
 export const bulkFeatureValidation = onCall(
   {
     ...corsOptions,

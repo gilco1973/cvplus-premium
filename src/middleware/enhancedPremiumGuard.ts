@@ -6,7 +6,7 @@
  * 
  * ARCHITECTURAL FIX: Removed direct dependency on Premium module
  * Uses dependency injection with IFeatureRegistry interface from Core module
- */
+  */
 
 import { Request, Response, NextFunction } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
@@ -67,7 +67,7 @@ interface UsageRecord {
  * 
  * @param options Premium guard configuration options
  * @param featureRegistry Optional feature registry instance (injected dependency)
- */
+  */
 export function enhancedPremiumGuard(
   options: PremiumGuardOptions,
   featureRegistry?: IFeatureRegistry
@@ -318,7 +318,7 @@ export function enhancedPremiumGuard(
 
 /**
  * Helper Functions
- */
+  */
 
 async function getUserSubscription(userId: string): Promise<UserSubscription | null> {
   try {
@@ -573,7 +573,7 @@ function generateUpgradeOptions(featureId: string, featureRegistry: IFeatureRegi
 
 /**
  * Convenience wrapper for common premium features
- */
+  */
 export const premiumFeatureGuard = (featureId: string, options?: Partial<PremiumGuardOptions>, featureRegistry?: IFeatureRegistry) =>
   enhancedPremiumGuard({
     requiredFeature: featureId,
@@ -585,7 +585,7 @@ export const premiumFeatureGuard = (featureId: string, options?: Partial<Premium
 
 /**
  * Wrapper for enterprise-only features
- */
+  */
 export const enterpriseFeatureGuard = (featureId: string, options?: Partial<PremiumGuardOptions>, featureRegistry?: IFeatureRegistry) =>
   enhancedPremiumGuard({
     requiredFeature: featureId,

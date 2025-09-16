@@ -5,7 +5,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { BaseService, ServiceHealth } from './base-service';
 import { Logger } from './logger';
@@ -41,7 +41,7 @@ export class ServiceRegistry {
 
   /**
    * Register a service
-   */
+    */
   async registerService(service: BaseService): Promise<void> {
     const name = service.name;
     
@@ -64,14 +64,14 @@ export class ServiceRegistry {
 
   /**
    * Get a service by name
-   */
+    */
   getService<T extends BaseService>(name: string): T | undefined {
     return this.services.get(name) as T;
   }
 
   /**
    * Get a service by name (throws if not found)
-   */
+    */
   requireService<T extends BaseService>(name: string): T {
     const service = this.getService<T>(name);
     if (!service) {
@@ -82,28 +82,28 @@ export class ServiceRegistry {
 
   /**
    * Get all registered services
-   */
+    */
   getAllServices(): BaseService[] {
     return Array.from(this.services.values());
   }
 
   /**
    * Get all service names
-   */
+    */
   getServiceNames(): string[] {
     return Array.from(this.services.keys());
   }
 
   /**
    * Check if service is registered
-   */
+    */
   hasService(name: string): boolean {
     return this.services.has(name);
   }
 
   /**
    * Unregister a service
-   */
+    */
   async unregisterService(name: string): Promise<void> {
     const service = this.services.get(name);
     if (!service) {
@@ -125,7 +125,7 @@ export class ServiceRegistry {
 
   /**
    * Initialize all registered services
-   */
+    */
   async initializeAll(): Promise<void> {
     this.logger.info('Initializing all services');
     
@@ -149,7 +149,7 @@ export class ServiceRegistry {
 
   /**
    * Cleanup all registered services
-   */
+    */
   async cleanupAll(): Promise<void> {
     this.logger.info('Cleaning up all services');
     
@@ -176,7 +176,7 @@ export class ServiceRegistry {
 
   /**
    * Get health status of all services
-   */
+    */
   async getHealthStatus(): Promise<Record<string, ServiceHealth>> {
     const healthChecks = Array.from(this.services.entries()).map(
       async ([name, service]) => {

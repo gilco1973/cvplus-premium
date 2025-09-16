@@ -8,7 +8,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @category Performance Monitoring
- */
+  */
 
 import { logger } from 'firebase-functions/v2';
 import { BaseService } from '../../shared/base-service';
@@ -122,7 +122,7 @@ export interface SLAReport {
 /**
  * Performance Monitoring Service
  * Real-time system performance tracking and alerting
- */
+  */
 export class PerformanceMonitorService extends BaseService {
   private metrics = new Map<string, PerformanceMetric[]>();
   private thresholds = new Map<MetricType, PerformanceThreshold>();
@@ -150,7 +150,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Initialize performance thresholds
-   */
+    */
   private initializeThresholds(): void {
     const thresholds: PerformanceThreshold[] = [
       {
@@ -220,7 +220,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Record a performance metric
-   */
+    */
   recordMetric(metric: PerformanceMetric): void {
     const key = `${metric.type}_${metric.source}`;
 
@@ -242,7 +242,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Get current system health status
-   */
+    */
   async getSystemHealth(): Promise<SystemHealthStatus> {
     const now = new Date();
     const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
@@ -281,7 +281,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Generate SLA report for time period
-   */
+    */
   async generateSLAReport(startDate: Date, endDate: Date): Promise<SLAReport> {
     logger.info('Generating SLA report', { startDate, endDate });
 
@@ -337,7 +337,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Get active alerts
-   */
+    */
   getActiveAlerts(): PerformanceAlert[] {
     return Array.from(this.alerts.values())
       .filter(alert => !alert.acknowledged && !alert.resolvedAt)
@@ -346,7 +346,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Acknowledge alert
-   */
+    */
   acknowledgeAlert(alertId: string): boolean {
     const alert = this.alerts.get(alertId);
     if (alert) {
@@ -359,7 +359,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Start monitoring intervals
-   */
+    */
   private startMonitoring(): void {
     // Start collecting system metrics
     this.startSystemMetricsCollection();
@@ -381,7 +381,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Start collecting system metrics
-   */
+    */
   private startSystemMetricsCollection(): void {
     // Collect metrics every 30 seconds
     setInterval(() => {
@@ -391,7 +391,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Collect current system metrics
-   */
+    */
   private async collectSystemMetrics(): Promise<void> {
     try {
       const timestamp = new Date();
@@ -453,7 +453,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Check metric against thresholds
-   */
+    */
   private checkThreshold(metric: PerformanceMetric): void {
     const threshold = this.thresholds.get(metric.type);
     if (!threshold) return;
@@ -480,7 +480,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Create performance alert
-   */
+    */
   private createAlert(level: AlertLevel, metric: PerformanceMetric, threshold: number): void {
     const alertId = `${metric.type}_${metric.source}_${metric.timestamp.getTime()}`;
 
@@ -522,7 +522,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Generate alert message
-   */
+    */
   private generateAlertMessage(level: AlertLevel, metric: PerformanceMetric, threshold: number): string {
     const messages = {
       [AlertLevel.WARNING]: `${metric.type} elevated: ${metric.value}${metric.unit} (threshold: ${threshold}${metric.unit})`,
@@ -536,7 +536,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Send alert notification
-   */
+    */
   private async sendAlert(alert: PerformanceAlert): Promise<void> {
     // In production, would integrate with:
     // - Email notifications
@@ -553,7 +553,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Monitor specific threshold
-   */
+    */
   private async monitorThreshold(threshold: PerformanceThreshold): Promise<void> {
     const recentMetrics = this.getRecentMetrics(threshold.metric,
       new Date(Date.now() - threshold.checkIntervalMs * 2));
@@ -567,7 +567,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Get recent metrics for a type
-   */
+    */
   private getRecentMetrics(
     type: MetricType,
     since: Date,
@@ -589,7 +589,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Calculate uptime statistics
-   */
+    */
   private async calculateUptime(startDate: Date, endDate: Date): Promise<{
     percentage: number;
     downtimeMinutes: number;
@@ -609,7 +609,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Calculate response time statistics
-   */
+    */
   private calculateResponseTimeStats(metrics: PerformanceMetric[]): SystemHealthStatus['responseTime'] {
     if (metrics.length === 0) {
       return { current: 0, average: 0, p95: 0, p99: 0 };
@@ -628,7 +628,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Calculate throughput statistics
-   */
+    */
   private calculateThroughputStats(metrics: PerformanceMetric[]): SystemHealthStatus['throughput'] {
     if (metrics.length === 0) {
       return { current: 0, average: 0, peak: 0 };
@@ -646,7 +646,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Calculate error rate statistics
-   */
+    */
   private calculateErrorRateStats(metrics: PerformanceMetric[]): SystemHealthStatus['errorRate'] {
     if (metrics.length === 0) {
       return { current: 0, average: 0, threshold: this.slaTargets.errorRatePercentage };
@@ -664,7 +664,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Get current resource usage
-   */
+    */
   private async getResourceUsage(): Promise<SystemHealthStatus['resources']> {
     // Get latest resource metrics
     const cpuMetrics = this.getRecentMetrics(MetricType.CPU_USAGE, new Date(Date.now() - 60000));
@@ -680,7 +680,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Determine overall system health
-   */
+    */
   private determineOverallHealth(
     uptime: { percentage: number },
     responseTime: SystemHealthStatus['responseTime'],
@@ -718,7 +718,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Estimate total requests for period
-   */
+    */
   private estimateTotalRequests(startDate: Date, endDate: Date): number {
     const hours = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60);
     const averageThroughput = 75; // req/s average
@@ -727,7 +727,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Health check for performance monitor
-   */
+    */
   async healthCheck(): Promise<{
     status: 'healthy' | 'degraded' | 'unhealthy';
     details: Record<string, any>;
@@ -750,7 +750,7 @@ export class PerformanceMonitorService extends BaseService {
 
   /**
    * Stop monitoring (cleanup)
-   */
+    */
   stopMonitoring(): void {
     this.monitoringIntervals.forEach(interval => {
       clearInterval(interval);

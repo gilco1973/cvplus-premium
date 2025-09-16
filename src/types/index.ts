@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 4.0.0 - Post-Migration
- */
+  */
 
 import { Timestamp } from 'firebase-admin/firestore';
 import { PremiumFeature, PremiumTier } from './premium-features';
@@ -18,7 +18,7 @@ import { PaymentStatus } from './payments.types';
 
 /**
  * Premium feature flags - MASTER DEFINITION IMPORTED
- */
+  */
 export { PremiumFeature, PremiumTier } from './premium-features';
 export { 
   isValidPremiumFeature,
@@ -34,12 +34,12 @@ export type { FeatureAccess } from './premium-features';
 
 /**
  * Supported subscription tiers
- */
+  */
 export type SubscriptionTier = 'FREE' | 'PREMIUM';
 
 /**
  * Subscription status enum
- */
+  */
 export type SubscriptionStatus = 
   | 'free'
   | 'premium_lifetime' 
@@ -50,7 +50,7 @@ export type SubscriptionStatus =
 
 /**
  * Feature access map - Aligned with PremiumFeature enum
- */
+  */
 export interface PremiumFeatures {
   [PremiumFeature.ADVANCED_CV_GENERATION]: boolean;
   [PremiumFeature.PORTFOLIO_GALLERY]: boolean;
@@ -74,7 +74,7 @@ export interface PremiumFeatures {
 
 /**
  * Complete user subscription data structure
- */
+  */
 export interface UserSubscriptionData {
   userId: string;
   email: string;
@@ -118,7 +118,7 @@ export interface UserSubscriptionData {
 
 /**
  * Feature access context for validation
- */
+  */
 export interface FeatureAccessContext {
   teamId?: string;
   sessionId?: string;
@@ -130,7 +130,7 @@ export interface FeatureAccessContext {
 
 /**
  * Feature access validation result
- */
+  */
 export interface FeatureAccessResult {
   hasAccess: boolean;
   subscriptionStatus?: string;
@@ -146,7 +146,7 @@ export interface FeatureAccessResult {
 
 /**
  * Tier validation result
- */
+  */
 export interface TierValidationResult {
   hasAccess: boolean;
   userTier: PremiumTier;
@@ -157,7 +157,7 @@ export interface TierValidationResult {
 
 /**
  * Subscription validation result
- */
+  */
 export interface SubscriptionValidationResult {
   isValid: boolean;
   status: string;
@@ -172,7 +172,7 @@ export interface SubscriptionValidationResult {
 
 /**
  * Billing status information
- */
+  */
 export interface BillingStatus {
   isHealthy: boolean;
   message: string;
@@ -182,7 +182,7 @@ export interface BillingStatus {
 
 /**
  * Tier feature matrix for UI display
- */
+  */
 export interface TierFeatureMatrix {
   [PremiumTier.FREE]: TierFeatures;
   [PremiumTier.BASIC]: TierFeatures;
@@ -192,7 +192,7 @@ export interface TierFeatureMatrix {
 
 /**
  * Features available in each tier
- */
+  */
 export interface TierFeatures {
   cvGeneration: FeatureLimits;
   templates: FeatureLimits;
@@ -205,7 +205,7 @@ export interface TierFeatures {
 
 /**
  * Feature limits configuration
- */
+  */
 export interface FeatureLimits {
   enabled: boolean;
   limit?: number; // -1 for unlimited
@@ -214,7 +214,7 @@ export interface FeatureLimits {
 
 /**
  * Tier limits for specific feature
- */
+  */
 export interface TierLimits {
   tier: PremiumTier;
   feature: string;
@@ -228,14 +228,14 @@ export interface TierLimits {
 
 /**
  * Supported currencies
- */
+  */
 export type Currency = 'USD' | 'EUR' | 'GBP';
 
 // PaymentStatus is imported from payments.types.ts as enum
 
 /**
  * Payment method types
- */
+  */
 export interface PaymentMethodType {
   type: string;
   brand?: string;
@@ -246,7 +246,7 @@ export interface PaymentMethodType {
 
 /**
  * Payment history record
- */
+  */
 export interface PaymentHistory {
   paymentId: string;
   userId: string;
@@ -273,12 +273,12 @@ export interface PaymentHistory {
 
 /**
  * Environment types
- */
+  */
 export type Environment = 'development' | 'staging' | 'production';
 
 /**
  * Stripe price configuration
- */
+  */
 export interface StripePriceConfig {
   development: string;
   staging: string;
@@ -287,7 +287,7 @@ export interface StripePriceConfig {
 
 /**
  * Price configuration with multiple currency support
- */
+  */
 export interface PriceConfig {
   cents: number;
   dollars: number;
@@ -297,7 +297,7 @@ export interface PriceConfig {
 
 /**
  * Complete tier configuration
- */
+  */
 export interface TierConfig {
   tier: SubscriptionTier;
   name: string;
@@ -309,7 +309,7 @@ export interface TierConfig {
 
 /**
  * Stripe webhook event data
- */
+  */
 export interface StripeWebhookEvent {
   id: string;
   type: string;
@@ -326,7 +326,7 @@ export interface StripeWebhookEvent {
 
 /**
  * Create payment intent request
- */
+  */
 export interface CreatePaymentIntentRequest {
   userId: string;
   email: string;
@@ -336,7 +336,7 @@ export interface CreatePaymentIntentRequest {
 
 /**
  * Create payment intent response
- */
+  */
 export interface CreatePaymentIntentResponse {
   clientSecret: string;
   paymentIntentId: string;
@@ -346,7 +346,7 @@ export interface CreatePaymentIntentResponse {
 
 /**
  * Confirm payment request
- */
+  */
 export interface ConfirmPaymentRequest {
   paymentIntentId: string;
   userId: string;
@@ -355,7 +355,7 @@ export interface ConfirmPaymentRequest {
 
 /**
  * Confirm payment response
- */
+  */
 export interface ConfirmPaymentResponse {
   success: boolean;
   subscriptionStatus: SubscriptionStatus;
@@ -367,7 +367,7 @@ export interface ConfirmPaymentResponse {
 
 /**
  * Feature access check request
- */
+  */
 export interface CheckFeatureAccessRequest {
   userId: string;
   googleId: string;
@@ -376,7 +376,7 @@ export interface CheckFeatureAccessRequest {
 
 /**
  * Feature access check response
- */
+  */
 export interface CheckFeatureAccessResponse {
   hasAccess: boolean;
   subscriptionStatus: SubscriptionStatus;
@@ -389,14 +389,14 @@ export interface CheckFeatureAccessResponse {
 
 /**
  * Get user subscription request
- */
+  */
 export interface GetUserSubscriptionRequest {
   userId: string;
 }
 
 /**
  * Get user subscription response
- */
+  */
 export interface GetUserSubscriptionResponse {
   subscriptionStatus: SubscriptionStatus;
   lifetimeAccess: boolean;
@@ -415,12 +415,12 @@ export interface GetUserSubscriptionResponse {
 
 /**
  * Billing cycle
- */
+  */
 export type BillingCycle = 'monthly' | 'yearly' | 'lifetime';
 
 /**
  * Invoice status
- */
+  */
 export type InvoiceStatus = 
   | 'draft'
   | 'open'
@@ -430,7 +430,7 @@ export type InvoiceStatus =
 
 /**
  * Invoice item
- */
+  */
 export interface InvoiceItem {
   description: string;
   amount: number;
@@ -441,7 +441,7 @@ export interface InvoiceItem {
 
 /**
  * Invoice data
- */
+  */
 export interface Invoice {
   id: string;
   userId: string;
@@ -465,7 +465,7 @@ export interface Invoice {
 
 /**
  * Usage metric types
- */
+  */
 export type UsageMetricType = 
   | 'cv_uploads'
   | 'ai_analyses'
@@ -477,7 +477,7 @@ export type UsageMetricType =
 
 /**
  * Usage limit configuration
- */
+  */
 export interface UsageLimit {
   metricType: UsageMetricType;
   limit: number;
@@ -487,7 +487,7 @@ export interface UsageLimit {
 
 /**
  * Usage tracking record
- */
+  */
 export interface UsageRecord {
   id: string;
   userId: string;
@@ -501,7 +501,7 @@ export interface UsageRecord {
 
 /**
  * Batch usage update request
- */
+  */
 export interface BatchUsageUpdate {
   userId: string;
   updates: Array<{
@@ -513,7 +513,7 @@ export interface BatchUsageUpdate {
 
 /**
  * Flexible usage limit with policy
- */
+  */
 export interface FlexibleUsageLimit extends UsageLimit {
   overagePolicy?: {
     allowed: boolean;
@@ -524,7 +524,7 @@ export interface FlexibleUsageLimit extends UsageLimit {
 
 /**
  * Usage period configuration
- */
+  */
 export interface UsagePeriod {
   type: 'daily' | 'weekly' | 'monthly' | 'yearly';
   start: Date;
@@ -533,7 +533,7 @@ export interface UsagePeriod {
 
 /**
  * Usage metrics constant definition
- */
+  */
 export const USAGE_METRICS = {
   cv_uploads: 'CV Uploads',
   ai_analyses: 'AI Analyses', 
@@ -546,7 +546,7 @@ export const USAGE_METRICS = {
 
 /**
  * Live usage data for real-time monitoring
- */
+  */
 export interface LiveUsageData {
   userId: string;
   metrics: Record<UsageMetricType, {
@@ -559,7 +559,7 @@ export interface LiveUsageData {
 
 /**
  * Usage analytics with trends and insights
- */
+  */
 export interface UsageAnalytics {
   userId: string;
   period: string;
@@ -575,7 +575,7 @@ export interface UsageAnalytics {
 
 /**
  * Usage summary for a user
- */
+  */
 export interface UsageSummary {
   userId: string;
   period: string;
@@ -591,7 +591,7 @@ export interface UsageSummary {
 
 /**
  * Premium gate component props
- */
+  */
 export interface PremiumGateProps {
   feature: PremiumFeature;
   children: React.ReactNode;
@@ -603,7 +603,7 @@ export interface PremiumGateProps {
 
 /**
  * Subscription plan card props
- */
+  */
 export interface SubscriptionPlanProps {
   tier: SubscriptionTier;
   config: TierConfig;
@@ -616,7 +616,7 @@ export interface SubscriptionPlanProps {
 
 /**
  * Billing history props
- */
+  */
 export interface BillingHistoryProps {
   userId: string;
   limit?: number;
@@ -625,7 +625,7 @@ export interface BillingHistoryProps {
 
 /**
  * Upgrade prompt props
- */
+  */
 export interface UpgradePromptProps {
   feature: PremiumFeature;
   onUpgrade?: () => void;
@@ -640,7 +640,7 @@ export interface UpgradePromptProps {
 
 /**
  * UseSubscription hook return type
- */
+  */
 export interface UseSubscriptionReturn {
   subscription: UserSubscriptionData | null;
   isLoading: boolean;
@@ -652,7 +652,7 @@ export interface UseSubscriptionReturn {
 
 /**
  * UseBilling hook return type
- */
+  */
 export interface UseBillingReturn {
   paymentHistory: PaymentHistory[];
   invoices: Invoice[];
@@ -663,7 +663,7 @@ export interface UseBillingReturn {
 
 /**
  * UseFeatureGate hook return type
- */
+  */
 export interface UseFeatureGateReturn {
   hasAccess: boolean;
   isLoading: boolean;
@@ -677,7 +677,7 @@ export interface UseFeatureGateReturn {
 
 /**
  * Premium module specific error types
- */
+  */
 export type PremiumErrorCode = 
   | 'SUBSCRIPTION_NOT_FOUND'
   | 'FEATURE_ACCESS_DENIED'
@@ -691,7 +691,7 @@ export type PremiumErrorCode =
 
 /**
  * Premium error interface
- */
+  */
 export interface PremiumError extends Error {
   code: PremiumErrorCode;
   details?: Record<string, any>;
@@ -704,7 +704,7 @@ export interface PremiumError extends Error {
 
 /**
  * Premium module configuration
- */
+  */
 export interface PremiumConfig {
   stripe: {
     publishableKey: string;

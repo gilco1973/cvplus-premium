@@ -5,7 +5,7 @@
  * @author Gil Klainert
  * @version 4.0.0
  * @category Enterprise Pricing
- */
+  */
 
 import { Logger } from '../../shared/logger';
 
@@ -74,7 +74,7 @@ export interface PricingRecommendation {
 /**
  * Market Intelligence Service for Dynamic Pricing
  * Analyzes market conditions, competitor pricing, and demand patterns
- */
+  */
 export class MarketIntelligenceService extends BaseService {
   private competitorSources: string[] = [
     'resume.com',
@@ -93,7 +93,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Analyzes current market conditions and competitive landscape
-   */
+    */
   async analyzeMarketConditions(): Promise<MarketAnalysis> {
     try {
       logger.info('Starting comprehensive market analysis');
@@ -139,7 +139,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Analyzes competitor pricing through ethical web scraping and API integration
-   */
+    */
   private async analyzeCompetitorPricing(): Promise<CompetitorPrice[]> {
     const competitorPrices: CompetitorPrice[] = [];
 
@@ -174,7 +174,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Fetches publicly available pricing information
-   */
+    */
   private async fetchPublicPricing(competitor: string): Promise<any> {
     // In production, this would use ethical web scraping
     // For now, return simulated realistic data
@@ -189,7 +189,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Returns manually researched pricing data
-   */
+    */
   private getManualPricingData(): CompetitorPrice[] {
     return [
       {
@@ -219,7 +219,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Analyzes current market demand metrics
-   */
+    */
   private async analyzeDemandMetrics(): Promise<DemandMetrics> {
     // In production, integrate with Google Trends API, Analytics API
     return {
@@ -234,7 +234,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Identifies seasonal pricing patterns
-   */
+    */
   private async identifySeasonalTrends(): Promise<SeasonalPattern[]> {
     return [
       {
@@ -266,7 +266,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Analyzes regional pricing variations
-   */
+    */
   private async analyzeRegionalPricing(): Promise<RegionalPricing[]> {
     return [
       {
@@ -298,7 +298,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Generates pricing recommendations based on market analysis
-   */
+    */
   private async generatePricingRecommendations(data: {
     competitorData: CompetitorPrice[];
     demandMetrics: DemandMetrics;
@@ -351,7 +351,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Determines market position based on price
-   */
+    */
   private determineMarketPosition(price: number): 'premium' | 'mid_tier' | 'budget' {
     if (price >= 30) return 'premium';
     if (price >= 15) return 'mid_tier';
@@ -360,7 +360,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Calculates overall confidence score for analysis
-   */
+    */
   private calculateOverallConfidence(dataPoints: any[]): number {
     // Simplified confidence calculation
     return 0.85;
@@ -368,7 +368,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Caches analysis results for performance
-   */
+    */
   private async cacheAnalysis(analysis: MarketAnalysis): Promise<void> {
     // Implementation would cache to Redis or Firestore
     logger.info('Market analysis cached', { timestamp: analysis.analysisTimestamp });
@@ -376,7 +376,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Gets cached analysis if available and fresh
-   */
+    */
   async getCachedAnalysis(): Promise<MarketAnalysis | null> {
     // Implementation would retrieve from cache
     return null;
@@ -384,7 +384,7 @@ export class MarketIntelligenceService extends BaseService {
 
   /**
    * Validates market analysis data integrity
-   */
+    */
   private validateAnalysis(analysis: MarketAnalysis): boolean {
     return (
       analysis.competitorPricing.length > 0 &&

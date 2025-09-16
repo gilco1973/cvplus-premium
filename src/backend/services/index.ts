@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 4.0.0 - CVPlus Premium Module (Post-Migration)
- */
+  */
 
 // Re-export core services from the main services directory
 export { StripeService } from '../../services/stripe.service';

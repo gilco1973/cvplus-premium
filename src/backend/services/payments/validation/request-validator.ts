@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Advanced Payment Request Validation System
  * Phase 2: Comprehensive validation with currency, geographic, and compliance checks
- */
+  */
 
 import {
   PaymentProviderName,
@@ -24,7 +24,7 @@ import { providerRegistry } from '../provider-registry';
 /**
  * Advanced Payment Request Validator with comprehensive validation rules,
  * currency support checks, geographic restrictions, and compliance validation
- */
+  */
 export class PaymentRequestValidator {
   private static instance: PaymentRequestValidator;
   
@@ -70,7 +70,7 @@ export class PaymentRequestValidator {
 
   /**
    * Get singleton instance
-   */
+    */
   public static getInstance(): PaymentRequestValidator {
     if (!PaymentRequestValidator.instance) {
       PaymentRequestValidator.instance = new PaymentRequestValidator();
@@ -84,7 +84,7 @@ export class PaymentRequestValidator {
 
   /**
    * Validate payment request with comprehensive checks
-   */
+    */
   async validatePaymentRequest(
     request: PaymentRequest,
     context: PaymentContext,
@@ -200,7 +200,7 @@ export class PaymentRequestValidator {
 
   /**
    * Validate basic request structure
-   */
+    */
   async validateRequestStructure(
     request: PaymentRequest,
     provider: PaymentProviderName
@@ -269,7 +269,7 @@ export class PaymentRequestValidator {
 
   /**
    * Validate currency support across providers
-   */
+    */
   async validateCurrencySupport(
     request: PaymentRequest,
     provider: PaymentProviderName
@@ -301,7 +301,7 @@ export class PaymentRequestValidator {
 
   /**
    * Validate amount limits per provider and currency
-   */
+    */
   async validateAmountLimits(
     request: PaymentRequest,
     provider: PaymentProviderName
@@ -384,7 +384,7 @@ export class PaymentRequestValidator {
 
   /**
    * Validate geographic restrictions
-   */
+    */
   async validateGeographicRestrictions(
     request: PaymentRequest,
     context: PaymentContext,
@@ -452,7 +452,7 @@ export class PaymentRequestValidator {
 
   /**
    * Validate compliance requirements
-   */
+    */
   async validateCompliance(
     request: PaymentRequest,
     context: PaymentContext,
@@ -523,7 +523,7 @@ export class PaymentRequestValidator {
 
   /**
    * Validate payment method support
-   */
+    */
   async validatePaymentMethod(
     request: PaymentRequest,
     provider: PaymentProviderName
@@ -565,7 +565,7 @@ export class PaymentRequestValidator {
 
   /**
    * Validate customer information
-   */
+    */
   async validateCustomerInformation(
     request: PaymentRequest,
     provider: PaymentProviderName
@@ -599,7 +599,7 @@ export class PaymentRequestValidator {
 
   /**
    * Assess transaction risk and generate warnings
-   */
+    */
   async assessTransactionRisk(
     request: PaymentRequest,
     context: PaymentContext
@@ -655,7 +655,7 @@ export class PaymentRequestValidator {
 
   /**
    * Validate card information
-   */
+    */
   private validateCardInformation(card: any): ValidationError[] {
     const errors: ValidationError[] = [];
 
@@ -682,7 +682,7 @@ export class PaymentRequestValidator {
 
   /**
    * Validate address information
-   */
+    */
   private validateAddress(address: any, fieldPrefix: string): ValidationError[] {
     const errors: ValidationError[] = [];
 
@@ -727,7 +727,7 @@ export class PaymentRequestValidator {
 
   /**
    * Format amount for display
-   */
+    */
   private formatAmount(amount: number, currency: string): string {
     const divisor = ['jpy', 'krw'].includes(currency.toLowerCase()) ? 1 : 100;
     const formattedAmount = (amount / divisor).toFixed(divisor === 1 ? 0 : 2);
@@ -736,14 +736,14 @@ export class PaymentRequestValidator {
 
   /**
    * Generate unique validation ID
-   */
+    */
   private generateValidationId(): string {
     return `val_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Create provider error
-   */
+    */
   private createProviderError<P extends PaymentProviderName>(
     provider: P,
     code: ProviderErrorCode,
@@ -766,7 +766,7 @@ export class PaymentRequestValidator {
 
   /**
    * Log validation events
-   */
+    */
   private logValidationEvent(
     type: string,
     provider: PaymentProviderName,

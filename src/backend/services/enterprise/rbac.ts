@@ -5,7 +5,7 @@
  * @author Gil Klainert
  * @version 4.0.0
  * @category Enterprise Security
- */
+  */
 
 import { Logger } from '../../shared/logger';
 
@@ -100,7 +100,7 @@ export interface PolicyAction {
 /**
  * Enterprise Role-Based Access Control Service
  * Manages complex permission structures for enterprise environments
- */
+  */
 export class EnterpriseRBACService extends BaseService {
   private readonly USER_ROLES_COLLECTION = 'user_roles';
   private readonly PERMISSIONS_CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
@@ -108,7 +108,7 @@ export class EnterpriseRBACService extends BaseService {
 
   /**
    * Assign role to user with optional conditions
-   */
+    */
   async assignRole(
     userId: string,
     tenantId: string,
@@ -169,7 +169,7 @@ export class EnterpriseRBACService extends BaseService {
 
   /**
    * Remove role from user
-   */
+    */
   async removeRole(
     userId: string,
     tenantId: string,
@@ -215,7 +215,7 @@ export class EnterpriseRBACService extends BaseService {
 
   /**
    * Check if user has permission for specific action
-   */
+    */
   async checkPermission(check: PermissionCheck): Promise<boolean> {
     try {
       const { userId, tenantId, resource, action, context } = check;
@@ -291,7 +291,7 @@ export class EnterpriseRBACService extends BaseService {
 
   /**
    * Get user's effective permissions (role + conditions + policies)
-   */
+    */
   async getUserEffectivePermissions(userId: string, tenantId: string): Promise<Permission[]> {
     try {
       const cacheKey = `${userId}:${tenantId}`;
@@ -350,7 +350,7 @@ export class EnterpriseRBACService extends BaseService {
 
   /**
    * Create custom role
-   */
+    */
   async createRole(tenantId: string, role: EnterpriseRole, createdBy: string): Promise<void> {
     try {
       logger.info('Creating custom role', { tenantId, roleId: role.roleId, createdBy });
@@ -387,7 +387,7 @@ export class EnterpriseRBACService extends BaseService {
 
   /**
    * Update role permissions
-   */
+    */
   async updateRole(
     tenantId: string,
     roleId: string,
@@ -428,7 +428,7 @@ export class EnterpriseRBACService extends BaseService {
 
   /**
    * Audit user access patterns
-   */
+    */
   async auditUserAccess(
     userId: string,
     tenantId: string,
@@ -452,7 +452,7 @@ export class EnterpriseRBACService extends BaseService {
 
   /**
    * Get role templates for common enterprise roles
-   */
+    */
   getRoleTemplates(): RoleTemplate[] {
     return [
       {

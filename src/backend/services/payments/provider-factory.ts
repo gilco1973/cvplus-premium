@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Payment Provider Factory
  * Creates and configures payment provider instances
- */
+  */
 
 import {
   PaymentProviderName,
@@ -17,7 +17,7 @@ import { PayPalPaymentProvider } from './providers/paypal-provider';
 
 /**
  * Factory class for creating payment provider instances
- */
+  */
 export class PaymentProviderFactory implements IPaymentProviderFactory {
   private readonly registeredProviders: Set<PaymentProviderName> = new Set();
 
@@ -28,7 +28,7 @@ export class PaymentProviderFactory implements IPaymentProviderFactory {
 
   /**
    * Create a payment provider instance based on configuration
-   */
+    */
   async createProvider(config: PaymentProviderConfig): Promise<IPaymentProvider> {
     if (!this.registeredProviders.has(config.provider)) {
       throw new Error(`Payment provider '${config.provider}' is not registered`);
@@ -57,14 +57,14 @@ export class PaymentProviderFactory implements IPaymentProviderFactory {
 
   /**
    * Get list of available payment providers
-   */
+    */
   getAvailableProviders(): PaymentProviderName[] {
     return Array.from(this.registeredProviders);
   }
 
   /**
    * Get capabilities of a specific provider
-   */
+    */
   getProviderCapabilities(provider: PaymentProviderName): PaymentProviderFeatures {
     switch (provider) {
       case 'stripe':
@@ -102,7 +102,7 @@ export class PaymentProviderFactory implements IPaymentProviderFactory {
 
   /**
    * Create provider with environment-based configuration
-   */
+    */
   async createProviderFromEnvironment(providerName: PaymentProviderName): Promise<IPaymentProvider> {
     const config = this.getEnvironmentConfig(providerName);
     return this.createProvider(config);
@@ -110,7 +110,7 @@ export class PaymentProviderFactory implements IPaymentProviderFactory {
 
   /**
    * Validate provider configuration
-   */
+    */
   validateConfig(config: PaymentProviderConfig): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
 
@@ -149,7 +149,7 @@ export class PaymentProviderFactory implements IPaymentProviderFactory {
 
   /**
    * Register available payment providers
-   */
+    */
   private registerProviders(): void {
     this.registeredProviders.add('stripe');
     this.registeredProviders.add('paypal'); // Placeholder for Phase 3
@@ -157,7 +157,7 @@ export class PaymentProviderFactory implements IPaymentProviderFactory {
 
   /**
    * Get configuration from environment variables
-   */
+    */
   private getEnvironmentConfig(providerName: PaymentProviderName): PaymentProviderConfig {
     switch (providerName) {
       case 'stripe':
@@ -173,7 +173,7 @@ export class PaymentProviderFactory implements IPaymentProviderFactory {
 
   /**
    * Get Stripe configuration from environment
-   */
+    */
   private getStripeConfigFromEnvironment(): StripeConfig {
     const secretKey = process.env.STRIPE_SECRET_KEY;
     const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
@@ -205,7 +205,7 @@ export class PaymentProviderFactory implements IPaymentProviderFactory {
 
   /**
    * Get PayPal configuration from environment (Phase 3 placeholder)
-   */
+    */
   private getPayPalConfigFromEnvironment(): PayPalConfig {
     const clientId = process.env.PAYPAL_CLIENT_ID;
     const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
@@ -236,7 +236,7 @@ export class PaymentProviderFactory implements IPaymentProviderFactory {
 
   /**
    * Validate Stripe configuration
-   */
+    */
   private validateStripeConfig(config: StripeConfig): string[] {
     const errors: string[] = [];
 
@@ -261,7 +261,7 @@ export class PaymentProviderFactory implements IPaymentProviderFactory {
 
   /**
    * Validate PayPal configuration (Phase 3 placeholder)
-   */
+    */
   private validatePayPalConfig(config: PayPalConfig): string[] {
     const errors: string[] = [];
 

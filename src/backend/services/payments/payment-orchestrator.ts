@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Payment Service Orchestrator
  * Phase 2: Advanced orchestration with intelligent routing and failover
- */
+  */
 
 import {
   PaymentProviderName,
@@ -30,7 +30,7 @@ import { paymentEventBus } from './events/payment-events';
 /**
  * Advanced Payment Orchestrator with intelligent provider selection,
  * load balancing, and comprehensive failover strategies
- */
+  */
 export class PaymentOrchestrator implements IPaymentOrchestrator {
   private static instance: PaymentOrchestrator;
   
@@ -49,7 +49,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Get singleton instance
-   */
+    */
   public static getInstance(): PaymentOrchestrator {
     if (!PaymentOrchestrator.instance) {
       PaymentOrchestrator.instance = new PaymentOrchestrator();
@@ -63,7 +63,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Route payment request to optimal provider
-   */
+    */
   async routePaymentRequest(context: PaymentContext): Promise<IPaymentProvider> {
     const startTime = Date.now();
     
@@ -121,7 +121,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Select optimal provider based on comprehensive criteria
-   */
+    */
   async selectOptimalProvider(
     context: PaymentContext,
     criteria?: ProviderSelectionCriteria
@@ -215,7 +215,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Process payment with automatic failover support
-   */
+    */
   async processPaymentWithFailover(
     request: PaymentRequest,
     context: PaymentContext,
@@ -417,7 +417,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Track payment state across processing
-   */
+    */
   async trackPaymentState(paymentIntentId: string, provider: PaymentProviderName): Promise<void> {
     const existingState = this.paymentStates.get(paymentIntentId);
     
@@ -446,7 +446,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Get payment state
-   */
+    */
   async getPaymentState(paymentIntentId: string): Promise<PaymentState | null> {
     return this.paymentStates.get(paymentIntentId) || null;
   }
@@ -457,7 +457,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Distribute load across providers
-   */
+    */
   async distributeLoad(): Promise<LoadBalancingStats> {
     const providers = providerRegistry.getAll();
     const totalRequests = Array.from(this.loadMetrics.values())
@@ -490,7 +490,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Get provider load metrics
-   */
+    */
   async getProviderLoadMetrics(): Promise<Record<PaymentProviderName, ProviderLoadMetrics>> {
     const result: Record<PaymentProviderName, ProviderLoadMetrics> = {};
     
@@ -507,7 +507,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Apply basic filtering to providers
-   */
+    */
   private applyBasicFilters(
     providers: IPaymentProvider[],
     context: PaymentContext
@@ -566,7 +566,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Enhanced provider selection with PayPal-specific cost optimization
-   */
+    */
   private calculateProviderCost(provider: IPaymentProvider, context: PaymentContext): number {
     const amount = context.amount;
     const currency = context.currency;
@@ -600,7 +600,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Check if payment is international
-   */
+    */
   private isInternationalPayment(context: PaymentContext): boolean {
     // This would integrate with user location detection
     // For now, use a simple heuristic
@@ -610,7 +610,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Validate provider for specific context
-   */
+    */
   private async validateProviderForContext(
     provider: IPaymentProvider,
     context: PaymentContext
@@ -646,7 +646,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Select provider for specific attempt with failover logic
-   */
+    */
   private async selectProviderForAttempt(
     context: PaymentContext,
     attempt: number,
@@ -695,7 +695,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Get smart failover provider based on failure patterns
-   */
+    */
   private getSmartFailoverProvider(
     failedProviders: PaymentProviderName[],
     context: PaymentContext
@@ -723,7 +723,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Process payment with timeout protection
-   */
+    */
   private async processPaymentWithTimeout(
     provider: IPaymentProvider,
     request: PaymentRequest,
@@ -747,7 +747,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Check if error is retryable
-   */
+    */
   private isRetryableError(error: any): boolean {
     if (!error) return false;
 
@@ -767,7 +767,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Initialize load metrics for all providers
-   */
+    */
   private initializeLoadMetrics(): void {
     const providers = providerRegistry.getAll();
     
@@ -784,7 +784,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Update provider load metrics
-   */
+    */
   private updateProviderLoad(
     provider: PaymentProviderName,
     action: 'request_routed' | 'success' | 'error'
@@ -815,7 +815,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Start metrics collection background process
-   */
+    */
   private startMetricsCollection(): void {
     setInterval(() => {
       // Reset per-minute counters
@@ -828,7 +828,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Record processing history
-   */
+    */
   private recordProcessingHistory(record: PaymentProcessingRecord): void {
     this.processingHistory.push(record);
     
@@ -840,21 +840,21 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Generate unique processing ID
-   */
+    */
   private generateProcessingId(): string {
     return `proc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Simple delay utility
-   */
+    */
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   /**
    * Create orchestration error
-   */
+    */
   private createOrchestrationError(
     code: ProviderErrorCode,
     message: string
@@ -869,7 +869,7 @@ export class PaymentOrchestrator implements IPaymentOrchestrator {
 
   /**
    * Log orchestration events
-   */
+    */
   private logOrchestrationEvent(
     type: string,
     context: PaymentContext,

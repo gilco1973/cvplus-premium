@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Payment Provider Types
  * Comprehensive payment provider abstraction types
- */
+  */
 
 // Provider Names
 export type PaymentProviderName = 'stripe' | 'paypal';

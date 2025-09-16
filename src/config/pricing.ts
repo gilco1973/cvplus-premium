@@ -7,7 +7,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @created 2025-08-20
- */
+  */
 
 import { logger } from 'firebase-functions';
 import { config } from './environment';
@@ -18,72 +18,72 @@ import { config } from './environment';
 
 /**
  * Supported subscription tiers
- */
+  */
 export type SubscriptionTier = 'FREE' | 'PREMIUM';
 
 /**
  * Supported currencies
- */
+  */
 export type Currency = 'USD' | 'EUR' | 'GBP';
 
 /**
  * Environment types for different pricing configurations
- */
+  */
 export type Environment = 'development' | 'staging' | 'production';
 
 /**
  * Stripe price configuration for different environments
- */
+  */
 export interface StripePriceConfig {
-  /** Development environment price ID */
+  /** Development environment price ID  */
   development: string;
-  /** Staging environment price ID */
+  /** Staging environment price ID  */
   staging: string;
-  /** Production environment price ID */
+  /** Production environment price ID  */
   production: string;
 }
 
 /**
  * Price configuration with multiple currency support
- */
+  */
 export interface PriceConfig {
-  /** Price in cents (to avoid floating point issues) */
+  /** Price in cents (to avoid floating point issues)  */
   cents: number;
-  /** Price in dollars (for display) */
+  /** Price in dollars (for display)  */
   dollars: number;
-  /** Currency code */
+  /** Currency code  */
   currency: Currency;
-  /** Stripe price IDs for different environments */
+  /** Stripe price IDs for different environments  */
   stripeConfig: StripePriceConfig;
 }
 
 /**
  * Complete tier configuration
- */
+  */
 export interface TierConfig {
-  /** Tier identifier */
+  /** Tier identifier  */
   tier: SubscriptionTier;
-  /** Display name */
+  /** Display name  */
   name: string;
-  /** Description */
+  /** Description  */
   description: string;
-  /** Price configuration */
+  /** Price configuration  */
   price: PriceConfig;
-  /** Whether this tier is currently available */
+  /** Whether this tier is currently available  */
   isActive: boolean;
 }
 
 /**
  * Complete pricing configuration
- */
+  */
 export interface PricingConfig {
-  /** All available tiers */
+  /** All available tiers  */
   tiers: Record<SubscriptionTier, TierConfig>;
-  /** Default currency */
+  /** Default currency  */
   defaultCurrency: Currency;
-  /** Current environment */
+  /** Current environment  */
   environment: Environment;
-  /** Configuration metadata */
+  /** Configuration metadata  */
   metadata: {
     version: string;
     lastUpdated: string;
@@ -97,7 +97,7 @@ export interface PricingConfig {
 
 /**
  * Get current environment from environment variables
- */
+  */
 const getCurrentEnvironment = (): Environment => {
   const nodeEnv = process.env.NODE_ENV;
   const functionsEmulator = process.env.FUNCTIONS_EMULATOR;
@@ -122,7 +122,7 @@ const getCurrentEnvironment = (): Environment => {
 
 /**
  * Stripe Price IDs from secure environment configuration
- */
+  */
 const getStripePriceIds = (): StripePriceConfig => {
   return {
     development: config.stripe.pricing.priceIdDev || 'price_dev_placeholder',
@@ -137,7 +137,7 @@ const getStripePriceIds = (): StripePriceConfig => {
 
 /**
  * Main pricing configuration - Single source of truth for backend
- */
+  */
 export const BACKEND_PRICING_CONFIG: PricingConfig = {
   defaultCurrency: 'USD',
   environment: getCurrentEnvironment(),
@@ -187,14 +187,14 @@ export const BACKEND_PRICING_CONFIG: PricingConfig = {
 
 /**
  * Get tier configuration by tier type
- */
+  */
 export const getTierConfig = (tier: SubscriptionTier): TierConfig => {
   return BACKEND_PRICING_CONFIG.tiers[tier];
 };
 
 /**
  * Get Stripe Price ID for current environment
- */
+  */
 export const getStripePriceId = (tier: SubscriptionTier): string => {
   const config = getTierConfig(tier);
   const environment = BACKEND_PRICING_CONFIG.environment;
@@ -213,21 +213,21 @@ export const getStripePriceId = (tier: SubscriptionTier): string => {
 
 /**
  * Get price in cents for a specific tier
- */
+  */
 export const getPriceInCents = (tier: SubscriptionTier): number => {
   return getTierConfig(tier).price.cents;
 };
 
 /**
  * Get price in dollars for a specific tier
- */
+  */
 export const getPriceInDollars = (tier: SubscriptionTier): number => {
   return getTierConfig(tier).price.dollars;
 };
 
 /**
  * Format price for display
- */
+  */
 export const formatPrice = (tier: SubscriptionTier, showCurrency = true): string => {
   const config = getTierConfig(tier);
   
@@ -244,7 +244,7 @@ export const formatPrice = (tier: SubscriptionTier, showCurrency = true): string
 
 /**
  * Validate pricing configuration
- */
+  */
 export const validatePricingConfig = (): { isValid: boolean; errors: string[]; warnings: string[] } => {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -282,7 +282,7 @@ export const validatePricingConfig = (): { isValid: boolean; errors: string[]; w
 
 /**
  * Get pricing summary for logging/debugging
- */
+  */
 export const getPricingSummary = () => {
   const validation = validatePricingConfig();
   
@@ -302,14 +302,14 @@ export const getPricingSummary = () => {
 
 /**
  * Type guard to check if a tier is premium
- */
+  */
 export const isPremiumTier = (tier: SubscriptionTier): boolean => {
   return tier === 'PREMIUM';
 };
 
 /**
  * Check if pricing is properly configured for current environment
- */
+  */
 export const isPricingConfigured = (): boolean => {
   const validation = validatePricingConfig();
   return validation.isValid;
@@ -317,7 +317,7 @@ export const isPricingConfigured = (): boolean => {
 
 /**
  * Log pricing configuration status
- */
+  */
 export const logPricingStatus = (): void => {
   const summary = getPricingSummary();
   

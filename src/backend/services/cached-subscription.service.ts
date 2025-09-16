@@ -8,7 +8,7 @@ import { UserSubscriptionData } from '../../types';
 export class CachedSubscriptionService {
   /**
    * Get user subscription with caching
-   */
+    */
   async getUserSubscription(userId: string): Promise<UserSubscriptionData> {
     try {
       // Try to get from cache first
@@ -37,7 +37,7 @@ export class CachedSubscriptionService {
 
   /**
    * Invalidate cached subscription data (call when subscription changes)
-   */
+    */
   invalidateUserSubscription(userId: string): void {
     try {
       const invalidated = subscriptionCache.invalidate(userId);
@@ -49,7 +49,7 @@ export class CachedSubscriptionService {
 
   /**
    * Update subscription and invalidate cache
-   */
+    */
   async updateUserSubscription(userId: string, subscriptionData: Partial<UserSubscriptionData>): Promise<void> {
     try {
       // Update in database
@@ -73,14 +73,14 @@ export class CachedSubscriptionService {
 
   /**
    * Get cache statistics for monitoring
-   */
+    */
   getCacheStats() {
     return subscriptionCache.getStats();
   }
 
   /**
    * Clear all cached subscriptions (for maintenance)
-   */
+    */
   clearAllCache(): void {
     subscriptionCache.clearAll();
     logger.info('All subscription cache cleared');

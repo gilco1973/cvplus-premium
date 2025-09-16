@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { logger } from '../utils/logger';
 import {
@@ -26,7 +26,7 @@ import { Timestamp } from 'firebase-admin/firestore';
 
 /**
  * Billing service configuration
- */
+  */
 interface BillingServiceConfig {
   invoicePrefix: string;
   gracePeriodDays: number;
@@ -44,7 +44,7 @@ interface BillingServiceConfig {
 
 /**
  * Revenue period data
- */
+  */
 interface RevenuePeriodData {
   period: string;
   revenue: number;
@@ -55,7 +55,7 @@ interface RevenuePeriodData {
 
 /**
  * Default billing configuration
- */
+  */
 const DEFAULT_CONFIG: BillingServiceConfig = {
   invoicePrefix: 'CVPLUS',
   gracePeriodDays: 3,
@@ -72,7 +72,7 @@ const DEFAULT_CONFIG: BillingServiceConfig = {
 
 /**
  * Convert Firebase Timestamp to Date
- */
+  */
 function toDate(timestamp: Timestamp | Date): Date {
   if (timestamp instanceof Date) {
     return timestamp;
@@ -82,7 +82,7 @@ function toDate(timestamp: Timestamp | Date): Date {
 
 /**
  * Comprehensive billing management service
- */
+  */
 export class BillingService {
   private config: BillingServiceConfig;
   private cache: Map<string, any> = new Map();
@@ -104,7 +104,7 @@ export class BillingService {
 
   /**
    * Record a payment transaction
-   */
+    */
   async recordPayment(payment: Omit<PaymentHistory, 'createdAt'>): Promise<PaymentHistory> {
     try {
       const paymentRecord: PaymentHistory = {
@@ -137,7 +137,7 @@ export class BillingService {
 
   /**
    * Get payment history for a user
-   */
+    */
   async getPaymentHistory(
     userId: string,
     options: {
@@ -178,7 +178,7 @@ export class BillingService {
 
   /**
    * Update payment status
-   */
+    */
   async updatePaymentStatus(
     paymentId: string,
     status: PaymentStatus,
@@ -250,7 +250,7 @@ export class BillingService {
 
   /**
    * Generate invoice for a payment
-   */
+    */
   async generateInvoice(
     paymentId: string,
     items: InvoiceItem[],
@@ -310,7 +310,7 @@ export class BillingService {
 
   /**
    * Get invoices for a user
-   */
+    */
   async getUserInvoices(
     userId: string,
     options: {
@@ -333,7 +333,7 @@ export class BillingService {
 
   /**
    * Mark invoice as paid
-   */
+    */
   async markInvoicePaid(invoiceId: string, paidAt: Date = new Date()): Promise<Invoice> {
     try {
       const invoice = await this.getInvoiceById(invoiceId);
@@ -378,7 +378,7 @@ export class BillingService {
 
   /**
    * Process refund request
-   */
+    */
   async processRefund(refundRequest: RefundRequest): Promise<RefundResponse> {
     try {
       const payment = await this.getPaymentById(refundRequest.paymentId);
@@ -457,7 +457,7 @@ export class BillingService {
 
   /**
    * Get billing preferences for a user
-   */
+    */
   async getBillingPreferences(userId: string): Promise<BillingPreferences | null> {
     try {
       return await this.loadBillingPreferencesFromDatabase(userId);
@@ -472,7 +472,7 @@ export class BillingService {
 
   /**
    * Update billing preferences
-   */
+    */
   async updateBillingPreferences(
     userId: string,
     preferences: Partial<BillingPreferences>
@@ -509,7 +509,7 @@ export class BillingService {
 
   /**
    * Generate revenue analytics for a period
-   */
+    */
   async generateRevenueAnalytics(
     period: string, // YYYY-MM format
     includeMetrics = true
@@ -538,7 +538,7 @@ export class BillingService {
 
   /**
    * Get revenue trends over multiple periods
-   */
+    */
   async getRevenueTrends(periods: string[]): Promise<Map<string, RevenueAnalytics>> {
     const trends = new Map<string, RevenueAnalytics>();
     
@@ -560,7 +560,7 @@ export class BillingService {
 
   /**
    * Format amount for display with currency
-   */
+    */
   formatAmount(amount: number, currency: Currency): string {
     const symbol = CURRENCY_SYMBOLS[currency] || currency;
     const displayAmount = (amount / 100).toFixed(2);
@@ -569,7 +569,7 @@ export class BillingService {
 
   /**
    * Calculate tax for amount based on region
-   */
+    */
   async calculateTax(
     amount: number,
     currency: Currency,
@@ -590,7 +590,7 @@ export class BillingService {
 
   /**
    * Generate unique invoice number
-   */
+    */
   private generateInvoiceNumber(): string {
     const timestamp = Date.now().toString(36).toUpperCase();
     const random = Math.random().toString(36).substr(2, 4).toUpperCase();
@@ -599,7 +599,7 @@ export class BillingService {
 
   /**
    * Update revenue cache with payment data
-   */
+    */
   private updateRevenueCache(payment: PaymentHistory): void {
     const periodKey = this.getPeriodKey(toDate(payment.createdAt));
     
@@ -629,7 +629,7 @@ export class BillingService {
 
   /**
    * Check if status change affects revenue calculation
-   */
+    */
   private isRevenueAffectingStatusChange(fromStatus: PaymentStatus, toStatus: PaymentStatus): boolean {
     const revenueStatuses: PaymentStatus[] = [PaymentStatus.SUCCEEDED, PaymentStatus.REFUNDED];
     return revenueStatuses.includes(fromStatus) || revenueStatuses.includes(toStatus);
@@ -637,14 +637,14 @@ export class BillingService {
 
   /**
    * Get period key for revenue tracking
-   */
+    */
   private getPeriodKey(date: Date): string {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
   }
 
   /**
    * Build revenue analytics from period data
-   */
+    */
   private buildRevenueAnalytics(
     period: string,
     data: RevenuePeriodData,
@@ -675,7 +675,7 @@ export class BillingService {
 
   /**
    * Get default billing preferences
-   */
+    */
   private getDefaultBillingPreferences(userId: string): BillingPreferences {
     return {
       userId,

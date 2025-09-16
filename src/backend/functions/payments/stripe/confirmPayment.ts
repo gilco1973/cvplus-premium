@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Stripe Payment Confirmation
  * Migrated from /functions/src/functions/payments/confirmPayment.ts
- */
+  */
 
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';
@@ -150,7 +150,7 @@ export const confirmPayment = onCall<ConfirmPaymentData>(
 
 /**
  * Handle successful payment processing
- */
+  */
 async function handleSuccessfulPayment(
   userId: string,
   paymentIntent: Stripe.PaymentIntent,

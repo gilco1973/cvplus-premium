@@ -5,7 +5,7 @@
  * @author Gil Klainert
  * @version 4.0.0
  * @category Enterprise Management
- */
+  */
 
 import { Logger } from '../../shared/logger';
 
@@ -227,13 +227,13 @@ export interface EnterpriseSetup {
 /**
  * Enterprise Account Manager
  * Handles multi-tenant enterprise account provisioning and management
- */
+  */
 export class EnterpriseAccountManager extends BaseService {
   private readonly COLLECTION = 'enterprise_accounts';
 
   /**
    * Create new enterprise account with multi-tenant architecture
-   */
+    */
   async createEnterpriseAccount(config: EnterpriseSetup): Promise<EnterpriseAccount> {
     try {
       logger.info('Creating enterprise account', {
@@ -304,7 +304,7 @@ export class EnterpriseAccountManager extends BaseService {
 
   /**
    * Get enterprise account by tenant ID
-   */
+    */
   async getEnterpriseAccount(tenantId: string): Promise<EnterpriseAccount | null> {
     try {
       const doc = await db.collection(this.COLLECTION).doc(tenantId).get();
@@ -322,7 +322,7 @@ export class EnterpriseAccountManager extends BaseService {
 
   /**
    * Update enterprise account
-   */
+    */
   async updateEnterpriseAccount(
     tenantId: string,
     updates: Partial<EnterpriseAccount>
@@ -344,7 +344,7 @@ export class EnterpriseAccountManager extends BaseService {
 
   /**
    * Manage team hierarchy
-   */
+    */
   async updateTeamHierarchy(tenantId: string, structure: TeamStructure): Promise<void> {
     try {
       logger.info('Updating team hierarchy', { tenantId, departmentCount: structure.departments.length });
@@ -369,7 +369,7 @@ export class EnterpriseAccountManager extends BaseService {
 
   /**
    * Add department to enterprise
-   */
+    */
   async addDepartment(tenantId: string, department: Department): Promise<void> {
     try {
       const account = await this.getEnterpriseAccount(tenantId);
@@ -394,7 +394,7 @@ export class EnterpriseAccountManager extends BaseService {
 
   /**
    * Assign user to department
-   */
+    */
   async assignUserToDepartment(
     tenantId: string,
     userId: string,
@@ -427,7 +427,7 @@ export class EnterpriseAccountManager extends BaseService {
 
   /**
    * Enforce enterprise policies
-   */
+    */
   async enforcePolicies(tenantId: string, policies: EnterprisePolicy[]): Promise<void> {
     try {
       logger.info('Enforcing enterprise policies', { tenantId, policyCount: policies.length });
@@ -452,7 +452,7 @@ export class EnterpriseAccountManager extends BaseService {
 
   /**
    * Get tenant analytics
-   */
+    */
   async getTenantAnalytics(tenantId: string): Promise<TenantAnalytics> {
     try {
       const [userStats, usageStats, billingStats] = await Promise.all([

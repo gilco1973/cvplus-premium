@@ -7,7 +7,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import {
@@ -107,7 +107,7 @@ interface UsePaymentFlowReturn {
 
 /**
  * Default payment flow steps
- */
+  */
 const DEFAULT_PAYMENT_STEPS: PaymentFlowStep[] = [
   {
     id: 'provider_selection',
@@ -158,7 +158,7 @@ const DEFAULT_PAYMENT_STEPS: PaymentFlowStep[] = [
 
 /**
  * Payment Flow State Management Hook
- */
+  */
 export const usePaymentFlow = (
   initialConfig: PaymentFlowConfig = {}
 ): UsePaymentFlowReturn => {
@@ -711,7 +711,7 @@ export const usePaymentFlow = (
 
 /**
  * Calculate progress percentage based on current step
- */
+  */
 function calculateProgress(currentStep: string, steps: PaymentFlowStep[]): number {
   const currentIndex = steps.findIndex(step => step.id === currentStep);
   if (currentIndex === -1) return 0;

@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Payment Event System
  * Phase 2: Comprehensive event handling with typed handlers and middleware
- */
+  */
 
 import {
   PaymentProviderName,
@@ -21,7 +21,7 @@ import {
 
 /**
  * Extended event types for comprehensive payment system monitoring
- */
+  */
 export type PaymentEventType = ProviderEventType 
   | 'payment.intent.created'
   | 'payment.intent.confirmed'
@@ -46,7 +46,7 @@ export type PaymentEventType = ProviderEventType
 
 /**
  * Enhanced event interface with better typing
- */
+  */
 export interface PaymentEvent extends ProviderEvent {
   type: PaymentEventType;
   correlation_id?: string;
@@ -59,7 +59,7 @@ export interface PaymentEvent extends ProviderEvent {
 
 /**
  * Event handler with enhanced error handling
- */
+  */
 export interface PaymentEventHandler<T extends PaymentEvent = PaymentEvent> {
   readonly name: string;
   readonly priority: number; // Lower numbers = higher priority
@@ -72,7 +72,7 @@ export interface PaymentEventHandler<T extends PaymentEvent = PaymentEvent> {
 
 /**
  * Result of event handler execution
- */
+  */
 export interface EventHandlerResult {
   readonly success: boolean;
   readonly message?: string;
@@ -83,7 +83,7 @@ export interface EventHandlerResult {
 
 /**
  * Event middleware interface
- */
+  */
 export interface EventMiddleware {
   readonly name: string;
   readonly priority: number;
@@ -95,7 +95,7 @@ export interface EventMiddleware {
 
 /**
  * Event subscription options
- */
+  */
 export interface EventSubscriptionOptions {
   readonly filter?: (event: PaymentEvent) => boolean;
   readonly priority?: number;
@@ -110,7 +110,7 @@ export interface EventSubscriptionOptions {
 
 /**
  * Advanced Payment Event Bus with middleware support and reliable delivery
- */
+  */
 export class PaymentEventBus implements IProviderEventBus {
   private static instance: PaymentEventBus;
   
@@ -126,7 +126,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Get singleton instance
-   */
+    */
   public static getInstance(): PaymentEventBus {
     if (!PaymentEventBus.instance) {
       PaymentEventBus.instance = new PaymentEventBus();
@@ -140,7 +140,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Emit event with comprehensive error handling and middleware processing
-   */
+    */
   async emit(event: ProviderEvent): Promise<void> {
     const paymentEvent = this.enhanceEvent(event);
     
@@ -219,7 +219,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Subscribe to specific event types with options
-   */
+    */
   subscribe(
     eventType: ProviderEventType, 
     handler: IProviderEventHandler, 
@@ -251,7 +251,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Unsubscribe from events
-   */
+    */
   unsubscribe(eventType: ProviderEventType, handler: IProviderEventHandler): void {
     const handlers = this.handlers.get(eventType);
     if (!handlers) return;
@@ -283,7 +283,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Unsubscribe by subscription ID
-   */
+    */
   unsubscribeById(subscriptionId: string): void {
     const subscription = this.subscriptions.get(subscriptionId);
     if (!subscription) return;
@@ -306,7 +306,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Add event middleware
-   */
+    */
   addMiddleware(middleware: EventMiddleware): void {
     this.middleware.push(middleware);
     this.middleware.sort((a, b) => a.priority - b.priority);
@@ -316,7 +316,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Remove event middleware
-   */
+    */
   removeMiddleware(name: string): void {
     const index = this.middleware.findIndex(m => m.name === name);
     if (index !== -1) {
@@ -331,7 +331,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Get recent events with filtering
-   */
+    */
   getRecentEvents(options: EventQueryOptions = {}): PaymentEvent[] {
     let events = [...this.eventHistory];
 
@@ -372,7 +372,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Get event statistics
-   */
+    */
   getEventStats(options: EventStatsOptions = {}): EventStats {
     const events = this.getRecentEvents(options);
     
@@ -402,7 +402,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Clear event history
-   */
+    */
   clearHistory(): void {
     this.eventHistory.length = 0;
     console.log('[PaymentEventBus] Event history cleared');
@@ -414,7 +414,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Enhance basic event with payment-specific metadata
-   */
+    */
   private enhanceEvent(event: ProviderEvent): PaymentEvent {
     return {
       ...event,
@@ -428,7 +428,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Add event to history with size management
-   */
+    */
   private addToHistory(event: PaymentEvent): void {
     this.eventHistory.push(event);
     
@@ -440,7 +440,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Get handlers for specific event with filtering
-   */
+    */
   private getHandlersForEvent(event: PaymentEvent): PaymentEventHandler[] {
     const handlers = this.handlers.get(event.type) || [];
     return handlers.filter(handler => handler.canHandle(event));
@@ -448,14 +448,14 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Get middleware sorted by priority
-   */
+    */
   private getSortedMiddleware(): EventMiddleware[] {
     return [...this.middleware].sort((a, b) => a.priority - b.priority);
   }
 
   /**
    * Execute handler with timeout protection
-   */
+    */
   private async executeHandlerWithTimeout(
     handler: PaymentEventHandler,
     event: PaymentEvent,
@@ -479,7 +479,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Handle handler execution errors
-   */
+    */
   private async handleHandlerError(
     handler: PaymentEventHandler,
     error: Error,
@@ -516,7 +516,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Wrap legacy handler interface
-   */
+    */
   private wrapHandler(handler: IProviderEventHandler, options: EventSubscriptionOptions): PaymentEventHandler {
     return {
       name: handler.constructor.name || 'AnonymousHandler',
@@ -539,7 +539,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Determine event severity based on type
-   */
+    */
   private determineSeverity(eventType: string): 'info' | 'warning' | 'error' | 'critical' {
     if (eventType.includes('error') || eventType.includes('failed')) return 'error';
     if (eventType.includes('warning') || eventType.includes('degraded')) return 'warning';
@@ -549,28 +549,28 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Generate correlation ID for event tracking
-   */
+    */
   private generateCorrelationId(): string {
     return `corr_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Generate trace ID for distributed tracing
-   */
+    */
   private generateTraceId(): string {
     return `trace_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Generate event ID
-   */
+    */
   private generateEventId(): string {
     return `evt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Generate tags for event categorization
-   */
+    */
   private generateTags(event: ProviderEvent): string[] {
     const tags: string[] = [];
     
@@ -587,7 +587,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Log event processing
-   */
+    */
   private logEventProcessing(
     status: string,
     event: PaymentEvent,
@@ -605,7 +605,7 @@ export class PaymentEventBus implements IProviderEventBus {
 
   /**
    * Log subscription operations
-   */
+    */
   private logSubscription(
     action: string,
     eventType: ProviderEventType,
@@ -659,7 +659,7 @@ export interface EventStats {
 
 /**
  * Logging event handler for debugging and monitoring
- */
+  */
 export class LoggingEventHandler implements PaymentEventHandler {
   readonly name = 'LoggingEventHandler';
   readonly priority = 1000; // Low priority, runs last
@@ -696,7 +696,7 @@ export class LoggingEventHandler implements PaymentEventHandler {
 
 /**
  * Metrics collection event handler
- */
+  */
 export class MetricsCollectionEventHandler implements PaymentEventHandler {
   readonly name = 'MetricsCollectionEventHandler';
   readonly priority = 50; // High priority

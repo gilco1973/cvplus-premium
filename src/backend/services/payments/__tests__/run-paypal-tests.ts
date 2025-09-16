@@ -1,14 +1,14 @@
 /**
  * PayPal Integration Test Runner
  * Orchestrates comprehensive PayPal testing scenarios
- */
+  */
 
 import { PayPalTestDataGenerator } from './test-setup';
 import { MockPayPalPaymentProvider } from './paypal-mock-provider';
 
 /**
  * Comprehensive PayPal Test Suite Runner
- */
+  */
 export class PayPalTestRunner {
   private mockProvider: MockPayPalPaymentProvider;
   private testResults: TestResult[] = [];
@@ -25,7 +25,7 @@ export class PayPalTestRunner {
 
   /**
    * Run all PayPal integration tests
-   */
+    */
   async runAllTests(): Promise<TestSummary> {
     console.log('🚀 Starting PayPal Integration Test Suite...');
     
@@ -50,7 +50,7 @@ export class PayPalTestRunner {
 
   /**
    * Basic Payment Flow Tests
-   */
+    */
   private async runBasicPaymentTests(): Promise<void> {
     console.log('📝 Running Basic Payment Tests...');
 
@@ -101,7 +101,7 @@ export class PayPalTestRunner {
 
   /**
    * Webhook Processing Tests
-   */
+    */
   private async runWebhookTests(): Promise<void> {
     console.log('📡 Running Webhook Tests...');
 
@@ -149,7 +149,7 @@ export class PayPalTestRunner {
 
   /**
    * Error Scenario Tests
-   */
+    */
   private async runErrorScenarioTests(): Promise<void> {
     console.log('⚠️ Running Error Scenario Tests...');
 
@@ -198,7 +198,7 @@ export class PayPalTestRunner {
 
   /**
    * Performance Tests
-   */
+    */
   private async runPerformanceTests(): Promise<void> {
     console.log('🚄 Running Performance Tests...');
 
@@ -247,7 +247,7 @@ export class PayPalTestRunner {
 
   /**
    * Security Tests
-   */
+    */
   private async runSecurityTests(): Promise<void> {
     console.log('🔒 Running Security Tests...');
 
@@ -292,7 +292,7 @@ export class PayPalTestRunner {
 
   /**
    * Run individual test with error handling
-   */
+    */
   private async runTest(name: string, testFn: () => Promise<void>): Promise<void> {
     const startTime = Date.now();
     
@@ -324,7 +324,7 @@ export class PayPalTestRunner {
 
   /**
    * Generate test summary
-   */
+    */
   private generateTestSummary(): TestSummary {
     const totalTests = this.testResults.length;
     const passedTests = this.testResults.filter(r => r.status === 'PASSED').length;

@@ -8,7 +8,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @category Global Payments
- */
+  */
 
 import { logger } from 'firebase-functions/v2';
 import { BaseService } from '../../shared/base-service';
@@ -68,7 +68,7 @@ export interface CustomerTaxInfo {
 /**
  * Tax Compliance Service for global payment processing
  * Handles tax calculation, validation, and reporting
- */
+  */
 export class TaxComplianceService extends BaseService {
   private taxJurisdictions = new Map<string, TaxJurisdiction>();
   private readonly digitalServicesTaxThreshold = 10000; // $10,000 annually
@@ -86,7 +86,7 @@ export class TaxComplianceService extends BaseService {
 
   /**
    * Initialize tax jurisdiction configurations
-   */
+    */
   private initializeTaxJurisdictions(): void {
     const jurisdictions: TaxJurisdiction[] = [
       // United States (State Sales Tax)
@@ -247,7 +247,7 @@ export class TaxComplianceService extends BaseService {
 
   /**
    * Calculate tax for a transaction
-   */
+    */
   async calculateTax(
     amount: number,
     currency: SupportedCurrency,
@@ -311,7 +311,7 @@ export class TaxComplianceService extends BaseService {
 
   /**
    * Validate VAT number (for EU businesses)
-   */
+    */
   async validateVATNumber(vatNumber: string, countryCode: string): Promise<{
     valid: boolean;
     companyName?: string;
@@ -359,7 +359,7 @@ export class TaxComplianceService extends BaseService {
 
   /**
    * Generate tax report for compliance
-   */
+    */
   async generateTaxReport(
     startDate: Date,
     endDate: Date,
@@ -425,7 +425,7 @@ export class TaxComplianceService extends BaseService {
 
   /**
    * Get jurisdiction configuration
-   */
+    */
   private getJurisdiction(countryCode: string, region?: string): TaxJurisdiction | undefined {
     const key = region ? `${countryCode}_${region}` : countryCode;
     return this.taxJurisdictions.get(key) || this.taxJurisdictions.get(countryCode);
@@ -433,7 +433,7 @@ export class TaxComplianceService extends BaseService {
 
   /**
    * Check if B2B reverse charge applies
-   */
+    */
   private isB2BReverseCharge(jurisdiction: TaxJurisdiction, customerInfo: CustomerTaxInfo): boolean {
     return jurisdiction.reverseCharge === true &&
            customerInfo.businessType === 'business' &&
@@ -443,7 +443,7 @@ export class TaxComplianceService extends BaseService {
 
   /**
    * Create no-tax calculation result
-   */
+    */
   private createNoTaxCalculation(
     amount: number,
     currency: SupportedCurrency,
@@ -465,7 +465,7 @@ export class TaxComplianceService extends BaseService {
 
   /**
    * Get display name for tax type
-   */
+    */
   private getTaxDisplayName(taxType: TaxType): string {
     const names = {
       [TaxType.VAT]: 'VAT',
@@ -479,7 +479,7 @@ export class TaxComplianceService extends BaseService {
 
   /**
    * Validate VAT number format by country
-   */
+    */
   private validateVATFormat(vatNumber: string, countryCode: string): boolean {
     const patterns: Record<string, RegExp> = {
       'DE': /^DE[0-9]{9}$/,
@@ -500,14 +500,14 @@ export class TaxComplianceService extends BaseService {
 
   /**
    * Get all supported tax jurisdictions
-   */
+    */
   getSupportedJurisdictions(): TaxJurisdiction[] {
     return Array.from(this.taxJurisdictions.values());
   }
 
   /**
    * Health check for tax compliance service
-   */
+    */
   async healthCheck(): Promise<{
     status: 'healthy' | 'degraded' | 'unhealthy';
     details: Record<string, any>;

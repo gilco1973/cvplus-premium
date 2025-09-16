@@ -3,7 +3,7 @@
  * Centralized management of premium features and their configurations
  * Author: Gil Klainert
  * Date: 2025-08-29
- */
+  */
 
 import { Feature, IFeatureRegistry } from '@cvplus/core';
 import { logger } from 'firebase-functions';
@@ -11,7 +11,7 @@ import { logger } from 'firebase-functions';
 /**
  * Feature Registry Implementation
  * Manages feature definitions, tiers, and access controls
- */
+  */
 export class FeatureRegistry implements IFeatureRegistry {
   private features = new Map<string, Feature>();
 
@@ -21,14 +21,14 @@ export class FeatureRegistry implements IFeatureRegistry {
 
   /**
    * Get a feature by ID
-   */
+    */
   getFeature(featureId: string): Feature | undefined {
     return this.features.get(featureId);
   }
 
   /**
    * Register a new feature
-   */
+    */
   registerFeature(feature: Feature): void {
     this.features.set(feature.id, feature);
     logger.debug('Feature registered', { featureId: feature.id, tier: feature.tier });
@@ -36,14 +36,14 @@ export class FeatureRegistry implements IFeatureRegistry {
 
   /**
    * Get all registered features
-   */
+    */
   getAllFeatures(): Feature[] {
     return Array.from(this.features.values());
   }
 
   /**
    * Get features available for a specific tier
-   */
+    */
   getFeaturesForTier(tier: string): Feature[] {
     const tierHierarchy = { free: 0, premium: 1, enterprise: 2 };
     const tierLevel = tierHierarchy[tier as keyof typeof tierHierarchy] ?? 0;
@@ -56,7 +56,7 @@ export class FeatureRegistry implements IFeatureRegistry {
 
   /**
    * Initialize default CVPlus features
-   */
+    */
   private initializeDefaultFeatures(): void {
     const defaultFeatures: Feature[] = [
       // Core CV Features (Free)
@@ -239,7 +239,7 @@ export class FeatureRegistry implements IFeatureRegistry {
 
   /**
    * Update feature configuration
-   */
+    */
   updateFeature(featureId: string, updates: Partial<Feature>): boolean {
     const existingFeature = this.features.get(featureId);
     if (!existingFeature) {
@@ -260,7 +260,7 @@ export class FeatureRegistry implements IFeatureRegistry {
 
   /**
    * Remove a feature
-   */
+    */
   removeFeature(featureId: string): boolean {
     const removed = this.features.delete(featureId);
     if (removed) {
@@ -273,14 +273,14 @@ export class FeatureRegistry implements IFeatureRegistry {
 
   /**
    * Check if a feature exists
-   */
+    */
   hasFeature(featureId: string): boolean {
     return this.features.has(featureId);
   }
 
   /**
    * Get features by tier with usage limits
-   */
+    */
   getFeaturesWithLimits(tier: string): Array<Feature & { currentLimit?: number }> {
     return this.getFeaturesForTier(tier).map(feature => ({
       ...feature,
@@ -290,7 +290,7 @@ export class FeatureRegistry implements IFeatureRegistry {
 
   /**
    * Validate feature access for tier
-   */
+    */
   validateFeatureAccess(featureId: string, userTier: string): {
     allowed: boolean;
     reason?: string;
@@ -322,7 +322,7 @@ export class FeatureRegistry implements IFeatureRegistry {
 
   /**
    * Get feature statistics
-   */
+    */
   getFeatureStats(): {
     total: number;
     byTier: Record<string, number>;

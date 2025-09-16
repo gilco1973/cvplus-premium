@@ -1,7 +1,7 @@
 /**
  * CVPlus PayPal Refund Payment Firebase Function
  * Handles PayPal payment refunds
- */
+  */
 
 import { https } from 'firebase-functions';
 import { PayPalPaymentProvider } from '../../../services/payments/providers/paypal-provider';
@@ -11,7 +11,7 @@ import { RefundRequest } from '../../../../types/payments.types';
 
 /**
  * Refund PayPal Payment Function
- */
+  */
 export const refundPayPalPayment = https.onCall(async (data: RefundRequest, context) => {
   // Validate authentication
   if (!context.auth) {

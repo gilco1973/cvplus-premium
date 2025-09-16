@@ -1,12 +1,12 @@
 /**
  * Stripe-specific types for the Premium module
- */
+  */
 
 import { Stripe } from 'stripe';
 
 /**
  * Stripe webhook event types we handle
- */
+  */
 export type StripeWebhookEventType = 
   | 'payment_intent.succeeded'
   | 'payment_intent.payment_failed'
@@ -22,7 +22,7 @@ export type StripeWebhookEventType =
 
 /**
  * Stripe customer data
- */
+  */
 export interface StripeCustomerData {
   id: string;
   email: string;
@@ -42,7 +42,7 @@ export interface StripeCustomerData {
 
 /**
  * Stripe payment intent configuration
- */
+  */
 export interface StripePaymentIntentConfig {
   amount: number;
   currency: string;
@@ -62,7 +62,7 @@ export interface StripePaymentIntentConfig {
 
 /**
  * Stripe subscription configuration
- */
+  */
 export interface StripeSubscriptionConfig {
   customer: string;
   items: Array<{
@@ -80,7 +80,7 @@ export interface StripeSubscriptionConfig {
 
 /**
  * Stripe price configuration for different environments
- */
+  */
 export interface StripeEnvironmentConfig {
   publishableKey: string;
   secretKey: string;
@@ -92,7 +92,7 @@ export interface StripeEnvironmentConfig {
 
 /**
  * Stripe configuration per environment
- */
+  */
 export interface StripeConfiguration {
   development: StripeEnvironmentConfig;
   staging: StripeEnvironmentConfig;
@@ -102,7 +102,7 @@ export interface StripeConfiguration {
 
 /**
  * Stripe webhook handler result
- */
+  */
 export interface StripeWebhookHandlerResult {
   processed: boolean;
   error?: string;
@@ -112,7 +112,7 @@ export interface StripeWebhookHandlerResult {
 
 /**
  * Stripe error with additional context
- */
+  */
 export interface StripeErrorContext extends Error {
   type: 'StripeCardError' | 'StripeRateLimitError' | 'StripeInvalidRequestError' | 'StripeAPIError' | 'StripeConnectionError' | 'StripeAuthenticationError';
   code?: string;
@@ -130,7 +130,7 @@ export interface StripeErrorContext extends Error {
 
 /**
  * Stripe payment method types supported
- */
+  */
 export type SupportedPaymentMethodType = 
   | 'card'
   | 'bank_account' 
@@ -146,7 +146,7 @@ export type SupportedPaymentMethodType =
 
 /**
  * Stripe checkout session configuration
- */
+  */
 export interface StripeCheckoutConfig {
   mode: 'payment' | 'subscription' | 'setup';
   customer?: string;
@@ -175,7 +175,7 @@ export interface StripeCheckoutConfig {
 
 /**
  * Stripe retry configuration
- */
+  */
 export interface StripeRetryConfig {
   maxAttempts: number;
   initialDelay: number; // milliseconds
@@ -187,7 +187,7 @@ export interface StripeRetryConfig {
 
 /**
  * Stripe idempotency configuration
- */
+  */
 export interface StripeIdempotencyConfig {
   enabled: boolean;
   keyPrefix: string;

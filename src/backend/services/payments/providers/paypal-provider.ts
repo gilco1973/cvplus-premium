@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium PayPal Payment Provider Implementation
  * Concrete implementation of IPaymentProvider for PayPal
- */
+  */
 
 import { BasePaymentProvider } from './base-provider';
 import axios, { AxiosInstance } from 'axios';
@@ -29,7 +29,7 @@ import {
 
 /**
  * PayPal API response interfaces
- */
+  */
 interface PayPalAccessToken {
   scope: string;
   access_token: string;
@@ -251,7 +251,7 @@ interface PayPalWebhookEvent {
 
 /**
  * PayPal Payment Provider Implementation
- */
+  */
 export class PayPalPaymentProvider extends BasePaymentProvider {
   private httpClient: AxiosInstance;
   private accessToken: string | null = null;

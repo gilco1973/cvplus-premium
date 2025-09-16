@@ -1,7 +1,7 @@
 /**
  * Tier Manager Service
  * Manages user tiers, feature access, and usage tracking
- */
+  */
 
 import * as admin from 'firebase-admin';
 import {

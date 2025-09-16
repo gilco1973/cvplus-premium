@@ -5,7 +5,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { useState, useEffect, useCallback } from 'react';
 import {
@@ -18,7 +18,7 @@ import {
 
 /**
  * Hook configuration
- */
+  */
 interface UseBillingConfig {
   userId?: string;
   limit?: number;
@@ -28,7 +28,7 @@ interface UseBillingConfig {
 
 /**
  * React hook for billing management
- */
+  */
 export const useBilling = (config: UseBillingConfig = {}): UseBillingReturn => {
   const {
     userId,
@@ -44,7 +44,7 @@ export const useBilling = (config: UseBillingConfig = {}): UseBillingReturn => {
 
   /**
    * Fetch billing data
-   */
+    */
   const fetchBillingData = useCallback(async (): Promise<void> => {
     if (!userId) {
       setError('User ID is required');
@@ -183,7 +183,7 @@ export const useBilling = (config: UseBillingConfig = {}): UseBillingReturn => {
 
   /**
    * Refresh billing data
-   */
+    */
   const refresh = useCallback(async (): Promise<void> => {
     await fetchBillingData();
   }, [fetchBillingData]);
@@ -217,7 +217,7 @@ export const useBilling = (config: UseBillingConfig = {}): UseBillingReturn => {
 
 /**
  * Hook for payment statistics
- */
+  */
 export const useBillingStats = (userId?: string) => {
   const { paymentHistory, invoices, isLoading } = useBilling({ userId });
 
@@ -256,7 +256,7 @@ export const useBillingStats = (userId?: string) => {
 
 /**
  * Hook for recent billing activity
- */
+  */
 export const useRecentBillingActivity = (userId?: string, days = 30) => {
   const { paymentHistory, invoices, isLoading } = useBilling({ userId });
 
@@ -302,7 +302,7 @@ export const useRecentBillingActivity = (userId?: string, days = 30) => {
 
 /**
  * Hook for payment method management
- */
+  */
 export const usePaymentMethods = (userId?: string) => {
   const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);

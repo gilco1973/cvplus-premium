@@ -1,6 +1,6 @@
 /**
  * Simple logger utility for premium module
- */
+  */
 
 interface LogLevel {
   DEBUG: 0;

@@ -122,7 +122,7 @@ export const requireAuth = async (request: CallableRequest): Promise<Authenticat
 
 /**
  * Enhanced authentication middleware that also validates job ownership
- */
+  */
 export const requireAuthWithJobOwnership = async (
   request: CallableRequest, 
   jobId: string
@@ -171,7 +171,7 @@ export const requireAuthWithJobOwnership = async (
 
 /**
  * Utility to extract user information from authenticated request
- */
+  */
 export const getUserInfo = (request: AuthenticatedRequest) => {
   return {
     uid: request.auth.uid,
@@ -185,7 +185,7 @@ export const getUserInfo = (request: AuthenticatedRequest) => {
 
 /**
  * Enhanced admin authentication with role-based access control
- */
+  */
 export interface AdminAuthenticatedRequest extends AuthenticatedRequest {
   admin: {
     role: AdminRole;
@@ -197,7 +197,7 @@ export interface AdminAuthenticatedRequest extends AuthenticatedRequest {
 
 /**
  * Check if user has administrative privileges (legacy)
- */
+  */
 export const isAdmin = (request: AuthenticatedRequest): boolean => {
   // SECURITY IMPROVEMENT: Use environment variables for admin emails
   const adminEmailsEnv = process.env.ADMIN_EMAILS || 'gil.klainert@gmail.com,admin@cvplus.ai';
@@ -208,7 +208,7 @@ export const isAdmin = (request: AuthenticatedRequest): boolean => {
 
 /**
  * Enhanced admin authentication with Firebase Custom Claims
- */
+  */
 export const requireAdmin = async (request: CallableRequest, minLevel: AdminLevel = AdminLevel.L1_SUPPORT): Promise<AdminAuthenticatedRequest> => {
   const authenticatedRequest = await requireAuth(request);
   const { uid, token } = authenticatedRequest.auth;
@@ -294,7 +294,7 @@ export const requireAdmin = async (request: CallableRequest, minLevel: AdminLeve
 
 /**
  * Check specific admin permission
- */
+  */
 export const requireAdminPermission = async (
   request: CallableRequest, 
   permission: keyof AdminPermissions
@@ -316,7 +316,7 @@ export const requireAdminPermission = async (
 
 /**
  * Get admin profile from Firestore
- */
+  */
 const getAdminProfile = async (uid: string) => {
   try {
     const adminDoc = await admin.firestore()
@@ -341,7 +341,7 @@ const getAdminProfile = async (uid: string) => {
 
 /**
  * Get default permissions based on admin level
- */
+  */
 const getDefaultAdminPermissions = (level: AdminLevel): AdminPermissions => {
   const basePermissions = {
     canAccessDashboard: true,
@@ -500,7 +500,7 @@ const getDefaultAdminPermissions = (level: AdminLevel): AdminPermissions => {
 
 /**
  * Rate limiting wrapper for authenticated functions
- */
+  */
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW = 60000; // 1 minute
 const RATE_LIMIT_MAX = 10; // 10 requests per minute per user

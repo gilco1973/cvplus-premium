@@ -5,7 +5,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { useState, useEffect, useCallback } from 'react';
 import {
@@ -16,7 +16,7 @@ import {
 
 /**
  * Hook configuration
- */
+  */
 interface UseFeatureGateConfig {
   userId?: string;
   feature: PremiumFeature;
@@ -27,7 +27,7 @@ interface UseFeatureGateConfig {
 
 /**
  * React hook for feature gate management
- */
+  */
 export const useFeatureGate = (config: UseFeatureGateConfig): UseFeatureGateReturn => {
   const {
     userId,
@@ -45,7 +45,7 @@ export const useFeatureGate = (config: UseFeatureGateConfig): UseFeatureGateRetu
 
   /**
    * Check feature access
-   */
+    */
   const checkAccess = useCallback(async (forceRefresh = false): Promise<void> => {
     if (!userId) {
       setError('User ID is required');
@@ -94,7 +94,7 @@ export const useFeatureGate = (config: UseFeatureGateConfig): UseFeatureGateRetu
 
   /**
    * Upgrade handler
-   */
+    */
   const upgrade = useCallback(() => {
     // In real implementation, this would navigate to upgrade flow
     window.location.href = '/pricing';
@@ -124,7 +124,7 @@ export const useFeatureGate = (config: UseFeatureGateConfig): UseFeatureGateRetu
 
 /**
  * Hook for multiple feature gates
- */
+  */
 export const useMultipleFeatureGates = (
   userId?: string,
   features: PremiumFeature[] = []
@@ -203,7 +203,7 @@ export const useMultipleFeatureGates = (
 
 /**
  * Hook for feature gate with automatic retry
- */
+  */
 export const useFeatureGateWithRetry = (
   userId?: string,
   feature?: PremiumFeature,
@@ -259,7 +259,7 @@ export const useFeatureGateWithRetry = (
 
 /**
  * Hook for conditional feature rendering
- */
+  */
 export const useConditionalFeature = <T>(
   userId?: string,
   feature?: PremiumFeature,
@@ -286,7 +286,7 @@ export const useConditionalFeature = <T>(
 
 /**
  * Hook for feature gate analytics
- */
+  */
 export const useFeatureGateAnalytics = (userId?: string) => {
   const [analytics, setAnalytics] = useState<{
     totalChecks: number;

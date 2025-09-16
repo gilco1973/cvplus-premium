@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Provider Configuration Manager
  * Phase 2: Advanced configuration management with validation and secrets handling
- */
+  */
 
 import {
   PaymentProviderName,
@@ -23,7 +23,7 @@ import {
 /**
  * Advanced Configuration Manager with environment-based loading,
  * runtime validation, and secure secrets management
- */
+  */
 export class ProviderConfigurationManager implements IProviderConfigurationManager {
   private static instance: ProviderConfigurationManager;
   
@@ -41,7 +41,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Get singleton instance
-   */
+    */
   public static getInstance(): ProviderConfigurationManager {
     if (!ProviderConfigurationManager.instance) {
       ProviderConfigurationManager.instance = new ProviderConfigurationManager();
@@ -55,7 +55,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Load configuration from environment with comprehensive validation
-   */
+    */
   async loadConfig<T extends PaymentProviderConfig>(
     provider: PaymentProviderName,
     environment: 'sandbox' | 'production' = 'sandbox'
@@ -109,7 +109,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Validate configuration with comprehensive type checking
-   */
+    */
   validateConfig<T extends PaymentProviderConfig>(config: T): ConfigValidationResult<T> {
     const errors: string[] = [];
     const warnings: string[] = [];
@@ -154,7 +154,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Sanitize configuration by removing sensitive data and applying defaults
-   */
+    */
   sanitizeConfig<T extends PaymentProviderConfig>(config: Partial<T>): T {
     const sanitized = { ...config } as T;
 
@@ -184,7 +184,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Update configuration at runtime with validation
-   */
+    */
   async updateConfig<T extends PaymentProviderConfig>(
     provider: PaymentProviderName,
     updates: Partial<T>
@@ -231,7 +231,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Get current configuration for provider
-   */
+    */
   getConfig<T extends PaymentProviderConfig>(provider: PaymentProviderName): T | null {
     const config = this.configs.get(provider);
     return config ? { ...config } as T : null;
@@ -239,7 +239,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Reload configuration from environment
-   */
+    */
   async reloadConfig(provider: PaymentProviderName): Promise<void> {
     const currentConfig = this.configs.get(provider);
     const environment = currentConfig?.environment || 'sandbox';
@@ -257,7 +257,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Rotate secrets for a provider (placeholder for future implementation)
-   */
+    */
   async rotateSecrets(provider: PaymentProviderName): Promise<void> {
     const config = this.configs.get(provider);
     if (!config) {
@@ -288,7 +288,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Validate secrets for a provider
-   */
+    */
   async validateSecrets(provider: PaymentProviderName): Promise<boolean> {
     const config = this.configs.get(provider);
     if (!config) {
@@ -318,14 +318,14 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Register callback for configuration changes
-   */
+    */
   onConfigChanged(callback: (provider: PaymentProviderName, config: PaymentProviderConfig) => void): void {
     this.configChangeCallbacks.push(callback);
   }
 
   /**
    * Register callback for secrets rotation
-   */
+    */
   onSecretsRotated(callback: (provider: PaymentProviderName) => void): void {
     this.secretsRotationCallbacks.push(callback);
   }
@@ -336,7 +336,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Load Stripe configuration from environment
-   */
+    */
   private async loadStripeConfig(environment: 'sandbox' | 'production'): Promise<StripeConfig> {
     const requiredVars = {
       secret_key: this.getRequiredEnvVar('STRIPE_SECRET_KEY'),
@@ -358,7 +358,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Load PayPal configuration from environment (Phase 3 placeholder)
-   */
+    */
   private async loadPayPalConfig(environment: 'sandbox' | 'production'): Promise<PayPalConfig> {
     const requiredVars = {
       client_id: this.getRequiredEnvVar('PAYPAL_CLIENT_ID'),
@@ -383,7 +383,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Create validation schemas for all providers
-   */
+    */
   private createValidationSchemas(): Record<PaymentProviderName, ConfigValidationSchema<any>> {
     return {
       stripe: this.createStripeValidationSchema(),
@@ -393,7 +393,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Create Stripe configuration validation schema
-   */
+    */
   private createStripeValidationSchema(): ConfigValidationSchema<StripeConfig> {
     const isStripeConfig: TypeGuard<StripeConfig> = (value: unknown): value is StripeConfig => {
       if (typeof value !== 'object' || value === null) return false;
@@ -447,7 +447,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Create PayPal configuration validation schema
-   */
+    */
   private createPayPalValidationSchema(): ConfigValidationSchema<PayPalConfig> {
     const isPayPalConfig: TypeGuard<PayPalConfig> = (value: unknown): value is PayPalConfig => {
       if (typeof value !== 'object' || value === null) return false;
@@ -502,7 +502,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Apply Stripe configuration defaults
-   */
+    */
   private applyStripeDefaults(config: Partial<StripeConfig>): void {
     config.api_version = config.api_version || '2024-06-20';
     config.timeout = config.timeout || 20000;
@@ -511,7 +511,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Apply PayPal configuration defaults
-   */
+    */
   private applyPayPalDefaults(config: Partial<PayPalConfig>): void {
     config.timeout = config.timeout || 30000;
     config.retry_attempts = config.retry_attempts || 3;
@@ -523,7 +523,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Validate security aspects of configuration
-   */
+    */
   private validateSecurityConfig(
     config: PaymentProviderConfig,
     errors: string[],
@@ -556,7 +556,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Validate performance aspects of configuration
-   */
+    */
   private validatePerformanceConfig(config: PaymentProviderConfig, warnings: string[]): void {
     if (config.retry_attempts && config.retry_attempts > 5) {
       warnings.push('High retry attempts may cause poor user experience');
@@ -569,7 +569,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Validate Stripe secrets
-   */
+    */
   private async validateStripeSecrets(config: StripeConfig): Promise<boolean> {
     // In a real implementation, this would make test API calls
     return config.secret_key.length > 0 && 
@@ -579,7 +579,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Validate PayPal secrets
-   */
+    */
   private async validatePayPalSecrets(config: PayPalConfig): Promise<boolean> {
     // In a real implementation, this would make test API calls
     return config.client_id.length > 0 && 
@@ -593,7 +593,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Get required environment variable with error handling
-   */
+    */
   private getRequiredEnvVar(name: string): string {
     const value = process.env[name];
     if (!value) {
@@ -604,7 +604,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Parse integer environment variable with default
-   */
+    */
   private parseIntEnvVar(name: string, defaultValue: number): number {
     const value = process.env[name];
     if (!value) return defaultValue;
@@ -620,7 +620,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Log configuration events
-   */
+    */
   private logConfigEvent(
     type: string,
     provider: PaymentProviderName,
@@ -631,7 +631,7 @@ export class ProviderConfigurationManager implements IProviderConfigurationManag
 
   /**
    * Create provider error with proper typing
-   */
+    */
   private createProviderError<P extends PaymentProviderName>(
     provider: P,
     code: ProviderErrorCode,

@@ -6,7 +6,7 @@
  * @author Gil Klainert
  * @version 4.0.0
  * @category Global Payment Infrastructure
- */
+  */
 
 import { https } from 'firebase-functions/v2';
 import { logger } from 'firebase-functions/v2';
@@ -46,7 +46,7 @@ const fraudPrevention = new FraudPreventionService({
 
 /**
  * Get localized pricing for a region with tax calculation
- */
+  */
 export const getLocalizedPricing = https.onCall(
   {
     cors: true,
@@ -147,7 +147,7 @@ export const getLocalizedPricing = https.onCall(
 
 /**
  * Get supported currencies and regions
- */
+  */
 export const getSupportedRegions = https.onCall(
   {
     cors: true,
@@ -223,7 +223,7 @@ export const getSupportedRegions = https.onCall(
 
 /**
  * Validate VAT number for EU businesses
- */
+  */
 export const validateVATNumber = https.onCall(
   {
     cors: true,
@@ -283,7 +283,7 @@ export const validateVATNumber = https.onCall(
 
 /**
  * Assess transaction fraud risk
- */
+  */
 export const assessFraudRisk = https.onCall(
   {
     cors: true,
@@ -357,7 +357,7 @@ export const assessFraudRisk = https.onCall(
 
 /**
  * Convert currency amounts
- */
+  */
 export const convertCurrency = https.onCall(
   {
     cors: true,
@@ -428,7 +428,7 @@ export const convertCurrency = https.onCall(
 
 /**
  * Get global payment system health status
- */
+  */
 export const globalPaymentsHealthCheck = https.onCall(
   {
     cors: true,
@@ -493,7 +493,7 @@ export const globalPaymentsHealthCheck = https.onCall(
 
 /**
  * Generate tax compliance report (Admin only)
- */
+  */
 export const generateTaxReport = https.onCall(
   {
     cors: true,
@@ -553,7 +553,7 @@ export const generateTaxReport = https.onCall(
 
 /**
  * Get fraud statistics (Admin only)
- */
+  */
 export const getFraudStatistics = https.onCall(
   {
     cors: true,

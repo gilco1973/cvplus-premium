@@ -3,7 +3,7 @@
  * Moved from Core module to maintain architectural compliance
  * Author: Gil Klainert
  * Date: 2025-08-29
- */
+  */
 
 import { HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';
@@ -37,7 +37,7 @@ type PremiumFeature =
 /**
  * Premium Guard Implementation
  * Implements the IPremiumGuard interface from Core
- */
+  */
 export class PremiumGuardService implements IPremiumGuard {
   private subscriptionManagementService: SubscriptionManagementService;
 
@@ -47,7 +47,7 @@ export class PremiumGuardService implements IPremiumGuard {
 
   /**
    * Check premium access for a user and feature
-   */
+    */
   async checkPremiumAccess(
     userId: string,
     featureId: string,
@@ -146,7 +146,7 @@ export class PremiumGuardService implements IPremiumGuard {
 
   /**
    * Create Express middleware for premium access control
-   */
+    */
   createMiddleware(featureId: string, options: PremiumGuardOptions = {}): IMiddleware {
     return async (req: any, res: any, next: any) => {
       const startTime = Date.now();

@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Feature Access Check
  * Migrated from /functions/src/functions/payments/checkFeatureAccess.ts
- */
+  */
 
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';
@@ -185,7 +185,7 @@ export const checkFeatureAccess = onCall<CheckFeatureAccessData>(
 
 /**
  * Check if user has grace period for a feature
- */
+  */
 async function checkGracePeriod(
   userId: string, 
   feature: PremiumFeature
@@ -228,7 +228,7 @@ async function checkGracePeriod(
 
 /**
  * Check if current tier is compatible with required tier
- */
+  */
 function checkTierCompatibility(currentTier: string, requiredTier: string): boolean {
   const tierHierarchy = ['free', 'basic', 'pro', 'enterprise'];
   
@@ -245,7 +245,7 @@ function checkTierCompatibility(currentTier: string, requiredTier: string): bool
 
 /**
  * Check usage limits for a feature
- */
+  */
 async function checkUsageLimits(
   userId: string, 
   feature: PremiumFeature, 
@@ -315,7 +315,7 @@ async function checkUsageLimits(
 
 /**
  * Generate upgrade URL for feature
- */
+  */
 function generateUpgradeUrl(feature: PremiumFeature): string {
   const baseUrl = process.env.FRONTEND_URL || 'https://cvplus-webapp.web.app';
   const requiredTier = getMinimumTier(feature);

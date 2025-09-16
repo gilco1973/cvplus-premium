@@ -1,7 +1,7 @@
 /**
  * CVPlus PayPal Payment Status Firebase Function
  * Checks PayPal payment/order status
- */
+  */
 
 import { https } from 'firebase-functions';
 import { PayPalPaymentProvider } from '../../../services/payments/providers/paypal-provider';
@@ -14,7 +14,7 @@ interface PaymentStatusRequest {
 
 /**
  * Get PayPal Payment Status Function
- */
+  */
 export const getPayPalPaymentStatus = https.onCall(async (data: PaymentStatusRequest, context) => {
   // Validate authentication
   if (!context.auth) {

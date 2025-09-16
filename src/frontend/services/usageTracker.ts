@@ -3,7 +3,7 @@
  * Real-time feature usage analytics and monitoring
  * Author: Gil Klainert
  * Date: August 27, 2025
- */
+  */
 
 import { httpsCallable } from 'firebase/functions';
 import { logEvent } from 'firebase/analytics';
@@ -49,7 +49,7 @@ export interface FeatureAccessEvent {
 /**
  * Real-time Usage Tracking Service
  * Tracks feature usage, access patterns, and conversion metrics
- */
+  */
 export class UsageTracker {
   private static instance: UsageTracker;
   private analyticsBuffer: AnalyticsEvent[] = [];
@@ -73,7 +73,7 @@ export class UsageTracker {
 
   /**
    * Track feature view/access attempt
-   */
+    */
   trackFeatureAccess(
     userId: string, 
     featureId: string, 
@@ -109,7 +109,7 @@ export class UsageTracker {
 
   /**
    * Track actual feature usage/execution
-   */
+    */
   trackFeatureUsage(
     userId: string,
     featureId: string, 
@@ -146,7 +146,7 @@ export class UsageTracker {
 
   /**
    * Track blocked feature access attempts
-   */
+    */
   trackFeatureBlocked(
     userId: string,
     featureId: string, 
@@ -182,7 +182,7 @@ export class UsageTracker {
 
   /**
    * Track feature-related errors
-   */
+    */
   trackFeatureError(
     userId: string,
     featureId: string,
@@ -217,7 +217,7 @@ export class UsageTracker {
 
   /**
    * Get usage analytics for a user
-   */
+    */
   async getUserUsageAnalytics(
     userId: string,
     timeRange: 'day' | 'week' | 'month' | 'year' = 'month'
@@ -235,7 +235,7 @@ export class UsageTracker {
 
   /**
    * Get feature popularity metrics
-   */
+    */
   async getFeaturePopularityMetrics(): Promise<{
     mostUsed: Array<{ featureId: string; count: number; tier: string }>;
     leastUsed: Array<{ featureId: string; count: number; tier: string }>;
@@ -258,7 +258,7 @@ export class UsageTracker {
 
   /**
    * Track conversion from blocked access to upgrade
-   */
+    */
   trackUpgradeConversion(
     userId: string,
     featureId: string,
@@ -298,7 +298,7 @@ export class UsageTracker {
 
   /**
    * Get real-time usage statistics for dashboard
-   */
+    */
   async getRealtimeUsageStats(userId: string): Promise<{
     todayUsage: Record<string, number>;
     monthlyUsage: Record<string, number>;
@@ -323,7 +323,7 @@ export class UsageTracker {
 
   /**
    * Private helper methods
-   */
+    */
   private addEvent(event: AnalyticsEvent): void {
     this.analyticsBuffer.push(event);
     
@@ -399,7 +399,7 @@ export class UsageTracker {
 
   /**
    * Cleanup method
-   */
+    */
   destroy(): void {
     if (this.batchTimer) {
       clearInterval(this.batchTimer);

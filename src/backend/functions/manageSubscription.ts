@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0 - CVPlus Premium Module
- */
+  */
 
 import { onCall, CallableRequest } from 'firebase-functions/v2/https';
 import { SubscriptionService } from '../../services/subscription.service';
@@ -33,7 +33,7 @@ export interface ManageSubscriptionResponse {
 
 /**
  * Main subscription management function
- */
+  */
 export const manageSubscription = onCall<ManageSubscriptionRequest, Promise<ManageSubscriptionResponse>>(
   {
     timeoutSeconds: 300, // 5 minutes
@@ -132,7 +132,7 @@ export const manageSubscription = onCall<ManageSubscriptionRequest, Promise<Mana
 
 /**
  * Create new subscription
- */
+  */
 async function createSubscription(
   userId: string,
   priceId: string,
@@ -201,7 +201,7 @@ async function createSubscription(
 
 /**
  * Update existing subscription
- */
+  */
 async function updateSubscription(
   userId: string,
   subscriptionId: string,
@@ -242,7 +242,7 @@ async function updateSubscription(
 
 /**
  * Cancel subscription
- */
+  */
 async function cancelSubscription(
   userId: string,
   subscriptionId: string,
@@ -289,7 +289,7 @@ async function cancelSubscription(
 
 /**
  * Reactivate subscription
- */
+  */
 async function reactivateSubscription(
   userId: string,
   subscriptionId: string,
@@ -332,7 +332,7 @@ async function reactivateSubscription(
 
 /**
  * Change subscription plan
- */
+  */
 async function changePlan(
   userId: string,
   subscriptionId: string,

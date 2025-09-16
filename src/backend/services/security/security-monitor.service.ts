@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 4.0.0 - CVPlus Premium Module
- */
+  */
 
 import { logger } from 'firebase-functions/v2';
 import { BaseService } from '../../shared/base-service';
@@ -53,7 +53,7 @@ export class SecurityMonitorService extends BaseService {
 
   /**
    * Log a security event
-   */
+    */
   async logSecurityEvent(event: Omit<SecurityEvent, 'timestamp'>): Promise<void> {
     const securityEvent: SecurityEvent = {
       ...event,
@@ -82,7 +82,7 @@ export class SecurityMonitorService extends BaseService {
 
   /**
    * Check if recent events warrant an alert
-   */
+    */
   private async checkAlertConditions(latestEvent: SecurityEvent): Promise<void> {
     const threshold = this.alertThresholds.get(latestEvent.type);
     if (!threshold) return;
@@ -110,7 +110,7 @@ export class SecurityMonitorService extends BaseService {
 
   /**
    * Generate a security alert
-   */
+    */
   private async generateAlert(alert: Omit<SecurityAlert, 'id' | 'timestamp'>): Promise<void> {
     const securityAlert: SecurityAlert = {
       ...alert,
@@ -129,7 +129,7 @@ export class SecurityMonitorService extends BaseService {
 
   /**
    * Calculate alert severity based on events
-   */
+    */
   private calculateAlertSeverity(events: SecurityEvent[]): 'low' | 'medium' | 'high' | 'critical' {
     const severityCounts = events.reduce((acc, event) => {
       acc[event.severity] = (acc[event.severity] || 0) + 1;
@@ -144,7 +144,7 @@ export class SecurityMonitorService extends BaseService {
 
   /**
    * Get security statistics
-   */
+    */
   async getSecurityStatistics(timeRange: number = 24 * 60 * 60 * 1000): Promise<{
     totalEvents: number;
     eventsByType: Record<string, number>;
@@ -184,7 +184,7 @@ export class SecurityMonitorService extends BaseService {
 
   /**
    * Check for suspicious patterns in user behavior
-   */
+    */
   async analyzeSuspiciousActivity(userId: string): Promise<{
     riskLevel: 'low' | 'medium' | 'high';
     indicators: string[];
@@ -229,7 +229,7 @@ export class SecurityMonitorService extends BaseService {
 
   /**
    * Get recent security events for a user
-   */
+    */
   async getUserSecurityEvents(
     userId: string,
     limit: number = 50

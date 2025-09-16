@@ -8,7 +8,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @category Global Payments
- */
+  */
 
 import { logger } from 'firebase-functions/v2';
 import { BaseService } from '../../shared/base-service';
@@ -98,7 +98,7 @@ export interface PaymentMethodValidation {
 /**
  * Regional Payment Methods Service
  * Manages availability and configuration of region-specific payment methods
- */
+  */
 export class RegionalPaymentMethodsService extends BaseService {
   private paymentMethods = new Map<RegionalPaymentMethod, PaymentMethodConfig>();
   private regionalAvailability = new Map<string, PaymentMethodAvailability>();
@@ -117,7 +117,7 @@ export class RegionalPaymentMethodsService extends BaseService {
 
   /**
    * Initialize payment method configurations
-   */
+    */
   private initializePaymentMethods(): void {
     const methods: PaymentMethodConfig[] = [
       // Universal Payment Methods
@@ -329,7 +329,7 @@ export class RegionalPaymentMethodsService extends BaseService {
 
   /**
    * Initialize regional availability mappings
-   */
+    */
   private initializeRegionalAvailability(): void {
     const availability: PaymentMethodAvailability[] = [
       // Netherlands
@@ -480,21 +480,21 @@ export class RegionalPaymentMethodsService extends BaseService {
 
   /**
    * Get available payment methods for a region
-   */
+    */
   getAvailablePaymentMethods(region: string): PaymentMethodAvailability | null {
     return this.regionalAvailability.get(region) || null;
   }
 
   /**
    * Get payment method configuration
-   */
+    */
   getPaymentMethodConfig(method: RegionalPaymentMethod): PaymentMethodConfig | null {
     return this.paymentMethods.get(method) || null;
   }
 
   /**
    * Get recommended payment methods for region and currency
-   */
+    */
   getRecommendedMethods(
     region: string,
     currency: SupportedCurrency,
@@ -538,7 +538,7 @@ export class RegionalPaymentMethodsService extends BaseService {
 
   /**
    * Validate payment method requirements for customer
-   */
+    */
   async validatePaymentMethod(
     method: RegionalPaymentMethod,
     customerData: {
@@ -613,7 +613,7 @@ export class RegionalPaymentMethodsService extends BaseService {
 
   /**
    * Get payment method fees for amount
-   */
+    */
   calculateFees(
     method: RegionalPaymentMethod,
     amount: number,
@@ -642,14 +642,14 @@ export class RegionalPaymentMethodsService extends BaseService {
 
   /**
    * Get all supported payment methods
-   */
+    */
   getAllPaymentMethods(): PaymentMethodConfig[] {
     return Array.from(this.paymentMethods.values()).filter(method => method.enabled);
   }
 
   /**
    * Health check for regional payment methods service
-   */
+    */
   async healthCheck(): Promise<{
     status: 'healthy' | 'degraded' | 'unhealthy';
     details: Record<string, any>;

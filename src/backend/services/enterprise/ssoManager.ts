@@ -5,7 +5,7 @@
  * @author Gil Klainert
  * @version 4.0.0
  * @category Enterprise Authentication
- */
+  */
 
 import { Logger } from '../../shared/logger';
 
@@ -120,14 +120,14 @@ export interface SSOMetrics {
 /**
  * Enterprise SSO Manager
  * Handles authentication with various enterprise identity providers
- */
+  */
 export class SSOManager extends BaseService {
   private readonly SSO_CONFIGS_COLLECTION = 'sso_configurations';
   private readonly SSO_SESSIONS_COLLECTION = 'sso_sessions';
 
   /**
    * Configure SAML SSO for tenant
-   */
+    */
   async configureSAML(tenantId: string, config: SAMLConfig): Promise<void> {
     try {
       logger.info('Configuring SAML SSO', { tenantId, entityId: config.entityId });
@@ -167,7 +167,7 @@ export class SSOManager extends BaseService {
 
   /**
    * Configure OAuth SSO for tenant
-   */
+    */
   async configureOAuth(tenantId: string, config: OAuthConfig): Promise<void> {
     try {
       logger.info('Configuring OAuth SSO', { tenantId, clientId: config.clientId });
@@ -196,7 +196,7 @@ export class SSOManager extends BaseService {
 
   /**
    * Configure Azure AD SSO for tenant
-   */
+    */
   async configureAzureAD(tenantId: string, config: AzureADConfig): Promise<void> {
     try {
       logger.info('Configuring Azure AD SSO', { tenantId, azureTenantId: config.tenantId });
@@ -225,7 +225,7 @@ export class SSOManager extends BaseService {
 
   /**
    * Process SAML login assertion
-   */
+    */
   async processSAMLLogin(tenantId: string, assertion: SAMLAssertion): Promise<UserSession> {
     try {
       logger.info('Processing SAML login', { tenantId, nameId: assertion.nameId });
@@ -267,7 +267,7 @@ export class SSOManager extends BaseService {
 
   /**
    * Process OAuth login
-   */
+    */
   async processOAuthLogin(
     tenantId: string,
     authorizationCode: string,
@@ -316,7 +316,7 @@ export class SSOManager extends BaseService {
 
   /**
    * Process Azure AD login
-   */
+    */
   async processAzureADLogin(
     tenantId: string,
     authorizationCode: string,
@@ -365,7 +365,7 @@ export class SSOManager extends BaseService {
 
   /**
    * Synchronize user attributes from SSO provider
-   */
+    */
   async syncUserAttributes(userId: string, tenantId: string, attributes: UserAttributes): Promise<void> {
     try {
       logger.info('Syncing user attributes', { userId, tenantId });
@@ -392,7 +392,7 @@ export class SSOManager extends BaseService {
 
   /**
    * Handle SSO logout
-   */
+    */
   async processLogout(sessionId: string): Promise<void> {
     try {
       logger.info('Processing SSO logout', { sessionId });
@@ -423,7 +423,7 @@ export class SSOManager extends BaseService {
 
   /**
    * Get SSO configuration for tenant
-   */
+    */
   async getSSOConfig(tenantId: string, provider: string): Promise<SSOConfig | null> {
     try {
       const doc = await db.collection(`tenants/${tenantId}/${this.SSO_CONFIGS_COLLECTION}`)
@@ -439,7 +439,7 @@ export class SSOManager extends BaseService {
 
   /**
    * Get SSO metrics for tenant
-   */
+    */
   async getSSOMetrics(tenantId: string, timeframe: { start: Date; end: Date }): Promise<SSOMetrics[]> {
     try {
       const logsSnapshot = await db.collection(`tenants/${tenantId}/sso_logs`)

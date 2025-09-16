@@ -1,6 +1,6 @@
 /**
  * Premium Feature Guard Middleware for CV Processing Functions
- */
+  */
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { AuthenticatedRequest } from './authGuard';
@@ -13,7 +13,7 @@ export interface PremiumFeature {
 
 /**
  * Check if user has access to premium features
- */
+  */
 export const requirePremium = (feature: PremiumFeature) => {
   return async (req: AuthenticatedRequest, res: functions.Response, next: () => void) => {
     try {
@@ -68,7 +68,7 @@ export const requirePremium = (feature: PremiumFeature) => {
 
 /**
  * Check if user tier meets minimum requirement
- */
+  */
 function hasRequiredTier(userTier: string, requiredTier: string): boolean {
   const tierHierarchy = ['basic', 'premium', 'enterprise'];
   const userLevel = tierHierarchy.indexOf(userTier);
@@ -79,7 +79,7 @@ function hasRequiredTier(userTier: string, requiredTier: string): boolean {
 
 /**
  * Get user's current subscription tier
- */
+  */
 export const getUserTier = async (userId: string): Promise<string> => {
   try {
     const userDoc = await admin.firestore()
@@ -97,7 +97,7 @@ export const getUserTier = async (userId: string): Promise<string> => {
 
 /**
  * Higher-order function to wrap handlers with premium access checking
- */
+  */
 export const withPremiumAccess = (feature: PremiumFeature) => {
   return (handler: (req: AuthenticatedRequest, res: functions.Response) => Promise<void>) => {
     return async (req: AuthenticatedRequest, res: functions.Response) => {

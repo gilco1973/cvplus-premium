@@ -3,7 +3,7 @@
  * Handles batched analytics events from frontend usage tracker
  * Author: Gil Klainert
  * Date: August 27, 2025
- */
+  */
 
 import { onCall } from 'firebase-functions/v2/https';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
@@ -36,7 +36,7 @@ interface BatchResponse {
 /**
  * Batch tracking events function
  * Processes analytics events in batches for optimal performance
- */
+  */
 export const batchTrackingEvents = onCall<{ events: AnalyticsEvent[] }, Promise<BatchResponse>>({
   enforceAppCheck: false, // Allow from web without app check for development
   cors: true
@@ -136,7 +136,7 @@ export const batchTrackingEvents = onCall<{ events: AnalyticsEvent[] }, Promise<
 
 /**
  * Validate event structure
- */
+  */
 function isValidEvent(event: any): event is AnalyticsEvent {
   return (
     event &&
@@ -152,7 +152,7 @@ function isValidEvent(event: any): event is AnalyticsEvent {
 
 /**
  * Enrich event with feature metadata
- */
+  */
 function enrichEvent(event: AnalyticsEvent): ProcessedEvent {
   const feature = FeatureRegistry.getFeature(event.featureId);
   
@@ -168,7 +168,7 @@ function enrichEvent(event: AnalyticsEvent): ProcessedEvent {
 
 /**
  * Update user-specific statistics
- */
+  */
 async function updateUserStatistics(batch: any, db: any, event: ProcessedEvent): Promise<void> {
   const userStatsRef = db.collection('user_analytics').doc(event.userId);
   const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
@@ -198,7 +198,7 @@ async function updateUserStatistics(batch: any, db: any, event: ProcessedEvent):
 
 /**
  * Update global feature statistics
- */
+  */
 async function updateFeatureStatistics(batch: any, db: any, event: ProcessedEvent): Promise<void> {
   const featureStatsRef = db.collection('feature_analytics').doc(event.featureId);
   const today = new Date().toISOString().split('T')[0];
@@ -228,7 +228,7 @@ async function updateFeatureStatistics(batch: any, db: any, event: ProcessedEven
 
 /**
  * Update real-time aggregates for dashboards
- */
+  */
 async function updateRealtimeAggregates(events: ProcessedEvent[]): Promise<void> {
   try {
     const db = getFirestore();
@@ -274,7 +274,7 @@ async function updateRealtimeAggregates(events: ProcessedEvent[]): Promise<void>
 /**
  * Get user usage analytics function
  * Returns usage statistics for a specific user
- */
+  */
 export const getUserUsageAnalytics = onCall<
   { userId: string; timeRange?: 'day' | 'week' | 'month' | 'year' },
   Promise<any>
@@ -328,7 +328,7 @@ export const getUserUsageAnalytics = onCall<
 
 /**
  * Helper functions for analytics processing
- */
+  */
 function extractPopularFeatures(data: any): Array<{ featureId: string; count: number }> {
   const featureCounts: Record<string, number> = {};
   

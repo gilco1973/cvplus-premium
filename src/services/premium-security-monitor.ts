@@ -6,7 +6,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @security CRITICAL - Handles premium access security monitoring
- */
+  */
 
 import { doc, collection, addDoc, serverTimestamp, getDoc, updateDoc, increment } from 'firebase/firestore';
 import { getFirestore } from 'firebase-admin/firestore';
@@ -102,7 +102,7 @@ export class PremiumSecurityMonitor {
 
   /**
    * Log premium access attempt
-   */
+    */
   async logAccessAttempt(attempt: PremiumAccessAttempt): Promise<void> {
     try {
       // Validate feature
@@ -140,7 +140,7 @@ export class PremiumSecurityMonitor {
 
   /**
    * Check for suspicious activity patterns
-   */
+    */
   private async checkSuspiciousActivity(userId: string, attempt: PremiumAccessAttempt): Promise<void> {
     try {
       // Get recent denials for this user
@@ -186,7 +186,7 @@ export class PremiumSecurityMonitor {
 
   /**
    * Log suspicious activity
-   */
+    */
   async logSuspiciousActivity(activity: SuspiciousActivity): Promise<void> {
     try {
       const activityData = {
@@ -209,7 +209,7 @@ export class PremiumSecurityMonitor {
 
   /**
    * Create premium security violation record
-   */
+    */
   async createSecurityViolation(violation: Omit<PremiumSecurityViolation, 'timestamp' | 'resolved' | 'actions'>): Promise<void> {
     try {
       const violationData: PremiumSecurityViolation = {
@@ -234,7 +234,7 @@ export class PremiumSecurityMonitor {
 
   /**
    * Check rate limiting status for a user and feature
-   */
+    */
   async checkRateLimit(userId: string, feature: PremiumFeature): Promise<RateLimitStatus> {
     const rateLimitConfig = getRateLimitingConfig(feature);
     
@@ -299,7 +299,7 @@ export class PremiumSecurityMonitor {
 
   /**
    * Update rate limiting counters
-   */
+    */
   private async updateRateLimitCounters(userId: string, feature: PremiumFeature): Promise<void> {
     const rateLimitConfig = getRateLimitingConfig(feature);
     

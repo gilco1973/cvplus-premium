@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Get User Subscription
  * Migrated from /functions/src/functions/payments/getUserSubscription.ts
- */
+  */
 
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';
@@ -17,7 +17,7 @@ interface GetUserSubscriptionData {
 
 /**
  * Create empty PremiumFeatures object with all features set to false
- */
+  */
 function createEmptyFeatures(): PremiumFeatures {
   return {
     [PremiumFeature.ADVANCED_CV_GENERATION]: false,
@@ -166,7 +166,7 @@ export const getUserSubscription = onCall<GetUserSubscriptionData>(
 /**
  * Internal helper function to get user subscription data
  * Used by other functions that need subscription data without HTTP overhead
- */
+  */
 export async function getUserSubscriptionInternal(userId: string): Promise<UserSubscriptionData> {
   try {
     logger.debug('Getting user subscription internally with cache', { userId });
@@ -179,14 +179,14 @@ export async function getUserSubscriptionInternal(userId: string): Promise<UserS
 
 /**
  * Helper function to invalidate cache when subscription changes
- */
+  */
 export function invalidateUserSubscriptionCache(userId: string): void {
   cachedSubscriptionService.invalidateUserSubscription(userId);
 }
 
 /**
  * Get user feature usage data
- */
+  */
 async function getUserFeatureUsage(
   userId: string, 
   planId: string
@@ -249,7 +249,7 @@ async function getUserFeatureUsage(
 
 /**
  * Get user payment methods from Stripe
- */
+  */
 async function getUserPaymentMethods(stripeCustomerId: string): Promise<Array<{
   id: string;
   type: string;
@@ -306,7 +306,7 @@ async function getUserPaymentMethods(stripeCustomerId: string): Promise<Array<{
 
 /**
  * Get upcoming invoice from Stripe
- */
+  */
 async function getUpcomingInvoice(stripeCustomerId: string): Promise<{
   id: string;
   amount: number;

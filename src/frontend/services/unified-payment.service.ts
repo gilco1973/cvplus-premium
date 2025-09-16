@@ -7,7 +7,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { 
   PaymentProviderName,
@@ -73,7 +73,7 @@ interface UnifiedPaymentServiceConfig {
 
 /**
  * Unified Payment Service - Frontend abstraction for all payment providers
- */
+  */
 export class UnifiedPaymentService {
   private static instance: UnifiedPaymentService;
   private config: UnifiedPaymentServiceConfig;
@@ -95,7 +95,7 @@ export class UnifiedPaymentService {
 
   /**
    * Get singleton instance
-   */
+    */
   public static getInstance(config?: UnifiedPaymentServiceConfig): UnifiedPaymentService {
     if (!UnifiedPaymentService.instance) {
       const defaultConfig: UnifiedPaymentServiceConfig = {
@@ -117,7 +117,7 @@ export class UnifiedPaymentService {
 
   /**
    * Get available payment providers with their capabilities
-   */
+    */
   async getAvailableProviders(context?: PaymentContext): Promise<PaymentProviderCapabilities[]> {
     try {
       // Fetch provider status from backend
@@ -158,7 +158,7 @@ export class UnifiedPaymentService {
 
   /**
    * Get smart payment recommendations based on context
-   */
+    */
   async getPaymentRecommendations(
     paymentRequest: PaymentRequest,
     context: PaymentContext
@@ -187,7 +187,7 @@ export class UnifiedPaymentService {
 
   /**
    * Detect optimal payment provider automatically
-   */
+    */
   async detectOptimalProvider(
     paymentRequest: PaymentRequest,
     context: PaymentContext
@@ -202,14 +202,14 @@ export class UnifiedPaymentService {
 
   /**
    * Get current payment flow state
-   */
+    */
   getPaymentState(): PaymentFlowState {
     return { ...this.paymentState };
   }
 
   /**
    * Update payment flow state
-   */
+    */
   private updatePaymentState(updates: Partial<PaymentFlowState>): void {
     this.paymentState = {
       ...this.paymentState,
@@ -221,7 +221,7 @@ export class UnifiedPaymentService {
 
   /**
    * Reset payment flow to initial state
-   */
+    */
   resetPaymentFlow(): void {
     this.updatePaymentState({
       step: 'provider_selection',
@@ -236,7 +236,7 @@ export class UnifiedPaymentService {
 
   /**
    * Select payment provider
-   */
+    */
   selectProvider(provider: PaymentProviderName): void {
     this.updatePaymentState({
       selectedProvider: provider,
@@ -247,7 +247,7 @@ export class UnifiedPaymentService {
 
   /**
    * Switch to different provider (during mid-flow switching)
-   */
+    */
   async switchProvider(newProvider: PaymentProviderName): Promise<void> {
     this.updatePaymentState({
       selectedProvider: newProvider,
@@ -272,7 +272,7 @@ export class UnifiedPaymentService {
 
   /**
    * Initialize payment with selected provider
-   */
+    */
   async initializePayment(
     paymentRequest: PaymentRequest,
     context: PaymentContext
@@ -332,7 +332,7 @@ export class UnifiedPaymentService {
 
   /**
    * Process payment with automatic failover
-   */
+    */
   async processPayment(
     paymentRequest: PaymentRequest,
     context: PaymentContext,
@@ -439,7 +439,7 @@ export class UnifiedPaymentService {
 
   /**
    * Retry payment with error recovery
-   */
+    */
   async retryPayment(
     paymentRequest: PaymentRequest,
     context: PaymentContext
@@ -466,7 +466,7 @@ export class UnifiedPaymentService {
 
   /**
    * Get supported currencies for payment context
-   */
+    */
   async getSupportedCurrencies(context?: PaymentContext): Promise<string[]> {
     const providers = await this.getAvailableProviders(context);
     const allCurrencies = new Set<string>();
@@ -482,7 +482,7 @@ export class UnifiedPaymentService {
 
   /**
    * Get exchange rate for currency conversion
-   */
+    */
   async getExchangeRate(fromCurrency: string, toCurrency: string): Promise<number> {
     if (fromCurrency === toCurrency) return 1;
     
@@ -500,7 +500,7 @@ export class UnifiedPaymentService {
 
   /**
    * Convert amount between currencies
-   */
+    */
   async convertCurrency(
     amount: number,
     fromCurrency: string,
@@ -527,7 +527,7 @@ export class UnifiedPaymentService {
 
   /**
    * Subscribe to payment events
-   */
+    */
   on(event: string, callback: Function): void {
     if (!this.eventListeners.has(event)) {
       this.eventListeners.set(event, []);
@@ -537,7 +537,7 @@ export class UnifiedPaymentService {
 
   /**
    * Unsubscribe from payment events
-   */
+    */
   off(event: string, callback: Function): void {
     const listeners = this.eventListeners.get(event);
     if (listeners) {
@@ -550,7 +550,7 @@ export class UnifiedPaymentService {
 
   /**
    * Emit payment event
-   */
+    */
   private emit(event: string, data: any): void {
     const listeners = this.eventListeners.get(event);
     if (listeners) {
@@ -570,7 +570,7 @@ export class UnifiedPaymentService {
 
   /**
    * Initialize provider capabilities with defaults
-   */
+    */
   private async initializeProviders(): Promise<void> {
     // Set default provider capabilities (will be updated by getAvailableProviders)
     const defaultStripe: PaymentProviderCapabilities = {
@@ -621,7 +621,7 @@ export class UnifiedPaymentService {
 
   /**
    * Calculate provider recommendation score
-   */
+    */
   private calculateProviderScore(
     provider: PaymentProviderCapabilities,
     paymentRequest: PaymentRequest,
@@ -661,7 +661,7 @@ export class UnifiedPaymentService {
 
   /**
    * Calculate estimated cost for provider
-   */
+    */
   private calculateEstimatedCost(
     provider: PaymentProviderCapabilities,
     paymentRequest: PaymentRequest
@@ -673,7 +673,7 @@ export class UnifiedPaymentService {
 
   /**
    * Get recommendation reasons
-   */
+    */
   private getRecommendationReasons(
     provider: PaymentProviderCapabilities,
     paymentRequest: PaymentRequest,
@@ -711,7 +711,7 @@ export class UnifiedPaymentService {
 
   /**
    * Check if payment is international
-   */
+    */
   private isInternationalPayment(context: PaymentContext): boolean {
     if (!context.billing_country) return false;
     const domesticCountries = ['US', 'USA', 'United States'];
@@ -720,7 +720,7 @@ export class UnifiedPaymentService {
 
   /**
    * Get failover provider
-   */
+    */
   private async getFailoverProvider(context: PaymentContext): Promise<PaymentProviderName | null> {
     const availableProviders = await this.getAvailableProviders(context);
     const currentProvider = this.paymentState.selectedProvider;
@@ -735,7 +735,7 @@ export class UnifiedPaymentService {
 
   /**
    * Check if error is retryable
-   */
+    */
   private isRetryableError(error?: PaymentError): boolean {
     if (!error) return false;
     
@@ -752,7 +752,7 @@ export class UnifiedPaymentService {
 
   /**
    * Make HTTP request to backend
-   */
+    */
   private async makeRequest(endpoint: string, method: string, data?: any): Promise<any> {
     const url = `${this.config.apiBaseUrl}${endpoint}`;
     
@@ -775,7 +775,7 @@ export class UnifiedPaymentService {
 
   /**
    * Get authentication token
-   */
+    */
   private async getAuthToken(): Promise<string> {
     // This would integrate with your auth system
     return 'dummy-token'; // Placeholder
@@ -783,7 +783,7 @@ export class UnifiedPaymentService {
 
   /**
    * Track analytics event
-   */
+    */
   private async trackEvent(eventName: string, properties: Record<string, any>): Promise<void> {
     if (!this.config.enableAnalytics) return;
     
@@ -803,7 +803,7 @@ export class UnifiedPaymentService {
 
   /**
    * Simple delay utility
-   */
+    */
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }

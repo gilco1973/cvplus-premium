@@ -2,7 +2,7 @@
  * CVPlus Payment Components Index
  * Phase 5-6: Service Integration & Frontend
  * Exports for payment-related React components
- */
+  */
 
 // PayPal Components
 export { PayPalCheckoutButton, default as PayPalCheckoutButtonDefault } from './PayPalCheckoutButton';

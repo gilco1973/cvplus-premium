@@ -3,7 +3,7 @@
  * Optimized subscription status caching with real-time sync
  * Author: Gil Klainert
  * Date: August 27, 2025
- */
+  */
 
 import { doc, onSnapshot, getDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
@@ -36,7 +36,7 @@ export interface CacheEntry {
 /**
  * Subscription Cache Service
  * Provides high-performance subscription lookups with real-time sync
- */
+  */
 export class SubscriptionCache {
   private static instance: SubscriptionCache;
   private cache = new Map<string, CacheEntry>();
@@ -57,7 +57,7 @@ export class SubscriptionCache {
 
   /**
    * Get user subscription with caching and real-time sync
-   */
+    */
   async getUserSubscription(userId: string): Promise<CachedSubscription | null> {
     // Check cache first
     const cached = this.cache.get(userId);
@@ -74,7 +74,7 @@ export class SubscriptionCache {
 
   /**
    * Invalidate cache for a specific user
-   */
+    */
   invalidate(userId: string): void {
     const cached = this.cache.get(userId);
     if (cached?.listener) {
@@ -86,7 +86,7 @@ export class SubscriptionCache {
 
   /**
    * Invalidate entire cache
-   */
+    */
   invalidateAll(): void {
     for (const [userId] of this.cache) {
       this.invalidate(userId);
@@ -95,7 +95,7 @@ export class SubscriptionCache {
 
   /**
    * Get cache statistics for monitoring
-   */
+    */
   getCacheStats(): {
     size: number;
     hitRate: number;
@@ -121,7 +121,7 @@ export class SubscriptionCache {
 
   /**
    * Warm up cache for multiple users
-   */
+    */
   async warmUpCache(userIds: string[]): Promise<void> {
     const promises = userIds.map(userId => 
       this.getUserSubscription(userId).catch(error => {
@@ -135,7 +135,7 @@ export class SubscriptionCache {
 
   /**
    * Private helper methods
-   */
+    */
   private async fetchAndCacheSubscription(userId: string): Promise<CachedSubscription | null> {
     try {
       // Set up real-time listener for subscription changes
@@ -257,7 +257,7 @@ export class SubscriptionCache {
 
   /**
    * Batch subscription lookup for efficiency
-   */
+    */
   async batchGetSubscriptions(userIds: string[]): Promise<Record<string, CachedSubscription | null>> {
     const results: Record<string, CachedSubscription | null> = {};
     
@@ -278,7 +278,7 @@ export class SubscriptionCache {
 
   /**
    * Pre-load subscription for expected user activity
-   */
+    */
   async preloadSubscription(userId: string): Promise<void> {
     // Fire and forget - don't wait for result
     this.getUserSubscription(userId).catch(error => {
@@ -288,7 +288,7 @@ export class SubscriptionCache {
 
   /**
    * Check if user has specific feature access (cached lookup)
-   */
+    */
   async hasFeatureAccess(userId: string, featureId: string): Promise<boolean> {
     const subscription = await this.getUserSubscription(userId);
     if (!subscription) return false;
@@ -299,7 +299,7 @@ export class SubscriptionCache {
 
   /**
    * Get subscription tier (cached lookup)
-   */
+    */
   async getUserTier(userId: string): Promise<'free' | 'premium' | 'enterprise'> {
     const subscription = await this.getUserSubscription(userId);
     return subscription?.tier || 'free';
@@ -307,7 +307,7 @@ export class SubscriptionCache {
 
   /**
    * Cleanup method
-   */
+    */
   destroy(): void {
     if (this.cleanupInterval) {
       clearInterval(this.cleanupInterval);

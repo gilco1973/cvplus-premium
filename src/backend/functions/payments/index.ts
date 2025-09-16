@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Payment Functions Index
  * Main exports for all payment-related functions
- */
+  */
 
 // Stripe Functions
 export * from './stripe';

@@ -7,7 +7,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @since Phase 3 - Analytics & Revenue Intelligence
- */
+  */
 
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { logger } from 'firebase-functions';
@@ -134,7 +134,7 @@ export class AdvancedBillingService {
 
   /**
    * Handle sophisticated subscription modifications with proration
-   */
+    */
   async handleSubscriptionModification(
     userId: string,
     modification: SubscriptionModification
@@ -181,7 +181,7 @@ export class AdvancedBillingService {
 
   /**
    * Process subscription upgrade with immediate proration
-   */
+    */
   private async processUpgrade(
     currentSub: any,
     modification: SubscriptionModification
@@ -241,7 +241,7 @@ export class AdvancedBillingService {
 
   /**
    * Process subscription downgrade with end-of-period billing
-   */
+    */
   private async processDowngrade(
     currentSub: any,
     modification: SubscriptionModification
@@ -293,7 +293,7 @@ export class AdvancedBillingService {
 
   /**
    * Advanced dunning management for failed payments
-   */
+    */
   async handleDunningManagement(subscriptionId: string): Promise<void> {
     logger.info('Processing dunning management', { subscriptionId });
 
@@ -333,7 +333,7 @@ export class AdvancedBillingService {
 
   /**
    * Execute specific dunning step
-   */
+    */
   private async executeDunningStep(
     subscription: any,
     attemptNumber: number,
@@ -377,7 +377,7 @@ export class AdvancedBillingService {
 
   /**
    * Generate sophisticated invoices with tax calculation
-   */
+    */
   async generateInvoiceWithTaxes(
     userId: string,
     items: InvoiceItem[],
@@ -459,7 +459,7 @@ export class AdvancedBillingService {
 
   /**
    * Calculate prorated amounts for subscription changes
-   */
+    */
   private async calculateProration(
     currentSub: any,
     newPlan: BillingPlan
@@ -495,7 +495,7 @@ export class AdvancedBillingService {
 
   /**
    * Calculate taxes based on customer location and exemptions
-   */
+    */
   private async calculateTaxes(user: any, items: InvoiceItem[]): Promise<TaxCalculationResult> {
     if (!this.taxConfig.enabled) {
       return { totalTax: 0, description: 'Tax calculation disabled', breakdown: [] };
@@ -541,7 +541,7 @@ export class AdvancedBillingService {
 
   /**
    * Helper methods
-   */
+    */
   private async getCurrentSubscription(userId: string): Promise<any> {
     const doc = await this.db.collection('subscriptions').doc(userId).get();
     return doc.exists ? { userId, ...doc.data() } : null;

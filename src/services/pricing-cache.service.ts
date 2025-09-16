@@ -7,7 +7,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @created 2025-08-28
- */
+  */
 
 import { logger } from 'firebase-functions';
 import { cacheService } from '../../../services/cache/cache.service';
@@ -62,7 +62,7 @@ class PricingCacheService {
 
   /**
    * Get pricing with caching - primary interface
-   */
+    */
   async getPricing(request: PricingRequest): Promise<PricingResult> {
     const startTime = Date.now();
     this.metrics.requests++;
@@ -118,7 +118,7 @@ class PricingCacheService {
 
   /**
    * Get pricing for multiple requests in batch
-   */
+    */
   async getBatchPricing(requests: PricingRequest[]): Promise<Record<string, PricingResult>> {
     
     if (requests.length === 0) {
@@ -197,7 +197,7 @@ class PricingCacheService {
 
   /**
    * Pre-warm cache for common pricing scenarios
-   */
+    */
   async warmCache(userIds: string[], tiers: SubscriptionTier[] = ['PREMIUM']): Promise<void> {
     logger.info('Starting pricing cache warm-up', { 
       users: userIds.length, 
@@ -246,7 +246,7 @@ class PricingCacheService {
 
   /**
    * Invalidate pricing cache for specific user or globally
-   */
+    */
   async invalidateCache(userId?: string, tier?: SubscriptionTier): Promise<number> {
     try {
       let pattern: string;
@@ -283,7 +283,7 @@ class PricingCacheService {
 
   /**
    * Calculate actual pricing (fallback when not cached)
-   */
+    */
   private async calculatePricing(request: PricingRequest): Promise<PricingResult> {
     const startTime = Date.now();
     
@@ -362,7 +362,7 @@ class PricingCacheService {
 
   /**
    * Build cache key for pricing request
-   */
+    */
   private buildPricingKey(request: PricingRequest): string {
     const parts = [
       request.userId,
@@ -378,7 +378,7 @@ class PricingCacheService {
 
   /**
    * Parse cache key back to request (for batch operations)
-   */
+    */
   private parseKeyToRequest(key: string): PricingRequest | null {
     try {
       const parts = key.split(':');
@@ -400,7 +400,7 @@ class PricingCacheService {
 
   /**
    * Get regional pricing multiplier
-   */
+    */
   private getRegionalMultiplier(region: string): number {
     const multipliers: Record<string, number> = {
       'US': 1.0,
@@ -417,7 +417,7 @@ class PricingCacheService {
 
   /**
    * Calculate discount for discount code
-   */
+    */
   private async calculateDiscount(discountCode: string, basePrice: number): Promise<PricingResult['discount'] | null> {
     // Simplified discount logic - in production, this would query discount database
     const discounts: Record<string, { type: string; amount: number; percentage?: number }> = {
@@ -447,7 +447,7 @@ class PricingCacheService {
 
   /**
    * Get tax rate for region
-   */
+    */
   private getTaxRate(region: string): number {
     const taxRates: Record<string, number> = {
       'US': 0.08,
@@ -464,7 +464,7 @@ class PricingCacheService {
 
   /**
    * Update average response time metric
-   */
+    */
   private updateAverageResponseTime(responseTime: number): void {
     if (this.metrics.requests === 1) {
       this.metrics.averageResponseTime = responseTime;
@@ -477,14 +477,14 @@ class PricingCacheService {
 
   /**
    * Get pricing cache performance metrics
-   */
+    */
   getMetrics(): PricingCacheMetrics {
     return { ...this.metrics };
   }
 
   /**
    * Get cache hit rate
-   */
+    */
   getHitRate(): number {
     if (this.metrics.requests === 0) return 0;
     return this.metrics.cacheHits / this.metrics.requests;
@@ -492,7 +492,7 @@ class PricingCacheService {
 
   /**
    * Reset metrics (for testing)
-   */
+    */
   resetMetrics(): void {
     this.metrics = {
       requests: 0,

@@ -5,7 +5,7 @@
  * @author Gil Klainert
  * @version 4.0.0
  * @category Enterprise Analytics
- */
+  */
 
 import { EnhancedBaseService, EnhancedServiceConfig } from '../../shared/enhanced-base-service';
 
@@ -219,7 +219,7 @@ export interface GlobalFilter {
 /**
  * Custom Report Builder Service
  * Provides dynamic report generation and dashboard customization
- */
+  */
 export class ReportBuilderService extends EnhancedBaseService {
   private readonly REPORTS_COLLECTION = 'custom_reports';
   private readonly DASHBOARDS_COLLECTION = 'dashboards';
@@ -249,7 +249,7 @@ export class ReportBuilderService extends EnhancedBaseService {
 
   /**
    * Create new custom report
-   */
+    */
   async createCustomReport(tenantId: string, config: Partial<CustomReport>): Promise<CustomReport> {
     try {
       this.logger.info('Creating custom report', { tenantId, title: config.title });
@@ -300,7 +300,7 @@ export class ReportBuilderService extends EnhancedBaseService {
 
   /**
    * Generate report data
-   */
+    */
   async generateReport(reportId: string, parameters: ReportParameters): Promise<ReportData> {
     try {
       this.logger.info('Generating report', { reportId, parameters });
@@ -364,7 +364,7 @@ export class ReportBuilderService extends EnhancedBaseService {
 
   /**
    * Schedule report delivery
-   */
+    */
   async scheduleReport(reportId: string, schedule: ScheduleConfig): Promise<void> {
     try {
       this.logger.info('Scheduling report', { reportId, frequency: schedule.frequency });
@@ -389,7 +389,7 @@ export class ReportBuilderService extends EnhancedBaseService {
 
   /**
    * Create interactive dashboard
-   */
+    */
   async createDashboard(tenantId: string, config: Partial<DashboardLayout>): Promise<DashboardLayout> {
     try {
       this.logger.info('Creating dashboard', { tenantId, name: config.name });
@@ -431,7 +431,7 @@ export class ReportBuilderService extends EnhancedBaseService {
 
   /**
    * Generate white-labeled report
-   */
+    */
   async generateBrandedReport(reportId: string, branding: WhiteLabelConfig): Promise<BrandedReport> {
     try {
       this.logger.info('Generating branded report', { reportId, companyName: branding.companyName });
@@ -464,7 +464,7 @@ export class ReportBuilderService extends EnhancedBaseService {
 
   /**
    * Export report data in various formats
-   */
+    */
   async exportReport(
     reportId: string,
     format: 'pdf' | 'xlsx' | 'csv' | 'json',
@@ -522,7 +522,7 @@ export class ReportBuilderService extends EnhancedBaseService {
 
   /**
    * Get available data sources for report building
-   */
+    */
   async getDataSources(tenantId: string): Promise<DataSource[]> {
     return [
       {

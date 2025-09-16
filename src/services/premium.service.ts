@@ -2,7 +2,7 @@
  * Premium Service
  * 
  * Manages premium subscriptions, feature access, and usage tracking.
- */
+  */
 
 import type { 
   PremiumStatus, 
@@ -29,7 +29,7 @@ export class PremiumService {
 
   /**
    * Loads premium status for a user
-   */
+    */
   async loadPremiumStatus(userId: string): Promise<PremiumStatus> {
     try {
       // Check cache first
@@ -69,7 +69,7 @@ export class PremiumService {
 
   /**
    * Refreshes premium status from the backend
-   */
+    */
   async refreshPremiumStatus(userId: string): Promise<PremiumStatus> {
     try {
       // Clear cache
@@ -90,7 +90,7 @@ export class PremiumService {
 
   /**
    * Checks if a user has access to a specific feature
-   */
+    */
   hasFeatureAccess(status: PremiumStatus, feature: keyof PremiumStatus['features']): boolean {
     const featureValue = status.features[feature];
     
@@ -109,7 +109,7 @@ export class PremiumService {
 
   /**
    * Checks if a user has reached their usage limit for a feature
-   */
+    */
   hasReachedUsageLimit(status: PremiumStatus, feature: string): boolean {
     const limits = TIER_LIMITS[status.tier];
     if (!limits) return false;
@@ -128,7 +128,7 @@ export class PremiumService {
 
   /**
    * Records feature usage
-   */
+    */
   async recordFeatureUsage(userId: string, feature: string, amount = 1): Promise<void> {
     try {
       const status = this.statusCache.get(userId)?.status;
@@ -171,7 +171,7 @@ export class PremiumService {
 
   /**
    * Gets usage alerts for a user
-   */
+    */
   getUsageAlerts(status: PremiumStatus): Array<{ feature: string; percentage: number; message: string }> {
     const alerts: Array<{ feature: string; percentage: number; message: string }> = [];
     const limits = TIER_LIMITS[status.tier];
@@ -215,7 +215,7 @@ export class PremiumService {
 
   /**
    * Simulates a subscription upgrade
-   */
+    */
   async upgradeSubscription(userId: string, newTier: PremiumTier): Promise<PremiumStatus> {
     try {
       const currentStatus = await this.loadPremiumStatus(userId);
@@ -257,7 +257,7 @@ export class PremiumService {
 
   /**
    * Clears premium status cache
-   */
+    */
   clearCache(userId?: string): void {
     if (userId) {
       this.statusCache.delete(userId);
@@ -338,7 +338,7 @@ export class PremiumService {
 
   /**
    * Loads premium status from Firestore
-   */
+    */
   private async loadFromFirestore(userId: string): Promise<PremiumStatus | null> {
     try {
       // Import Firestore functions dynamically
@@ -379,7 +379,7 @@ export class PremiumService {
 
   /**
    * Saves premium status to Firestore
-   */
+    */
   private async saveToFirestore(userId: string, status: PremiumStatus): Promise<void> {
     try {
       // Import Firestore functions dynamically
@@ -406,14 +406,14 @@ export class PremiumService {
 
   /**
    * Gets premium plan information
-   */
+    */
   getPlanInfo(tier: PremiumTier): typeof PREMIUM_PLANS[PremiumTier] | null {
     return PREMIUM_PLANS[tier] || null;
   }
 
   /**
    * Compares two premium tiers
-   */
+    */
   compareTiers(tierA: PremiumTier, tierB: PremiumTier): number {
     const tierOrder: PremiumTier[] = ['free', 'basic', 'premium', 'professional', 'enterprise', 'lifetime'];
     const indexA = tierOrder.indexOf(tierA);
@@ -424,14 +424,14 @@ export class PremiumService {
 
   /**
    * Checks if a tier qualifies for a feature
-   */
+    */
   tierQualifiesForFeature(tier: PremiumTier, requiredTier: PremiumTier): boolean {
     return this.compareTiers(tier, requiredTier) >= 0;
   }
 
   /**
    * Creates default features for a tier
-   */
+    */
   private createDefaultFeatures(tier: PremiumTier): PremiumFeatures {
     const plan = PREMIUM_PLANS[tier];
     return plan ? plan.features : PREMIUM_PLANS.free.features;
@@ -439,7 +439,7 @@ export class PremiumService {
 
   /**
    * Creates default usage metrics
-   */
+    */
   private createDefaultUsage(): UsageMetrics {
     const now = Date.now();
     return {

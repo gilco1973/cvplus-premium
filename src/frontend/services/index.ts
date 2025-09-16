@@ -3,7 +3,7 @@
  * Central export file for all premium services and components
  * Author: Gil Klainert
  * Date: August 27, 2025
- */
+  */
 
 // Core Services
 export { FeatureRegistry, CV_FEATURES, PREMIUM_TIERS } from './featureRegistry';
@@ -46,7 +46,7 @@ export const premiumServices = {
 export const premiumUtils = {
   /**
    * Check if a feature requires premium access
-   */
+    */
   isPremiumFeature: (featureId: string): boolean => {
     const feature = FeatureRegistry.getFeature(featureId);
     return feature ? feature.tier !== 'free' : false;
@@ -54,7 +54,7 @@ export const premiumUtils = {
 
   /**
    * Get upgrade URL for a specific feature
-   */
+    */
   getUpgradeUrl: (featureId: string, reason?: string): string => {
     const params = new URLSearchParams({ feature: featureId });
     if (reason) params.set('reason', reason);
@@ -63,7 +63,7 @@ export const premiumUtils = {
 
   /**
    * Format usage limits for display
-   */
+    */
   formatUsageLimit: (limit: number): string => {
     if (limit === -1) return 'Unlimited';
     return limit.toString();
@@ -71,7 +71,7 @@ export const premiumUtils = {
 
   /**
    * Calculate usage percentage
-   */
+    */
   calculateUsagePercentage: (current: number, limit: number): number => {
     if (limit === -1) return 0; // Unlimited
     return Math.min(100, (current / limit) * 100);
@@ -79,7 +79,7 @@ export const premiumUtils = {
 
   /**
    * Get tier display name
-   */
+    */
   getTierDisplayName: (tier: string): string => {
     const names: Record<string, string> = {
       free: 'Free',
@@ -91,7 +91,7 @@ export const premiumUtils = {
 
   /**
    * Get tier color for UI
-   */
+    */
   getTierColor: (tier: string): string => {
     const colors: Record<string, string> = {
       free: 'gray',

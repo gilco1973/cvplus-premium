@@ -5,7 +5,7 @@
  * @author Gil Klainert
  * @version 4.0.0
  * @category Enterprise Functions
- */
+  */
 
 import { https } from 'firebase-functions/v2';
 import { logger } from 'firebase-functions/v2';
@@ -27,7 +27,7 @@ const analyticsService = new PricingAnalyticsService({
 
 /**
  * Get optimized pricing for a specific product and user
- */
+  */
 export const getOptimizedPricing = https.onCall(
   {
     cors: true,
@@ -98,7 +98,7 @@ export const getOptimizedPricing = https.onCall(
 
 /**
  * Create A/B pricing test (Enterprise only)
- */
+  */
 export const createPricingTest = https.onCall(
   {
     cors: true,
@@ -165,7 +165,7 @@ export const createPricingTest = https.onCall(
 
 /**
  * Get pricing analytics report (Enterprise only)
- */
+  */
 export const getPricingAnalytics = https.onCall(
   {
     cors: true,
@@ -262,7 +262,7 @@ export const getPricingAnalytics = https.onCall(
 
 /**
  * Run pricing optimization analysis (Enterprise only)
- */
+  */
 export const optimizePricingStrategy = https.onCall(
   {
     cors: true,
@@ -322,7 +322,7 @@ export const optimizePricingStrategy = https.onCall(
 
 /**
  * Get A/B test results (Enterprise only)
- */
+  */
 export const getPricingTestResults = https.onCall(
   {
     cors: true,
@@ -384,7 +384,7 @@ export const getPricingTestResults = https.onCall(
 
 /**
  * Record pricing conversion (for analytics)
- */
+  */
 export const recordPricingConversion = https.onCall(
   {
     cors: true,
@@ -436,7 +436,7 @@ export const recordPricingConversion = https.onCall(
 
 /**
  * Health check for pricing services
- */
+  */
 export const pricingHealthCheck = https.onCall(
   {
     cors: true,

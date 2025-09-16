@@ -5,7 +5,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { PremiumFeatures, SubscriptionTier, Currency, PremiumFeature, PremiumTier, FeatureAccess } from '../types';
 
@@ -15,7 +15,7 @@ import { PremiumFeatures, SubscriptionTier, Currency, PremiumFeature, PremiumTie
 
 /**
  * Default subscription tiers
- */
+  */
 export const SUBSCRIPTION_TIERS: Record<SubscriptionTier, string> = {
   FREE: 'Free',
   PREMIUM: 'Premium'
@@ -23,7 +23,7 @@ export const SUBSCRIPTION_TIERS: Record<SubscriptionTier, string> = {
 
 /**
  * Free tier features
- */
+  */
 export const FREE_TIER_FEATURES: PremiumFeatures = {
   // Original PremiumFeature enum values
   [PremiumFeature.ADVANCED_CV_GENERATION]: false,
@@ -48,7 +48,7 @@ export const FREE_TIER_FEATURES: PremiumFeatures = {
 
 /**
  * Premium tier features
- */
+  */
 export const PREMIUM_TIER_FEATURES: PremiumFeatures = {
   // Original PremiumFeature enum values
   [PremiumFeature.ADVANCED_CV_GENERATION]: true,
@@ -73,7 +73,7 @@ export const PREMIUM_TIER_FEATURES: PremiumFeatures = {
 
 /**
  * Feature display names
- */
+  */
 export const FEATURE_DISPLAY_NAMES: Record<keyof PremiumFeatures, string> = {
   // Original PremiumFeature enum display names
   [PremiumFeature.ADVANCED_CV_GENERATION]: 'Advanced CV Generation',
@@ -98,7 +98,7 @@ export const FEATURE_DISPLAY_NAMES: Record<keyof PremiumFeatures, string> = {
 
 /**
  * Feature descriptions
- */
+  */
 export const FEATURE_DESCRIPTIONS: Record<keyof PremiumFeatures, string> = {
   // Original PremiumFeature enum descriptions
   [PremiumFeature.ADVANCED_CV_GENERATION]: 'Access advanced CV generation features with AI assistance',
@@ -127,12 +127,12 @@ export const FEATURE_DESCRIPTIONS: Record<keyof PremiumFeatures, string> = {
 
 /**
  * Supported currencies
- */
+  */
 export const SUPPORTED_CURRENCIES: Currency[] = ['USD', 'EUR', 'GBP'] as const;
 
 /**
  * Currency symbols
- */
+  */
 export const CURRENCY_SYMBOLS: Record<Currency, string> = {
   USD: '$',
   EUR: '€',
@@ -141,7 +141,7 @@ export const CURRENCY_SYMBOLS: Record<Currency, string> = {
 
 /**
  * Default pricing configuration
- */
+  */
 export const DEFAULT_PRICING = {
   FREE: {
     cents: 0,
@@ -161,7 +161,7 @@ export const DEFAULT_PRICING = {
 
 /**
  * Payment status display names
- */
+  */
 export const PAYMENT_STATUS_DISPLAY: Record<string, string> = {
   pending: 'Pending',
   processing: 'Processing',
@@ -174,7 +174,7 @@ export const PAYMENT_STATUS_DISPLAY: Record<string, string> = {
 
 /**
  * Invoice status display names
- */
+  */
 export const INVOICE_STATUS_DISPLAY: Record<string, string> = {
   draft: 'Draft',
   open: 'Open',
@@ -185,7 +185,7 @@ export const INVOICE_STATUS_DISPLAY: Record<string, string> = {
 
 /**
  * Billing cycle display names
- */
+  */
 export const BILLING_CYCLE_DISPLAY: Record<string, string> = {
   monthly: 'Monthly',
   yearly: 'Yearly',
@@ -198,7 +198,7 @@ export const BILLING_CYCLE_DISPLAY: Record<string, string> = {
 
 /**
  * Default usage limits for free tier
- */
+  */
 export const FREE_TIER_LIMITS = {
   cv_uploads: 5,
   ai_analyses: 2,
@@ -211,7 +211,7 @@ export const FREE_TIER_LIMITS = {
 
 /**
  * Default usage limits for premium tier
- */
+  */
 export const PREMIUM_TIER_LIMITS = {
   cv_uploads: -1, // unlimited
   ai_analyses: -1, // unlimited
@@ -224,7 +224,7 @@ export const PREMIUM_TIER_LIMITS = {
 
 /**
  * Usage warning thresholds (percentages)
- */
+  */
 export const USAGE_WARNING_THRESHOLDS = [75, 90, 100] as const;
 
 // =============================================================================
@@ -233,12 +233,12 @@ export const USAGE_WARNING_THRESHOLDS = [75, 90, 100] as const;
 
 /**
  * Stripe API version
- */
+  */
 export const STRIPE_API_VERSION = '2025-07-30.basil' as const;
 
 /**
  * Supported payment methods
- */
+  */
 export const SUPPORTED_PAYMENT_METHODS = [
   'card',
   'bank_account',
@@ -251,7 +251,7 @@ export const SUPPORTED_PAYMENT_METHODS = [
 
 /**
  * Webhook event types we handle
- */
+  */
 export const HANDLED_WEBHOOK_EVENTS = [
   'payment_intent.succeeded',
   'payment_intent.payment_failed',
@@ -266,7 +266,7 @@ export const HANDLED_WEBHOOK_EVENTS = [
 
 /**
  * Retryable Stripe error codes
- */
+  */
 export const RETRYABLE_STRIPE_ERRORS = [
   'rate_limit',
   'api_connection_error',
@@ -279,7 +279,7 @@ export const RETRYABLE_STRIPE_ERRORS = [
 
 /**
  * Cache TTL values (in seconds)
- */
+  */
 export const CACHE_TTL = {
   SUBSCRIPTION: 300, // 5 minutes
   PAYMENT_HISTORY: 600, // 10 minutes
@@ -290,7 +290,7 @@ export const CACHE_TTL = {
 
 /**
  * Cache key prefixes
- */
+  */
 export const CACHE_KEYS = {
   SUBSCRIPTION: 'premium:subscription:',
   PAYMENT: 'premium:payment:',
@@ -305,7 +305,7 @@ export const CACHE_KEYS = {
 
 /**
  * Premium error codes
- */
+  */
 export const PREMIUM_ERROR_CODES = {
   SUBSCRIPTION_NOT_FOUND: 'SUBSCRIPTION_NOT_FOUND',
   FEATURE_ACCESS_DENIED: 'FEATURE_ACCESS_DENIED',
@@ -320,7 +320,7 @@ export const PREMIUM_ERROR_CODES = {
 
 /**
  * Error messages
- */
+  */
 export const ERROR_MESSAGES = {
   [PREMIUM_ERROR_CODES.SUBSCRIPTION_NOT_FOUND]: 'Subscription not found',
   [PREMIUM_ERROR_CODES.FEATURE_ACCESS_DENIED]: 'Access to this feature is not allowed',
@@ -339,7 +339,7 @@ export const ERROR_MESSAGES = {
 
 /**
  * Minimum and maximum values for validation
- */
+  */
 export const VALIDATION_LIMITS = {
   PAYMENT_AMOUNT: {
     MIN: 100, // $1.00 in cents
@@ -356,7 +356,7 @@ export const VALIDATION_LIMITS = {
 
 /**
  * Regex patterns for validation
- */
+  */
 export const VALIDATION_PATTERNS = {
   CURRENCY_CODE: /^[A-Z]{3}$/,
   EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -369,7 +369,7 @@ export const VALIDATION_PATTERNS = {
 
 /**
  * Rate limiting configuration
- */
+  */
 export const RATE_LIMITS = {
   PAYMENT_ATTEMPTS: {
     MAX_ATTEMPTS: 3,
@@ -391,7 +391,7 @@ export const RATE_LIMITS = {
 
 /**
  * Notification templates
- */
+  */
 export const NOTIFICATION_TEMPLATES = {
   PAYMENT_SUCCESS: {
     title: 'Payment Successful',
@@ -421,7 +421,7 @@ export const NOTIFICATION_TEMPLATES = {
 
 /**
  * Feature flags for gradual rollout
- */
+  */
 export const FEATURE_FLAGS = {
   STRIPE_CHECKOUT: true,
   USAGE_TRACKING: true,
@@ -439,7 +439,7 @@ export const FEATURE_FLAGS = {
 /**
  * Feature definitions for consolidated access control
  * Centralized feature configuration eliminating duplicated validation logic
- */
+  */
 export const FEATURE_DEFINITIONS: Record<PremiumFeature, FeatureAccess> = {
   [PremiumFeature.ADVANCED_CV_GENERATION]: {
     feature: PremiumFeature.ADVANCED_CV_GENERATION,

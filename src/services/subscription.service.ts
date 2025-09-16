@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { logger } from '../utils/logger';
 import {
@@ -31,7 +31,7 @@ import {
 
 /**
  * Cache entry for subscription data
- */
+  */
 interface SubscriptionCacheEntry {
   data: UserSubscriptionData;
   expiresAt: number;
@@ -40,7 +40,7 @@ interface SubscriptionCacheEntry {
 
 /**
  * Subscription service configuration
- */
+  */
 interface SubscriptionServiceConfig {
   cache: {
     enabled: boolean;
@@ -59,7 +59,7 @@ interface SubscriptionServiceConfig {
 
 /**
  * Default configuration
- */
+  */
 const DEFAULT_CONFIG: SubscriptionServiceConfig = {
   cache: {
     enabled: true,
@@ -78,7 +78,7 @@ const DEFAULT_CONFIG: SubscriptionServiceConfig = {
 
 /**
  * Comprehensive subscription management service
- */
+  */
 export class SubscriptionService {
   private cache: Map<string, SubscriptionCacheEntry> = new Map();
   private changeLog: Map<string, SubscriptionChangeLog[]> = new Map();
@@ -111,7 +111,7 @@ export class SubscriptionService {
 
   /**
    * Get user subscription with caching and validation
-   */
+    */
   async getUserSubscription(userId: string): Promise<UserSubscriptionData> {
     try {
       // Check cache first
@@ -163,7 +163,7 @@ export class SubscriptionService {
 
   /**
    * Get multiple user subscriptions efficiently
-   */
+    */
   async getUserSubscriptions(userIds: string[]): Promise<Map<string, UserSubscriptionData>> {
     const results = new Map<string, UserSubscriptionData>();
     const uncachedUserIds: string[] = [];
@@ -215,7 +215,7 @@ export class SubscriptionService {
 
   /**
    * Activate lifetime premium access
-   */
+    */
   async activateLifetimeAccess(
     userId: string,
     metadata?: Record<string, any>
@@ -279,7 +279,7 @@ export class SubscriptionService {
 
   /**
    * Deactivate premium access (revert to free)
-   */
+    */
   async deactivatePremiumAccess(
     userId: string,
     reason: SubscriptionChangeReason = 'user_requested'
@@ -344,7 +344,7 @@ export class SubscriptionService {
 
   /**
    * Update specific premium features
-   */
+    */
   async updatePremiumFeatures(
     userId: string,
     featureUpdates: Partial<PremiumFeatures>
@@ -412,7 +412,7 @@ export class SubscriptionService {
 
   /**
    * Check if user has access to a specific feature
-   */
+    */
   async hasFeature(userId: string, feature: PremiumFeature): Promise<boolean> {
     try {
       const subscription = await this.getUserSubscription(userId);
@@ -430,7 +430,7 @@ export class SubscriptionService {
 
   /**
    * Check if user has any of the specified features
-   */
+    */
   async hasAnyFeatures(userId: string, features: PremiumFeature[]): Promise<boolean> {
     try {
       const subscription = await this.getUserSubscription(userId);
@@ -448,7 +448,7 @@ export class SubscriptionService {
 
   /**
    * Check if user has all specified features
-   */
+    */
   async hasAllFeatures(userId: string, features: PremiumFeature[]): Promise<boolean> {
     try {
       const subscription = await this.getUserSubscription(userId);
@@ -466,7 +466,7 @@ export class SubscriptionService {
 
   /**
    * Get list of enabled features for user
-   */
+    */
   async getEnabledFeatures(userId: string): Promise<PremiumFeature[]> {
     try {
       const subscription = await this.getUserSubscription(userId);
@@ -488,7 +488,7 @@ export class SubscriptionService {
 
   /**
    * Invalidate user subscription cache
-   */
+    */
   invalidateUserSubscription(userId: string): void {
     if (this.config.cache.enabled) {
       const deleted = this.cache.delete(userId);
@@ -502,7 +502,7 @@ export class SubscriptionService {
 
   /**
    * Force refresh subscription from database
-   */
+    */
   async forceRefreshSubscription(userId: string): Promise<UserSubscriptionData> {
     // Invalidate cache first
     this.invalidateUserSubscription(userId);
@@ -516,7 +516,7 @@ export class SubscriptionService {
 
   /**
    * Get cache performance statistics
-   */
+    */
   getCacheStats(): typeof this.cacheStats & { hitRate: number } {
     return {
       ...this.cacheStats,
@@ -526,7 +526,7 @@ export class SubscriptionService {
 
   /**
    * Clear entire cache
-   */
+    */
   clearCache(): void {
     const size = this.cache.size;
     this.cache.clear();
@@ -542,7 +542,7 @@ export class SubscriptionService {
 
   /**
    * Validate subscription data structure and business rules
-   */
+    */
   validateSubscription(subscription: UserSubscriptionData): SubscriptionValidation {
     const errors: string[] = [];
     const warnings: string[] = [];
@@ -602,7 +602,7 @@ export class SubscriptionService {
 
   /**
    * Get subscription from cache
-   */
+    */
   private getCachedSubscription(userId: string): UserSubscriptionData | null {
     const entry = this.cache.get(userId);
     if (!entry) return null;
@@ -619,7 +619,7 @@ export class SubscriptionService {
 
   /**
    * Set subscription in cache
-   */
+    */
   private setCachedSubscription(userId: string, subscription: UserSubscriptionData): void {
     // Check cache size limit
     if (this.cache.size >= this.config.cache.maxSize) {
@@ -644,7 +644,7 @@ export class SubscriptionService {
 
   /**
    * Clean up expired cache entries
-   */
+    */
   private cleanupCache(): void {
     const now = Date.now();
     let removed = 0;
@@ -665,7 +665,7 @@ export class SubscriptionService {
 
   /**
    * Create default free subscription
-   */
+    */
   private createDefaultSubscription(userId: string): UserSubscriptionData {
     const now = new Date();
     
@@ -689,7 +689,7 @@ export class SubscriptionService {
 
   /**
    * Log subscription change for auditing
-   */
+    */
   private async logSubscriptionChange(
     userId: string,
     event: SubscriptionEvent,

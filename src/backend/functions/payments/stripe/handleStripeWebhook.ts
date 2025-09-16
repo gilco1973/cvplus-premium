@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Stripe Webhook Handler
  * Migrated from /functions/src/functions/payments/handleStripeWebhook.ts
- */
+  */
 
 import { onRequest } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';
@@ -84,7 +84,7 @@ export const handleStripeWebhook = onRequest(
 
 /**
  * Process different types of Stripe webhook events
- */
+  */
 async function processWebhookEvent(event: Stripe.Event): Promise<void> {
   switch (event.type) {
     case 'payment_intent.succeeded':
@@ -133,7 +133,7 @@ async function processWebhookEvent(event: Stripe.Event): Promise<void> {
 
 /**
  * Handle successful payment intent
- */
+  */
 async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent): Promise<void> {
   logger.info('Processing successful payment intent', {
     paymentIntentId: paymentIntent.id,
@@ -189,7 +189,7 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
 
 /**
  * Handle failed payment intent
- */
+  */
 async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent): Promise<void> {
   logger.info('Processing failed payment intent', {
     paymentIntentId: paymentIntent.id,
@@ -236,7 +236,7 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent): P
 
 /**
  * Handle subscription created
- */
+  */
 async function handleSubscriptionCreated(subscription: Stripe.Subscription): Promise<void> {
   logger.info('Processing subscription created', {
     subscriptionId: subscription.id,
@@ -249,7 +249,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription): Pro
 
 /**
  * Handle subscription updated
- */
+  */
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Promise<void> {
   logger.info('Processing subscription updated', {
     subscriptionId: subscription.id,
@@ -261,7 +261,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription): Pro
 
 /**
  * Handle subscription deleted/cancelled
- */
+  */
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Promise<void> {
   logger.info('Processing subscription deleted', {
     subscriptionId: subscription.id,
@@ -273,7 +273,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Pro
 
 /**
  * Handle invoice payment succeeded
- */
+  */
 async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice): Promise<void> {
   logger.info('Processing invoice payment succeeded', {
     invoiceId: invoice.id,
@@ -285,7 +285,7 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice): Promise<v
 
 /**
  * Handle invoice payment failed
- */
+  */
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
   logger.info('Processing invoice payment failed', {
     invoiceId: invoice.id,
@@ -297,7 +297,7 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void
 
 /**
  * Handle customer created
- */
+  */
 async function handleCustomerCreated(customer: Stripe.Customer): Promise<void> {
   logger.info('Processing customer created', {
     customerId: customer.id,
@@ -309,7 +309,7 @@ async function handleCustomerCreated(customer: Stripe.Customer): Promise<void> {
 
 /**
  * Handle customer updated
- */
+  */
 async function handleCustomerUpdated(customer: Stripe.Customer): Promise<void> {
   logger.info('Processing customer updated', {
     customerId: customer.id,
@@ -321,7 +321,7 @@ async function handleCustomerUpdated(customer: Stripe.Customer): Promise<void> {
 
 /**
  * Update user subscription
- */
+  */
 async function updateUserSubscription(userId: string, planId: string): Promise<void> {
   try {
     const userRef = db.collection('users').doc(userId);
@@ -350,7 +350,7 @@ async function updateUserSubscription(userId: string, planId: string): Promise<v
 
 /**
  * Log webhook event for audit trail
- */
+  */
 async function logWebhookEvent(event: Stripe.Event): Promise<void> {
   try {
     await db.collection('webhook_events').doc(event.id).set({

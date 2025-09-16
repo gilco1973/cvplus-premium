@@ -1,7 +1,7 @@
 /**
  * Premium Feature Guard Middleware for CVPlus Functions
  * Moved from i18n submodule to correct premium domain
- */
+  */
 import * as functions from 'firebase-functions';
 import { HttpsError, CallableRequest } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions/v2';
@@ -29,7 +29,7 @@ export interface AuthenticatedRequest extends CallableRequest {
 
 /**
  * Modern premium guard for v2 callable functions
- */
+  */
 export const requirePremium = async (
   request: CallableRequest,
   featureId: string,
@@ -137,7 +137,7 @@ export const requirePremium = async (
 
 /**
  * Legacy HTTP premium guard for backward compatibility
- */
+  */
 export const requirePremiumHTTP = (feature: PremiumFeature) => {
   return async (req: AuthenticatedHTTPRequest, res: functions.Response, next: () => void) => {
     try {
@@ -192,7 +192,7 @@ export const requirePremiumHTTP = (feature: PremiumFeature) => {
 
 /**
  * Check if user tier meets minimum requirement
- */
+  */
 function hasRequiredTier(userTier: string, requiredTier: string): boolean {
   const tierHierarchy = ['basic', 'premium', 'enterprise'];
   const userLevel = tierHierarchy.indexOf(userTier);
@@ -203,7 +203,7 @@ function hasRequiredTier(userTier: string, requiredTier: string): boolean {
 
 /**
  * Get user's current subscription tier
- */
+  */
 export const getUserTier = async (userId: string): Promise<string> => {
   try {
     const userDoc = await admin.firestore()
@@ -221,7 +221,7 @@ export const getUserTier = async (userId: string): Promise<string> => {
 
 /**
  * Get detailed subscription information
- */
+  */
 export const getSubscriptionInfo = async (userId: string) => {
   try {
     const userDoc = await admin.firestore()
@@ -260,7 +260,7 @@ export const getSubscriptionInfo = async (userId: string) => {
 
 /**
  * Higher-order function to wrap handlers with premium access checking
- */
+  */
 export const withPremiumAccess = (feature: PremiumFeature) => {
   return (handler: (req: AuthenticatedHTTPRequest, res: functions.Response) => Promise<void>) => {
     return async (req: AuthenticatedHTTPRequest, res: functions.Response) => {
@@ -277,7 +277,7 @@ export const withPremiumAccess = (feature: PremiumFeature) => {
 
 /**
  * Check specific premium feature access
- */
+  */
 export const checkFeatureAccess = async (
   userId: string,
   featureId: string
@@ -312,7 +312,7 @@ export const checkFeatureAccess = async (
 
 /**
  * Get features available for a tier
- */
+  */
 function getTierFeatures(tier: string): string[] {
   const featureMap: Record<string, string[]> = {
     basic: ['basicCV', 'basicExport'],
@@ -325,5 +325,5 @@ function getTierFeatures(tier: string): string[] {
 
 /**
  * Legacy aliases for backward compatibility
- */
+  */
 export const premiumGuard = requirePremiumHTTP;

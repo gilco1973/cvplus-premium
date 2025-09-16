@@ -9,7 +9,7 @@
  * @version 1.0.0
  * @created 2025-08-28
  * @category Premium Services
- */
+  */
 
 import { logger } from 'firebase-functions';
 import { HttpsError } from 'firebase-functions/v2/https';
@@ -24,7 +24,7 @@ import {
 
 /**
  * Tier hierarchy for comparison
- */
+  */
 const TIER_HIERARCHY: Record<PremiumTier, number> = {
   [PremiumTier.FREE]: 0,
   [PremiumTier.BASIC]: 1,
@@ -34,7 +34,7 @@ const TIER_HIERARCHY: Record<PremiumTier, number> = {
 
 /**
  * Feature matrix defining what each tier can access
- */
+  */
 const TIER_FEATURE_MATRIX: TierFeatureMatrix = {
   [PremiumTier.FREE]: {
     cvGeneration: { limit: 3, resetPeriod: 'monthly' },
@@ -76,7 +76,7 @@ const TIER_FEATURE_MATRIX: TierFeatureMatrix = {
 
 /**
  * Centralized Tier Validation Service
- */
+  */
 export class TierValidationService {
   private static instance: TierValidationService;
   private cache = new Map<string, { tier: PremiumTier; timestamp: number }>();
@@ -84,7 +84,7 @@ export class TierValidationService {
 
   /**
    * Singleton instance
-   */
+    */
   public static getInstance(): TierValidationService {
     if (!TierValidationService.instance) {
       TierValidationService.instance = new TierValidationService();
@@ -95,7 +95,7 @@ export class TierValidationService {
   /**
    * Validate if user's tier meets minimum requirement
    * Replaces scattered tier validation across Firebase Functions
-   */
+    */
   async validateMinimumTier(
     userId: string,
     requiredTier: PremiumTier
@@ -122,7 +122,7 @@ export class TierValidationService {
 
   /**
    * Check if user has exact tier match
-   */
+    */
   async validateExactTier(
     userId: string,
     requiredTier: PremiumTier
@@ -149,7 +149,7 @@ export class TierValidationService {
 
   /**
    * Get feature limits for user's tier
-   */
+    */
   async getTierFeatureLimits(
     userId: string,
     feature: keyof TierFeatureMatrix[PremiumTier]
@@ -173,7 +173,7 @@ export class TierValidationService {
 
   /**
    * Check if user can upgrade to target tier
-   */
+    */
   async canUpgradeTo(
     userId: string,
     targetTier: PremiumTier
@@ -211,7 +211,7 @@ export class TierValidationService {
 
   /**
    * Get recommended tier for user based on usage patterns
-   */
+    */
   async getRecommendedTier(userId: string): Promise<{
     recommendedTier: PremiumTier;
     reason: string;
@@ -260,7 +260,7 @@ export class TierValidationService {
 
   /**
    * Bulk tier validation for multiple users
-   */
+    */
   async validateMultipleUsers(
     userIds: string[],
     requiredTier: PremiumTier
@@ -294,7 +294,7 @@ export class TierValidationService {
 
   /**
    * Get user tier with caching
-   */
+    */
   private async getUserTierCached(userId: string): Promise<PremiumTier> {
     const cacheKey = `tier:${userId}`;
     const cached = this.cache.get(cacheKey);
@@ -329,7 +329,7 @@ export class TierValidationService {
 
   /**
    * Compare two tiers (-1: lower, 0: equal, 1: higher)
-   */
+    */
   private compareTiers(userTier: PremiumTier, requiredTier: PremiumTier): number {
     const userLevel = TIER_HIERARCHY[userTier];
     const requiredLevel = TIER_HIERARCHY[requiredTier];
@@ -338,7 +338,7 @@ export class TierValidationService {
 
   /**
    * Get valid upgrade paths from current tier
-   */
+    */
   private getValidUpgradePaths(currentTier: PremiumTier): PremiumTier[] {
     switch (currentTier) {
       case PremiumTier.FREE:
@@ -356,7 +356,7 @@ export class TierValidationService {
 
   /**
    * Get user usage data for recommendation engine
-   */
+    */
   private async getUserUsageData(userId: string): Promise<{
     cvGenerationsPerMonth: number;
     hasTeamCollaboration: boolean;
@@ -407,7 +407,7 @@ export class TierValidationService {
 
   /**
    * Clear cache for user
-   */
+    */
   public clearUserCache(userId: string): void {
     const cacheKey = `tier:${userId}`;
     this.cache.delete(cacheKey);
@@ -415,7 +415,7 @@ export class TierValidationService {
 
   /**
    * Get tier comparison matrix for frontend
-   */
+    */
   public static getTierComparisonMatrix(): TierFeatureMatrix {
     return TIER_FEATURE_MATRIX;
   }
@@ -423,11 +423,11 @@ export class TierValidationService {
 
 /**
  * Convenience functions for common tier validations
- */
+  */
 
 /**
  * Quick tier requirement enforcement
- */
+  */
 export async function requireTier(userId: string, tier: PremiumTier): Promise<void> {
   const service = TierValidationService.getInstance();
   const result = await service.validateMinimumTier(userId, tier);
@@ -439,14 +439,14 @@ export async function requireTier(userId: string, tier: PremiumTier): Promise<vo
 
 /**
  * Check if user is premium (any paid tier)
- */
+  */
 export async function requirePremium(userId: string): Promise<void> {
   await requireTier(userId, PremiumTier.BASIC);
 }
 
 /**
  * Check if user is enterprise
- */
+  */
 export async function requireEnterprise(userId: string): Promise<void> {
   await requireTier(userId, PremiumTier.ENTERPRISE);
 }

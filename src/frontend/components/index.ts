@@ -3,7 +3,7 @@
  * 
  * Central export file for all premium upgrade flow components and related utilities.
  * This provides a clean API for importing premium components throughout the application.
- */
+  */
 
 // Main upgrade flow components
 export { ExternalDataUpgradePrompt } from './ExternalDataUpgradePrompt';

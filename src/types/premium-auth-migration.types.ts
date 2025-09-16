@@ -2,7 +2,7 @@
  * Premium Types
  * 
  * Type definitions for premium subscription and feature management.
- */
+  */
 
 export interface PremiumSubscription {
   userId: string;

@@ -8,7 +8,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @category Global Payments
- */
+  */
 
 import { logger } from 'firebase-functions/v2';
 import { BaseService } from '../../shared/base-service';
@@ -107,7 +107,7 @@ export interface CustomerBehaviorProfile {
 /**
  * Fraud Prevention Service for global payment processing
  * Implements ML-based risk assessment and real-time fraud detection
- */
+  */
 export class FraudPreventionService extends BaseService {
   private fraudRules = new Map<string, FraudRule>();
   private customerProfiles = new Map<string, CustomerBehaviorProfile>();
@@ -130,7 +130,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Initialize fraud detection rules
-   */
+    */
   private initializeFraudRules(): void {
     const rules: FraudRule[] = [
       {
@@ -227,7 +227,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Initialize blacklists and suspicious patterns
-   */
+    */
   private initializeBlacklists(): void {
     // Sample blacklisted emails (in production, would load from database)
     const blacklistedEmails = [
@@ -254,7 +254,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Initialize suspicious country pair patterns
-   */
+    */
   private initializeSuspiciousPatterns(): void {
     // Country pairs that are commonly associated with fraud
     const suspiciousPairs = [
@@ -271,7 +271,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Perform comprehensive risk assessment on transaction
-   */
+    */
   async assessTransactionRisk(profile: TransactionRiskProfile): Promise<RiskAssessment> {
     try {
       logger.info('Starting fraud risk assessment', {
@@ -360,7 +360,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Check for velocity anomalies
-   */
+    */
   private async checkVelocityAnomalies(profile: TransactionRiskProfile): Promise<RiskAssessment['indicators'][0] | null> {
     // Simulate velocity check (in production, would query transaction database)
     const recentTransactionCount = Math.floor(Math.random() * 15); // Mock data
@@ -379,7 +379,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Check for geolocation mismatches
-   */
+    */
   private async checkGeolocationMismatch(profile: TransactionRiskProfile): Promise<RiskAssessment['indicators'][0] | null> {
     const countries = [profile.billingCountry, profile.shippingCountry, profile.ipCountry].filter(Boolean);
     const uniqueCountries = new Set(countries);
@@ -401,7 +401,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Check device fingerprint
-   */
+    */
   private async checkDeviceFingerprint(profile: TransactionRiskProfile): Promise<RiskAssessment['indicators'][0] | null> {
     if (!profile.deviceFingerprint) return null;
 
@@ -421,7 +421,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Check for amount anomalies
-   */
+    */
   private async checkAmountAnomaly(profile: TransactionRiskProfile): Promise<RiskAssessment['indicators'][0] | null> {
     const customerProfile = this.customerProfiles.get(profile.customerId);
 
@@ -443,7 +443,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Check blacklisted data
-   */
+    */
   private async checkBlacklistedData(profile: TransactionRiskProfile): Promise<RiskAssessment['indicators'][0] | null> {
     if (this.blacklistedEmails.has(profile.customerEmail.toLowerCase())) {
       return {
@@ -468,7 +468,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Check for proxy/VPN usage
-   */
+    */
   private async checkProxyVPN(profile: TransactionRiskProfile): Promise<RiskAssessment['indicators'][0] | null> {
     // Simulate proxy/VPN detection (in production, would use IP intelligence service)
     const isProxy = Math.random() < 0.1; // 10% chance for demo
@@ -487,7 +487,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Check for multiple failed attempts
-   */
+    */
   private async checkFailedAttempts(profile: TransactionRiskProfile): Promise<RiskAssessment['indicators'][0] | null> {
     // Simulate failed attempts check
     const failedAttempts = Math.floor(Math.random() * 8);
@@ -506,7 +506,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Check for card testing patterns
-   */
+    */
   private async checkCardTesting(profile: TransactionRiskProfile): Promise<RiskAssessment['indicators'][0] | null> {
     // Simulate card testing detection
     const isCardTesting = Math.random() < 0.05; // 5% chance for demo
@@ -525,7 +525,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Check BIN risk level
-   */
+    */
   private async checkBINRisk(profile: TransactionRiskProfile): Promise<RiskAssessment['indicators'][0] | null> {
     if (!profile.cardBin) return null;
 
@@ -546,7 +546,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Calculate ML-based risk score
-   */
+    */
   private async calculateMLRiskScore(profile: TransactionRiskProfile): Promise<number> {
     // Simplified ML scoring (in production, would use trained model)
     let score = 0;
@@ -572,7 +572,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Determine risk level from score
-   */
+    */
   private determineRiskLevel(score: number): RiskLevel {
     if (score >= 80) return RiskLevel.CRITICAL;
     if (score >= 60) return RiskLevel.HIGH;
@@ -582,7 +582,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Make risk decision
-   */
+    */
   private makeRiskDecision(riskLevel: RiskLevel, indicators: RiskAssessment['indicators']): 'approve' | 'review' | 'decline' {
     // Check if any indicator requires immediate decline
     const hasDeclineIndicator = indicators.some(i => i.severity >= 10);
@@ -604,7 +604,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Calculate confidence in assessment
-   */
+    */
   private calculateConfidence(indicators: RiskAssessment['indicators']): number {
     if (indicators.length === 0) return 0.9; // High confidence in low risk
 
@@ -616,7 +616,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Generate risk recommendation
-   */
+    */
   private generateRecommendation(
     decision: 'approve' | 'review' | 'decline',
     riskLevel: RiskLevel,
@@ -636,7 +636,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Determine required additional verification
-   */
+    */
   private getRequiredVerification(indicators: RiskAssessment['indicators']): string[] {
     const verifications: string[] = [];
 
@@ -657,7 +657,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Update customer behavioral profile
-   */
+    */
   private async updateCustomerProfile(profile: TransactionRiskProfile): Promise<void> {
     let customerProfile = this.customerProfiles.get(profile.customerId);
 
@@ -694,7 +694,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Add email to blacklist
-   */
+    */
   async addToBlacklist(email: string, reason: string): Promise<void> {
     this.blacklistedEmails.add(email.toLowerCase());
     logger.info('Email added to blacklist', { email, reason });
@@ -702,7 +702,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Remove email from blacklist
-   */
+    */
   async removeFromBlacklist(email: string): Promise<void> {
     this.blacklistedEmails.delete(email.toLowerCase());
     logger.info('Email removed from blacklist', { email });
@@ -710,7 +710,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Get fraud statistics
-   */
+    */
   async getFraudStatistics(timeRange: { start: Date; end: Date }): Promise<{
     totalTransactions: number;
     flaggedTransactions: number;
@@ -740,7 +740,7 @@ export class FraudPreventionService extends BaseService {
 
   /**
    * Health check for fraud prevention service
-   */
+    */
   async healthCheck(): Promise<{
     status: 'healthy' | 'degraded' | 'unhealthy';
     details: Record<string, any>;

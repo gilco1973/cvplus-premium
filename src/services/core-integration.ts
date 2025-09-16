@@ -3,7 +3,7 @@
  * Implements Core interfaces for dependency injection
  * Author: Gil Klainert
  * Date: 2025-08-29
- */
+  */
 
 import {
   IPremiumGuard,
@@ -30,7 +30,7 @@ import { logger } from 'firebase-functions';
 /**
  * Premium Guard Service Implementation
  * Implements IPremiumGuard interface from Core
- */
+  */
 export class CorePremiumGuardService implements IPremiumGuard {
   private premiumGuard: PremiumGuardService;
 
@@ -54,7 +54,7 @@ export class CorePremiumGuardService implements IPremiumGuard {
 /**
  * Rate Limit Guard Service Implementation
  * Implements IRateLimitGuard interface from Core
- */
+  */
 export class CoreRateLimitGuardService implements IRateLimitGuard {
   private rateLimitGuard: SecureRateLimitGuard;
 
@@ -121,7 +121,7 @@ export class CoreRateLimitGuardService implements IRateLimitGuard {
 /**
  * Feature Registry Service Implementation
  * Implements IFeatureRegistry interface from Core
- */
+  */
 export class CoreFeatureRegistryService implements IFeatureRegistry {
   private featureRegistry: FeatureRegistry;
 
@@ -149,7 +149,7 @@ export class CoreFeatureRegistryService implements IFeatureRegistry {
 /**
  * Subscription Service Implementation
  * Implements ISubscriptionService interface from Core
- */
+  */
 export class CoreSubscriptionService implements ISubscriptionService {
   async getUserSubscription(userId: string): Promise<UserSubscription | null> {
     try {
@@ -221,7 +221,7 @@ export class CoreSubscriptionService implements ISubscriptionService {
 /**
  * Security Monitor Service Implementation
  * Implements ISecurityMonitor interface from Core
- */
+  */
 export class CoreSecurityMonitorService implements ISecurityMonitor {
   private securityMonitor: SecurityMonitorService;
 
@@ -236,7 +236,7 @@ export class CoreSecurityMonitorService implements ISecurityMonitor {
 
 /**
  * Service Factory for Core Integration
- */
+  */
 export class CoreIntegrationServiceFactory {
   private static instance: CoreIntegrationServiceFactory;
   private services: {

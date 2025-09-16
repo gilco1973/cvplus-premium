@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0 - CVPlus Premium Module
- */
+  */
 
 import { onRequest } from 'firebase-functions/v2/https';
 import { Request, Response } from 'firebase-functions';
@@ -15,7 +15,7 @@ import { logger } from '../../utils/logger';
 /**
  * Handle Stripe webhooks - Basic stub implementation
  * TODO: Complete implementation with full webhook processing using StripeService
- */
+  */
 export const handleStripeWebhook = onRequest(
   {
     timeoutSeconds: 300,

@@ -5,7 +5,7 @@
  * @author Gil Klainert
  * @version 4.0.0
  * @category Enterprise Analytics
- */
+  */
 
 import { https } from 'firebase-functions/v2';
 import { logger } from 'firebase-functions/v2';
@@ -21,7 +21,7 @@ const reportBuilder = new ReportBuilderService({
 
 /**
  * Create custom report (Enterprise only)
- */
+  */
 export const createCustomReport = https.onCall(
   {
     cors: true,
@@ -81,7 +81,7 @@ export const createCustomReport = https.onCall(
 
 /**
  * Generate report data
- */
+  */
 export const generateReportData = https.onCall(
   {
     cors: true,
@@ -139,7 +139,7 @@ export const generateReportData = https.onCall(
 
 /**
  * Create interactive dashboard (Enterprise only)
- */
+  */
 export const createDashboard = https.onCall(
   {
     cors: true,
@@ -197,7 +197,7 @@ export const createDashboard = https.onCall(
 
 /**
  * Schedule report delivery (Enterprise only)
- */
+  */
 export const scheduleReportDelivery = https.onCall(
   {
     cors: true,
@@ -260,7 +260,7 @@ export const scheduleReportDelivery = https.onCall(
 
 /**
  * Generate white-labeled report (Enterprise Plus/Pro only)
- */
+  */
 export const generateWhiteLabelReport = https.onCall(
   {
     cors: true,
@@ -325,7 +325,7 @@ export const generateWhiteLabelReport = https.onCall(
 
 /**
  * Export report in various formats
- */
+  */
 export const exportReport = https.onCall(
   {
     cors: true,
@@ -389,7 +389,7 @@ export const exportReport = https.onCall(
 
 /**
  * Get available data sources for report building
- */
+  */
 export const getDataSources = https.onCall(
   {
     cors: true,
@@ -441,7 +441,7 @@ export const getDataSources = https.onCall(
 
 /**
  * Get report templates for quick setup
- */
+  */
 export const getReportTemplates = https.onCall(
   {
     cors: true,
@@ -511,7 +511,7 @@ export const getReportTemplates = https.onCall(
 
 /**
  * Validate report configuration
- */
+  */
 export const validateReportConfig = https.onCall(
   {
     cors: true,
@@ -579,7 +579,7 @@ export const validateReportConfig = https.onCall(
 
 /**
  * Health check for analytics services
- */
+  */
 export const analyticsHealthCheck = https.onCall(
   {
     cors: true,

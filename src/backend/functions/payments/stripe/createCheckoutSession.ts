@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Stripe Checkout Session Creation
  * Migrated from /functions/src/functions/payments/createCheckoutSession.ts
- */
+  */
 
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';

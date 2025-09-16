@@ -5,7 +5,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { logger } from '../utils/logger';
 import {
@@ -28,7 +28,7 @@ import {
 
 /**
  * Usage service configuration
- */
+  */
 interface UsageServiceConfig {
   cache: {
     enabled: boolean;
@@ -45,7 +45,7 @@ interface UsageServiceConfig {
 
 /**
  * Default configuration
- */
+  */
 const DEFAULT_CONFIG: UsageServiceConfig = {
   cache: {
     enabled: true,
@@ -62,7 +62,7 @@ const DEFAULT_CONFIG: UsageServiceConfig = {
 
 /**
  * Usage tracking and management service
- */
+  */
 export class UsageService {
   private config: UsageServiceConfig;
   private cache: Map<string, any> = new Map();
@@ -80,7 +80,7 @@ export class UsageService {
 
   /**
    * Track usage for a specific metric
-   */
+    */
   async trackUsage(
     userId: string,
     metricType: UsageMetricType,
@@ -128,7 +128,7 @@ export class UsageService {
 
   /**
    * Get current usage for a user and metric
-   */
+    */
   async getCurrentUsage(userId: string, metricType: UsageMetricType): Promise<number> {
     try {
       const userUsage = this.usageData.get(userId) || {} as Record<UsageMetricType, number>;
@@ -141,7 +141,7 @@ export class UsageService {
 
   /**
    * Get usage summary for a user
-   */
+    */
   async getUsageSummary(userId: string, period?: string): Promise<UsageSummary> {
     try {
       const currentPeriod = period || this.getCurrentPeriod();
@@ -176,7 +176,7 @@ export class UsageService {
 
   /**
    * Check if user has exceeded usage limit
-   */
+    */
   async checkUsageLimit(
     userId: string,
     metricType: UsageMetricType,
@@ -218,7 +218,7 @@ export class UsageService {
 
   /**
    * Get live usage data for monitoring
-   */
+    */
   async getLiveUsageData(userId: string): Promise<LiveUsageData> {
     try {
       const userUsage = this.usageData.get(userId) || {} as Record<UsageMetricType, number>;
@@ -254,7 +254,7 @@ export class UsageService {
 
   /**
    * Get usage analytics
-   */
+    */
   async getUsageAnalytics(userId: string, period?: string): Promise<UsageAnalytics> {
     try {
       const currentPeriod = period || this.getCurrentPeriod();
@@ -295,7 +295,7 @@ export class UsageService {
 
   /**
    * Track batch usage
-   */
+    */
   async trackBatchUsage(batchUpdate: BatchUsageUpdate): Promise<UsageRecord[]> {
     try {
       const records: UsageRecord[] = [];
@@ -328,7 +328,7 @@ export class UsageService {
 
   /**
    * Get current period string (YYYY-MM format)
-   */
+    */
   private getCurrentPeriod(): string {
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
@@ -336,7 +336,7 @@ export class UsageService {
 
   /**
    * Get user limits based on tier
-   */
+    */
   private getUserLimits(userId: string): Record<UsageMetricType, number> {
     // For now, return premium limits for all users
     // In real implementation, would check user's subscription tier
@@ -353,7 +353,7 @@ export class UsageService {
 
   /**
    * Convert limits to UsageLimit objects
-   */
+    */
   private convertLimitsToUsageLimit(limits: Record<UsageMetricType, number>): Record<UsageMetricType, UsageLimit> {
     const result = {} as Record<UsageMetricType, UsageLimit>;
     
@@ -371,7 +371,7 @@ export class UsageService {
 
   /**
    * Clear cache for a user
-   */
+    */
   private clearUserCache(userId: string): void {
     const keysToDelete: string[] = [];
     

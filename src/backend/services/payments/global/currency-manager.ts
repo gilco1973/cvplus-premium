@@ -8,7 +8,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @category Global Payments
- */
+  */
 
 import { logger } from 'firebase-functions/v2';
 import { BaseService } from '../../shared/base-service';
@@ -71,7 +71,7 @@ export interface CurrencyConversion {
 /**
  * Currency Manager for global payment processing
  * Handles exchange rates, regional pricing, and currency conversions
- */
+  */
 export class CurrencyManager extends BaseService {
   private exchangeRates = new Map<string, CurrencyRate>();
   private regionalPricing = new Map<string, RegionalPricing>();
@@ -93,7 +93,7 @@ export class CurrencyManager extends BaseService {
 
   /**
    * Initialize regional pricing configurations
-   */
+    */
   private initializeRegionalPricing(): void {
     const regions: RegionalPricing[] = [
       // North America
@@ -198,7 +198,7 @@ export class CurrencyManager extends BaseService {
 
   /**
    * Get current exchange rate for currency pair
-   */
+    */
   async getExchangeRate(
     fromCurrency: SupportedCurrency,
     toCurrency: SupportedCurrency
@@ -222,7 +222,7 @@ export class CurrencyManager extends BaseService {
 
   /**
    * Convert amount between currencies
-   */
+    */
   async convertCurrency(
     amount: number,
     fromCurrency: SupportedCurrency,
@@ -256,14 +256,14 @@ export class CurrencyManager extends BaseService {
 
   /**
    * Get regional pricing for a specific region
-   */
+    */
   getRegionalPricing(region: string): RegionalPricing | null {
     return this.regionalPricing.get(region) || null;
   }
 
   /**
    * Calculate localized price based on region and purchasing power
-   */
+    */
   async calculateLocalizedPrice(
     basePrice: number,
     baseCurrency: SupportedCurrency,
@@ -321,7 +321,7 @@ export class CurrencyManager extends BaseService {
 
   /**
    * Get supported payment methods for a region
-   */
+    */
   getSupportedPaymentMethods(region: string): string[] {
     const regionalData = this.getRegionalPricing(region);
     return regionalData?.popularPaymentMethods || ['card', 'paypal'];
@@ -329,7 +329,7 @@ export class CurrencyManager extends BaseService {
 
   /**
    * Update exchange rates from multiple sources
-   */
+    */
   private async updateExchangeRates(): Promise<void> {
     try {
       logger.info('Updating exchange rates from external sources');
@@ -381,7 +381,7 @@ export class CurrencyManager extends BaseService {
 
   /**
    * Ensure exchange rates are up to date
-   */
+    */
   private async ensureRatesUpdated(): Promise<void> {
     const now = Date.now();
     if (now - this.lastUpdateTime > this.updateInterval) {
@@ -391,7 +391,7 @@ export class CurrencyManager extends BaseService {
 
   /**
    * Schedule periodic rate updates
-   */
+    */
   private scheduleRateUpdates(): void {
     // Initial update
     this.updateExchangeRates().catch(error => {
@@ -412,21 +412,21 @@ export class CurrencyManager extends BaseService {
 
   /**
    * Get all supported currencies
-   */
+    */
   getSupportedCurrencies(): SupportedCurrency[] {
     return Object.values(SupportedCurrency);
   }
 
   /**
    * Validate if currency is supported
-   */
+    */
   isCurrencySupported(currency: string): boolean {
     return Object.values(SupportedCurrency).includes(currency as SupportedCurrency);
   }
 
   /**
    * Health check for currency manager
-   */
+    */
   async healthCheck(): Promise<{
     status: 'healthy' | 'degraded' | 'unhealthy';
     details: Record<string, any>;

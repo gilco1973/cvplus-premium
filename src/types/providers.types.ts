@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Payment Provider Abstraction Types
  * Interface contracts for payment provider implementations
- */
+  */
 
 import {
   PaymentProviderName,

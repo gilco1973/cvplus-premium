@@ -1,7 +1,7 @@
 /**
  * CVPlus PayPal Create Order Firebase Function
  * Creates PayPal order for payment processing
- */
+  */
 
 import { https } from 'firebase-functions';
 import { PayPalPaymentProvider } from '../../../services/payments/providers/paypal-provider';
@@ -11,7 +11,7 @@ import { PaymentRequest } from '../../../../types/payments.types';
 
 /**
  * Create PayPal Order Function
- */
+  */
 export const createPayPalOrder = https.onCall(async (data: PaymentRequest, context) => {
   // Validate authentication
   if (!context.auth) {

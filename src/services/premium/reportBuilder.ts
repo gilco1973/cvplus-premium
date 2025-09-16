@@ -5,7 +5,7 @@
  * @author Gil Klainert
  * @version 4.0.0
  * @category Enterprise Analytics
- */
+  */
 
 import { Logger } from '../../shared/logger';
 
@@ -223,7 +223,7 @@ export interface GlobalFilter {
 /**
  * Custom Report Builder Service
  * Provides dynamic report generation and dashboard customization
- */
+  */
 export class ReportBuilderService extends BaseService {
   private readonly REPORTS_COLLECTION = 'custom_reports';
   private readonly DASHBOARDS_COLLECTION = 'dashboards';
@@ -234,7 +234,7 @@ export class ReportBuilderService extends BaseService {
 
   /**
    * Create new custom report
-   */
+    */
   async createCustomReport(tenantId: string, config: Partial<CustomReport>): Promise<CustomReport> {
     try {
       logger.info('Creating custom report', { tenantId, title: config.title });
@@ -283,7 +283,7 @@ export class ReportBuilderService extends BaseService {
 
   /**
    * Generate report data
-   */
+    */
   async generateReport(reportId: string, parameters: ReportParameters): Promise<ReportData> {
     try {
       logger.info('Generating report', { reportId, parameters });
@@ -338,7 +338,7 @@ export class ReportBuilderService extends BaseService {
 
   /**
    * Schedule report delivery
-   */
+    */
   async scheduleReport(reportId: string, schedule: ScheduleConfig): Promise<void> {
     try {
       logger.info('Scheduling report', { reportId, frequency: schedule.frequency });
@@ -363,7 +363,7 @@ export class ReportBuilderService extends BaseService {
 
   /**
    * Create interactive dashboard
-   */
+    */
   async createDashboard(tenantId: string, config: Partial<DashboardLayout>): Promise<DashboardLayout> {
     try {
       logger.info('Creating dashboard', { tenantId, name: config.name });
@@ -402,7 +402,7 @@ export class ReportBuilderService extends BaseService {
 
   /**
    * Generate white-labeled report
-   */
+    */
   async generateBrandedReport(reportId: string, branding: WhiteLabelConfig): Promise<BrandedReport> {
     try {
       logger.info('Generating branded report', { reportId, companyName: branding.companyName });
@@ -435,7 +435,7 @@ export class ReportBuilderService extends BaseService {
 
   /**
    * Export report data in various formats
-   */
+    */
   async exportReport(
     reportId: string,
     format: 'pdf' | 'xlsx' | 'csv' | 'json',
@@ -493,7 +493,7 @@ export class ReportBuilderService extends BaseService {
 
   /**
    * Get available data sources for report building
-   */
+    */
   async getDataSources(tenantId: string): Promise<DataSource[]> {
     return [
       {

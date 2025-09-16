@@ -6,7 +6,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { Logger } from './logger';
 
@@ -42,7 +42,7 @@ export abstract class BaseService {
 
   /**
    * Initialize the service
-   */
+    */
   async initialize(): Promise<void> {
     if (this.initialized) {
       return;
@@ -65,7 +65,7 @@ export abstract class BaseService {
 
   /**
    * Cleanup resources
-   */
+    */
   async cleanup(): Promise<void> {
     this.logger.info('Cleaning up service');
     
@@ -81,7 +81,7 @@ export abstract class BaseService {
 
   /**
    * Check service health
-   */
+    */
   async healthCheck(): Promise<ServiceHealth> {
     try {
       const healthData = await this.onHealthCheck();
@@ -102,7 +102,7 @@ export abstract class BaseService {
 
   /**
    * Execute operation with retry logic
-   */
+    */
   protected async executeWithRetry<T>(
     operation: () => Promise<T>,
     context?: string
@@ -141,7 +141,7 @@ export abstract class BaseService {
 
   /**
    * Execute operation with timeout
-   */
+    */
   protected async executeWithTimeout<T>(
     operation: () => Promise<T>,
     timeoutMs?: number

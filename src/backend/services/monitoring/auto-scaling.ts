@@ -8,7 +8,7 @@
  * @author Gil Klainert
  * @version 1.0.0
  * @category Performance Monitoring
- */
+  */
 
 import { logger } from 'firebase-functions/v2';
 import { BaseService } from '../../shared/base-service';
@@ -114,7 +114,7 @@ export interface LoadPattern {
 /**
  * Auto-Scaling Service
  * Intelligent resource scaling based on load patterns and predictions
- */
+  */
 export class AutoScalingService extends BaseService {
   private scalingRules = new Map<string, ScalingRule>();
   private scalingEvents = new Map<string, ScalingEvent[]>();
@@ -140,7 +140,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Initialize scaling rules
-   */
+    */
   private initializeScalingRules(): void {
     const rules: ScalingRule[] = [
       {
@@ -249,7 +249,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Initialize resource capacity tracking
-   */
+    */
   private initializeResourceCapacity(): void {
     const capacities: ResourceCapacity[] = [
       {
@@ -297,7 +297,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Evaluate scaling decisions based on current metrics
-   */
+    */
   async evaluateScaling(metrics: PerformanceMetric[]): Promise<ScalingEvent[]> {
     const scalingEvents: ScalingEvent[] = [];
 
@@ -371,7 +371,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Generate predictive scaling forecast
-   */
+    */
   async generatePredictiveForecast(): Promise<PredictiveScalingForecast> {
     const now = new Date();
     const forecastTime = new Date(now.getTime() + this.forecastWindow);
@@ -404,7 +404,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Get current scaling status
-   */
+    */
   getScalingStatus(): {
     totalInstances: number;
     totalHourlyCost: number;
@@ -447,7 +447,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Start scaling monitoring
-   */
+    */
   private startScalingMonitoring(): void {
     this.monitoringTimer = setInterval(async () => {
       try {
@@ -477,21 +477,21 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Check if should scale up
-   */
+    */
   private shouldScaleUp(metric: PerformanceMetric, rule: ScalingRule): boolean {
     return metric.value > rule.scaleUpTrigger.threshold;
   }
 
   /**
    * Check if should scale down
-   */
+    */
   private shouldScaleDown(metric: PerformanceMetric, rule: ScalingRule): boolean {
     return metric.value < rule.scaleDownTrigger.threshold;
   }
 
   /**
    * Execute scaling action
-   */
+    */
   private async executeScaling(
     rule: ScalingRule,
     capacity: ResourceCapacity,
@@ -591,7 +591,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Perform actual resource scaling
-   */
+    */
   private async performResourceScaling(resourceType: ResourceType, targetInstances: number): Promise<void> {
     // Simulate cloud API calls for scaling
     switch (resourceType) {
@@ -617,7 +617,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Get current load pattern
-   */
+    */
   private getCurrentLoadPattern(): LoadPattern {
     const now = new Date();
     const timeOfDay = now.getHours();
@@ -636,7 +636,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Predict load for future time
-   */
+    */
   private predictLoad(forecastTime: Date, currentPattern: LoadPattern): PredictiveScalingForecast['predictedLoad'] {
     const hour = forecastTime.getHours();
     const isBusinessHours = hour >= 9 && hour <= 17;
@@ -665,7 +665,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Calculate recommended capacity based on predicted load
-   */
+    */
   private calculateRecommendedCapacity(predictedLoad: PredictiveScalingForecast['predictedLoad']): PredictiveScalingForecast['recommendedCapacity'] {
     const recommendations: PredictiveScalingForecast['recommendedCapacity'] = {};
 
@@ -686,7 +686,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Calculate forecast confidence
-   */
+    */
   private calculateForecastConfidence(pattern: LoadPattern): number {
     const patternConfidence = {
       'stable': 0.9,
@@ -700,7 +700,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Generate mock metrics for testing
-   */
+    */
   private generateMockMetrics(): PerformanceMetric[] {
     const now = new Date();
 
@@ -731,7 +731,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Health check for auto-scaling service
-   */
+    */
   async healthCheck(): Promise<{
     status: 'healthy' | 'degraded' | 'unhealthy';
     details: Record<string, any>;
@@ -756,7 +756,7 @@ export class AutoScalingService extends BaseService {
 
   /**
    * Stop auto-scaling monitoring
-   */
+    */
   stopMonitoring(): void {
     if (this.monitoringTimer) {
       clearInterval(this.monitoringTimer);

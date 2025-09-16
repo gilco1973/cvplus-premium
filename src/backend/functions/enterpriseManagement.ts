@@ -5,7 +5,7 @@
  * @author Gil Klainert
  * @version 4.0.0
  * @category Enterprise Functions
- */
+  */
 
 import { https } from 'firebase-functions/v2';
 import { logger } from 'firebase-functions/v2';
@@ -33,7 +33,7 @@ const ssoManager = new SSOManager({
 
 /**
  * Create enterprise account (Admin only)
- */
+  */
 export const createEnterpriseAccount = https.onCall(
   {
     cors: true,
@@ -120,7 +120,7 @@ export const createEnterpriseAccount = https.onCall(
 
 /**
  * Get enterprise account details
- */
+  */
 export const getEnterpriseAccount = https.onCall(
   {
     cors: true,
@@ -180,7 +180,7 @@ export const getEnterpriseAccount = https.onCall(
 
 /**
  * Assign role to user (Enterprise Admin/Manager only)
- */
+  */
 export const assignUserRole = https.onCall(
   {
     cors: true,
@@ -238,7 +238,7 @@ export const assignUserRole = https.onCall(
 
 /**
  * Check user permission
- */
+  */
 export const checkPermission = https.onCall(
   {
     cors: true,
@@ -283,7 +283,7 @@ export const checkPermission = https.onCall(
 
 /**
  * Create custom role (Enterprise Admin only)
- */
+  */
 export const createCustomRole = https.onCall(
   {
     cors: true,
@@ -334,7 +334,7 @@ export const createCustomRole = https.onCall(
 
 /**
  * Configure SAML SSO (Enterprise Admin only)
- */
+  */
 export const configureSAMLSSO = https.onCall(
   {
     cors: true,
@@ -385,7 +385,7 @@ export const configureSAMLSSO = https.onCall(
 
 /**
  * Configure OAuth SSO (Enterprise Admin only)
- */
+  */
 export const configureOAuthSSO = https.onCall(
   {
     cors: true,
@@ -436,7 +436,7 @@ export const configureOAuthSSO = https.onCall(
 
 /**
  * Process SSO login
- */
+  */
 export const processSSOLogin = https.onCall(
   {
     cors: true,
@@ -496,7 +496,7 @@ export const processSSOLogin = https.onCall(
 
 /**
  * Get enterprise analytics (Enterprise Admin/Manager only)
- */
+  */
 export const getEnterpriseAnalytics = https.onCall(
   {
     cors: true,
@@ -544,7 +544,7 @@ export const getEnterpriseAnalytics = https.onCall(
 
 /**
  * Audit user access (Enterprise Admin only)
- */
+  */
 export const auditUserAccess = https.onCall(
   {
     cors: true,
@@ -603,7 +603,7 @@ export const auditUserAccess = https.onCall(
 
 /**
  * Get SSO metrics (Enterprise Admin only)
- */
+  */
 export const getSSOMetrics = https.onCall(
   {
     cors: true,
@@ -656,7 +656,7 @@ export const getSSOMetrics = https.onCall(
 
 /**
  * Get role templates for enterprise setup
- */
+  */
 export const getRoleTemplates = https.onCall(
   {
     cors: true,
@@ -696,7 +696,7 @@ export const getRoleTemplates = https.onCall(
 
 /**
  * Health check for enterprise services
- */
+  */
 export const enterpriseHealthCheck = https.onCall(
   {
     cors: true,

@@ -5,7 +5,7 @@
  * 
  * @author Gil Klainert
  * @version 1.0.0
- */
+  */
 
 import { useState, useEffect, useCallback } from 'react';
 import {
@@ -17,7 +17,7 @@ import {
 
 /**
  * Hook configuration
- */
+  */
 interface UseSubscriptionConfig {
   userId?: string;
   autoRefresh?: boolean;
@@ -27,7 +27,7 @@ interface UseSubscriptionConfig {
 
 /**
  * React hook for subscription management
- */
+  */
 export const useSubscription = (config: UseSubscriptionConfig = {}): UseSubscriptionReturn => {
   const {
     userId,
@@ -43,7 +43,7 @@ export const useSubscription = (config: UseSubscriptionConfig = {}): UseSubscrip
 
   /**
    * Fetch subscription data
-   */
+    */
   const fetchSubscription = useCallback(async (forceRefresh = false): Promise<void> => {
     if (!userId) {
       setError('User ID is required');
@@ -100,7 +100,7 @@ export const useSubscription = (config: UseSubscriptionConfig = {}): UseSubscrip
 
   /**
    * Check if user has access to a specific feature
-   */
+    */
   const hasFeature = useCallback((feature: PremiumFeature): boolean => {
     if (!subscription) return false;
     return subscription.features[feature] === true;
@@ -108,7 +108,7 @@ export const useSubscription = (config: UseSubscriptionConfig = {}): UseSubscrip
 
   /**
    * Check if user has access to any of the specified features
-   */
+    */
   const hasAnyFeature = useCallback((features: PremiumFeature[]): boolean => {
     if (!subscription) return false;
     return features.some(feature => subscription.features[feature] === true);
@@ -116,7 +116,7 @@ export const useSubscription = (config: UseSubscriptionConfig = {}): UseSubscrip
 
   /**
    * Refresh subscription data
-   */
+    */
   const refresh = useCallback(async (): Promise<void> => {
     await fetchSubscription(true);
   }, [fetchSubscription]);
@@ -166,7 +166,7 @@ export const useSubscription = (config: UseSubscriptionConfig = {}): UseSubscrip
 
 /**
  * Hook for subscription status only (lightweight)
- */
+  */
 export const useSubscriptionStatus = (userId?: string) => {
   const { subscription, isLoading, error } = useSubscription({ userId });
   
@@ -181,7 +181,7 @@ export const useSubscriptionStatus = (userId?: string) => {
 
 /**
  * Hook for feature access checking
- */
+  */
 export const useFeatureAccess = (userId?: string) => {
   const { subscription, hasFeature, hasAnyFeature, isLoading } = useSubscription({ userId });
   
@@ -216,7 +216,7 @@ export const useFeatureAccess = (userId?: string) => {
 
 /**
  * Hook for subscription metadata and analytics
- */
+  */
 export const useSubscriptionMetrics = (userId?: string) => {
   const { subscription, isLoading } = useSubscription({ userId });
   

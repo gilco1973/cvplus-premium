@@ -1,7 +1,7 @@
 /**
  * Jest Test Setup for PayPal Payment Testing
  * Global test configuration and utilities
- */
+  */
 
 // Mock Firebase Functions
 jest.mock('firebase-functions', () => ({

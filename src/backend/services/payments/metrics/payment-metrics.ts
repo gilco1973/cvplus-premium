@@ -1,7 +1,7 @@
 /**
  * CVPlus Premium Payment Metrics System
  * Phase 2: Comprehensive metrics collection, analysis, and real-time monitoring
- */
+  */
 
 import {
   PaymentProviderName,
@@ -25,7 +25,7 @@ import { paymentEventBus } from '../events/payment-events';
 /**
  * Advanced Payment Metrics Collector with real-time monitoring,
  * cost analysis, and comprehensive reporting capabilities
- */
+  */
 export class PaymentMetricsCollector implements IPaymentMetricsCollector {
   private static instance: PaymentMetricsCollector;
   
@@ -45,7 +45,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Get singleton instance
-   */
+    */
   public static getInstance(): PaymentMetricsCollector {
     if (!PaymentMetricsCollector.instance) {
       PaymentMetricsCollector.instance = new PaymentMetricsCollector();
@@ -59,7 +59,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Record transaction metrics with comprehensive tracking
-   */
+    */
   async recordTransactionMetrics(
     provider: PaymentProviderName,
     metrics: TransactionMetrics
@@ -109,7 +109,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Record provider-level metrics
-   */
+    */
   async recordProviderMetrics(
     provider: PaymentProviderName,
     metrics: Partial<ProviderMetrics>
@@ -146,7 +146,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Record transaction cost data
-   */
+    */
   async recordTransactionCost(
     provider: PaymentProviderName,
     cost: TransactionCost
@@ -195,7 +195,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Get real-time metrics
-   */
+    */
   async getRealtimeMetrics(provider?: PaymentProviderName): Promise<RealtimeMetrics> {
     const now = new Date();
     const oneMinuteAgo = new Date(now.getTime() - 60 * 1000);
@@ -255,7 +255,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Subscribe to real-time metrics updates
-   */
+    */
   subscribeToMetrics(callback: (metrics: RealtimeMetrics) => void): void {
     this.realtimeSubscribers.push(callback);
     
@@ -266,7 +266,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Unsubscribe from real-time metrics
-   */
+    */
   unsubscribeFromMetrics(callback: (metrics: RealtimeMetrics) => void): void {
     const index = this.realtimeSubscribers.indexOf(callback);
     if (index !== -1) {
@@ -284,7 +284,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Generate comprehensive metrics report
-   */
+    */
   async generateReport(
     type: MetricsReportType,
     options: MetricsReportOptions
@@ -355,7 +355,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Generate performance report
-   */
+    */
   private async generatePerformanceReport(options: MetricsReportOptions): Promise<{
     data: Record<string, any>;
     summary: Record<string, any>;
@@ -415,7 +415,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Generate cost analysis report
-   */
+    */
   private async generateCostAnalysisReport(options: MetricsReportOptions): Promise<{
     data: Record<string, any>;
     summary: Record<string, any>;
@@ -466,7 +466,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Generate provider comparison report
-   */
+    */
   private async generateProviderComparisonReport(options: MetricsReportOptions): Promise<{
     data: Record<string, any>;
     summary: Record<string, any>;
@@ -504,7 +504,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Generate error analysis report
-   */
+    */
   private async generateErrorAnalysisReport(options: MetricsReportOptions): Promise<{
     data: Record<string, any>;
     summary: Record<string, any>;
@@ -551,7 +551,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Generate usage trends report
-   */
+    */
   private async generateUsageTrendsReport(options: MetricsReportOptions): Promise<{
     data: Record<string, any>;
     summary: Record<string, any>;
@@ -583,7 +583,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Initialize provider metrics
-   */
+    */
   private initializeProviderMetrics(): void {
     const providers: PaymentProviderName[] = ['stripe', 'paypal'];
     
@@ -607,7 +607,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Start real-time metrics updates
-   */
+    */
   private startRealtimeUpdates(): void {
     this.metricsUpdateTimer = setInterval(async () => {
       try {
@@ -629,7 +629,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Update provider metrics with transaction data
-   */
+    */
   private async updateProviderMetrics(
     provider: PaymentProviderName,
     transactionMetrics: TransactionMetrics
@@ -670,7 +670,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Filter transactions based on options
-   */
+    */
   private filterTransactions(options: MetricsReportOptions): StoredTransactionMetrics[] {
     let filtered = [...this.transactionHistory];
 
@@ -702,7 +702,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Filter costs based on options
-   */
+    */
   private filterCosts(options: MetricsReportOptions): StoredTransactionCost[] {
     let filtered = [...this.costHistory];
 
@@ -729,7 +729,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Calculate percentile value
-   */
+    */
   private calculatePercentile(values: number[], percentile: number): number {
     if (values.length === 0) return 0;
     
@@ -740,7 +740,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Calculate provider health status
-   */
+    */
   private calculateProviderHealthStatus(metrics: ProviderMetrics): 'healthy' | 'degraded' | 'unhealthy' {
     if (metrics.success_rate >= 0.95 && metrics.average_processing_time < 2000) {
       return 'healthy';
@@ -753,7 +753,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Generate time series data
-   */
+    */
   private generateTimeSeriesData(
     transactions: StoredTransactionMetrics[], 
     interval: 'hourly' | 'daily'
@@ -780,7 +780,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Get best performing provider
-   */
+    */
   private getBestPerformingProvider(performanceData: Record<string, any>): string {
     let bestProvider = '';
     let bestScore = 0;
@@ -800,7 +800,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Get worst performing provider
-   */
+    */
   private getWorstPerformingProvider(performanceData: Record<string, any>): string {
     let worstProvider = '';
     let worstScore = Infinity;
@@ -819,7 +819,7 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Generate various helper methods for report generation
-   */
+    */
   private generatePerformanceRecommendations(data: any, summary: any): string[] {
     const recommendations: string[] = [];
     
@@ -870,21 +870,21 @@ export class PaymentMetricsCollector implements IPaymentMetricsCollector {
 
   /**
    * Generate unique report ID
-   */
+    */
   private generateReportId(): string {
     return `rpt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Generate unique event ID
-   */
+    */
   private generateEventId(): string {
     return `evt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Log metrics events
-   */
+    */
   private logMetricsEvent(
     type: string,
     provider: PaymentProviderName,
