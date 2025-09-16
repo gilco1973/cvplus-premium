@@ -432,6 +432,31 @@ export const createDefaultPremiumConfig = (environment: 'development' | 'staging
   };
 };
 
+// =============================================================================
+// MIGRATED COMPONENTS (from analytics module)
+// =============================================================================
+
+// Migrated middleware from analytics
+export { enhancedPremiumGuard, premiumFeatureGuard, enterpriseFeatureGuard } from './middleware/enhancedPremiumGuard';
+
+// Migrated premium services from analytics
+export { FeatureRegistry } from './services/premium/featureRegistry';
+export type { CVFeature } from './services/premium/featureRegistry';
+
+// Migrated premium functions from analytics
+export {
+  createCustomReport,
+  generateWhiteLabelReport,
+  exportReport,
+  getDataSources,
+  getReportTemplates,
+  validateReportConfig,
+  analyticsHealthCheck
+} from './backend/functions/premium/advancedAnalytics';
+
+export { batchTrackingEvents } from './backend/functions/premium/batchTrackingEvents';
+export { getRealtimeUsageStats } from './backend/functions/premium/getRealtimeUsageStats';
+
 /**
  * Version information
  */

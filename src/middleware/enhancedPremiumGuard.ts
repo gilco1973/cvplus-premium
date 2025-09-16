@@ -13,7 +13,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
 import { logger } from 'firebase-functions';
 import { IFeatureRegistry, Feature, SecureRateLimitGuard } from '@cvplus/core';
-import { SecurityMonitorService } from '../services/security/security-monitor.service';
+import { SecurityMonitorService } from '@cvplus/core/security';
 
 interface AuthenticatedRequest extends Request {
   user?: {
