@@ -290,8 +290,7 @@ export class CDNOptimizerService extends BaseService {
       // Static Assets
       {
         contentType: ContentType.STATIC_ASSETS,
-        pattern: '/static/* ',
-  */
+        pattern: '/static/*',
         ttl: 86400,        // 24 hours
         varyHeaders: ['Accept-Encoding'],
         compressionEnabled: true,
@@ -313,8 +312,7 @@ export class CDNOptimizerService extends BaseService {
       // API Responses
       {
         contentType: ContentType.API_RESPONSES,
-        pattern: '/api/premium/* ',
-  */
+        pattern: '/api/premium/*',
         ttl: 300,          // 5 minutes
         varyHeaders: ['Authorization', 'Accept-Language'],
         compressionEnabled: true,
@@ -324,8 +322,7 @@ export class CDNOptimizerService extends BaseService {
       },
       {
         contentType: ContentType.API_RESPONSES,
-        pattern: '/api/public/* ',
-  */
+        pattern: '/api/public/*',
         ttl: 1800,         // 30 minutes
         varyHeaders: ['Accept-Language'],
         compressionEnabled: true,
@@ -337,8 +334,7 @@ export class CDNOptimizerService extends BaseService {
       // Generated Content
       {
         contentType: ContentType.GENERATED_CONTENT,
-        pattern: '/generated/* .{pdf,docx,mp4,mp3}',
-  */
+        pattern: '/generated/*.{pdf,docx,mp4,mp3}',
         ttl: 3600,         // 1 hour
         varyHeaders: [],
         compressionEnabled: true,
@@ -350,8 +346,7 @@ export class CDNOptimizerService extends BaseService {
       // User Uploads
       {
         contentType: ContentType.USER_UPLOADS,
-        pattern: '/uploads/* ',
-  */
+        pattern: '/uploads/*',
         ttl: 7200,         // 2 hours
         varyHeaders: ['Authorization'],
         compressionEnabled: true,
@@ -363,8 +358,7 @@ export class CDNOptimizerService extends BaseService {
       // Dynamic HTML
       {
         contentType: ContentType.DYNAMIC_HTML,
-        pattern: '/profile/* ',
-  */
+        pattern: '/profile/*',
         ttl: 300,          // 5 minutes
         varyHeaders: ['Cookie', 'Accept-Language'],
         compressionEnabled: true,
